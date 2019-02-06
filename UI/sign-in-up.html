@@ -5,11 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign in/Sign Up</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito|Raleway" rel="stylesheet">
     <link rel="stylesheet" href="css/sign-in-up.css">
 </head>
 <body>
-    <div id="container">
-        
+    <div class="container">
+        <div class="tabs">
+            <div class="tabs-buttons">
+                <button class="tabs-button active" data-target="login">LOGIN</button>
+                <button class="tabs-button" data-target="signup">SIGN UP</button>
+                <div class="indicator"></div>
+            </div>
+            <form class="tab login">
+                <p class="header">LOGIN</p>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" placeholder="Email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" placeholder="Password" id="password" name="password">
+                </div>
+                <div class="form-group">
+                    <button>LOG IN</button>
+                </div>
+            </form>
+            <form class="tab active signup">
+                <p class="header">SIGN UP</p>
+                <div class="form-group">
+                    <label for="full_name">Full Name:</label>
+                    <input type="text" placeholder="Full Name" id="full_name" name="full_name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" placeholder="Email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" placeholder="Password" id="password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm password:</label>
+                    <input type="password" placeholder="Confirm password" id="confirm_password" name="confirm">
+                </div>
+                <div class="form-group">
+                    <button>SIGN UP</button>
+                </div>
+            </form>
+        </div>
     </div>
     <script src="js/sign-in-up.js"></script>
 </body>

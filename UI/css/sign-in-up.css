@@ -1,0 +1,95 @@
+body{
+    background-color: #4BBF6B;
+    width: 100vw;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+button{
+    cursor: pointer    
+}
+.container{
+    width: 400px;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+}
+.tabs-buttons{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+.tabs-button{
+    width: 50%;
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    color: #17923a;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+}
+.tabs-button.active{
+    background-color: #19ff593b;
+}
+.indicator{
+    position: absolute;
+    width: 50%;
+    height: 1px;
+    background-color: #81de9b;
+    bottom: 0;
+}
+.tab{
+    margin: 10px 0;
+    padding: 0 20px;
+    display: none;
+}
+.tab.active{
+    display: block;
+}
+.tab .header{
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.75em;
+    text-align: center;    
+    margin: 10px 0;    
+}
+.form-group{
+    display: flex;
+    font-family: 'Nunito', sans-serif;
+    align-items: center;
+    margin: 10px 0;
+}
+.form-group label{
+    font-size: 1.1em;
+    width: 30%;
+}
+.form-group input{
+    width: 70%;
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid rgb(173, 165, 165);
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+    padding-left: 2px;
+    font-size: 1em;
+}
+.form-group input:focus{
+    box-shadow: 0 0 10px #4BBF6B;
+}
+.tab button{
+    color: #17923a;
+    background-color: white;
+    border: none;
+    box-shadow: 0 0 1em #4BBF6B;
+    height: 34px;
+    width: fit-content;
+    border-radius: 5px;
+    margin: 10px 0;
+    margin-left: auto;
+    padding: 10px 15px;
+}
+.form-group:last-child{
+    display: flex;
+}
