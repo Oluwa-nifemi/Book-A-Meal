@@ -30,6 +30,7 @@ button{
     color: #17923a;
     font-family: 'Nunito', sans-serif;
     outline: none;
+    transition: 500ms;    
 }
 .tabs-button.active{
     background-color: #19ff593b;
@@ -40,6 +41,10 @@ button{
     height: 1px;
     background-color: #81de9b;
     bottom: 0;
+    transition: 500ms;
+}
+.indicator.right{
+    margin-left: 50%;  
 }
 .tab{
     margin: 10px 0;
