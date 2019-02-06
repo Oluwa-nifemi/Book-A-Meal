@@ -42,6 +42,7 @@ button{
     background-color: #81de9b;
     bottom: 0;
     transition: 500ms;
+    will-change: left, right;
 }
 .indicator.right{
     margin-left: 50%;  
