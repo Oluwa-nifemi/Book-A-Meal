@@ -1,7 +1,7 @@
 class Meal {
     constructor(meal){
         const {image,title,description,price,id} = meal;
-        Object.assign(this,{image,title,description,price})
+        Object.assign(this,{image,title,description,price,id})
     }
     getMealDiv(){
         const meal = document.createElement('div');
