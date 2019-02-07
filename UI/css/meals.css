@@ -1,6 +1,6 @@
 body{
     background-color: #4BBF6B;
-    width: 100vw;
+    width: 100%;
     display: flex;
     margin: 0;
     padding: 0;
@@ -62,11 +62,11 @@ button{
     float: right;
     margin-right: 8%;
     outline: none;
-    box-shadow: 0 0 1rem #4BBF6B;
-    transition: 500ms  ease-in-out;
+    transition: 500ms ease-in-out;
 }
 .add-meal:hover{
-    transform: scale(1.2)
+    transform: scale(1.2);
+    box-shadow: 0 0 1rem #4BBF6B;
 }
 .add-meal img{
     height: 100%;
@@ -96,7 +96,7 @@ button{
 .modal-container.active{
     display: block;
 }
-.modal-content.active{
+.modal-content.active {
     top : 0;
 }
 .modal-header{
@@ -139,4 +139,7 @@ button{
     font-family: 'Raleway',sans-serif;    
     border-radius: 5px;
     margin-left: auto;    
+}
+.split:last-of-type{
+    display: none;
 }
