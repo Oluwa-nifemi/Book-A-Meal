@@ -40,11 +40,12 @@ button{
     margin: 10px 0;
     font-family: 'Raleway',sans-serif;    
 }
-.meal-details a{
+.meal-title{
     text-decoration: none;
     font-weight: 600;
     color: black;
-    font-size: 1.3em
+    font-size: 1.3em;
+    cursor: pointer;
 }
 .split{
     height: 1px;
