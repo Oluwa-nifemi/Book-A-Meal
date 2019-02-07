@@ -24,16 +24,19 @@ button{
     margin: 20px 0 10px;
 }
 .meals{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    grid-gap: 20px 30px;
-    padding: 20px 60px;
+    column-count: 3;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 .meal{
     width: 100%;
     position: relative;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
+    flex-shrink: 1;
+    margin-bottom: 20px;
 }
 .meal img{
     width: 100%;
@@ -71,9 +74,6 @@ button{
     border-radius: 5px;
     float: right;
     margin: 5px 0;
-}
-.order-details{
-    margin-top: auto;
 }
 .modal-container{
     height: 100vh;
