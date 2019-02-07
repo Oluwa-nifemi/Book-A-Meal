@@ -81,7 +81,56 @@ const mealsArray = [
         title : 'Indomie',
         description : 'Noodles garnished with fish, meat, egg and other supplements',
         price : 40.00,
-        id : 4
+        id : 5
+    },
+    {
+        image : 'meal1.jpg',
+        title : 'Lasange Al Forno',
+        description : 'A slow-cooked ragu of beef and pork layered between sheets of free range egg pasta, with béchamel sauce and a West Country Cheddar topping.',
+        price : 14.50,
+        id : 6
+    },
+    {
+        image : 'meal2.jpg',
+        title : 'Pulled Beef Chilli',
+        description : 'Slow-cooked beef in a smoky tomato and chilli sauce with black beans, roasted red pepper strips, coriander and a squeeze of lime.',
+        price : 40.00,
+        id : 7
+    },
+    {
+        image : 'meal3.jpg',
+        title : 'Indomie',
+        description : 'Noodles garnished with fish, meat, egg and other supplements',
+        price : 40.00,
+        id : 8
+    },
+    {
+        image : 'meal4.jpg',
+        title : 'Indomie',
+        description : 'Noodles garnished with fish, meat, egg and other supplements',
+        price : 40.00,
+        id : 9
+    },
+    {
+        image : 'meal2.jpg',
+        title : 'Beef Bourginon',
+        description : 'Slow-cooked top rump steak, smoked bacon, mushrooms and caramelised baby onions with plenty of Merlot wine.',
+        price : 34.50,
+        id : 2
+    },
+    {
+        image : 'meal3.jpg',
+        title : 'Lasange Al Forno',
+        description : 'A slow-cooked ragu of beef and pork layered between sheets of free range egg pasta, with béchamel sauce and a West Country Cheddar topping.',
+        price : 14.50,
+        id : 3
+    },
+    {
+        image : 'meal1.jpg',
+        title : 'Cottage Pie',
+        description : 'Our own minced beef, slow-cooked with red wine, thyme, celery and carrots, covered with buttery mash and topped with a mustard seed crumb.',
+        price : 24.50,
+        id : 1
     }
 ]
 const meals =  [];
