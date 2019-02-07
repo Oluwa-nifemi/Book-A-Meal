@@ -50,12 +50,33 @@ const mealsArray = [
     }
 ]
 const meals =  [];
+const modalContainer = document.querySelector('.modal-container');
+const hideModal = () => {
+    document.querySelector('.modal-content').classList.remove('active');        
+    setTimeout(() => {
+        modalContainer.classList.remove('active');
+    },450)
+}
 mealsArray.forEach(elem => {
     meals.push(new Meal(elem));
     const meal = new Meal(elem);
     document.querySelector('.meals').appendChild(meal.getMealDiv())
     document.querySelector('.meals').innerHTML += "<div class = 'split'></div>"
 })
-console.log(meals)
+
+document.querySelector('.add-meal').addEventListener('click',() => {
+    modalContainer.classList.add('active');
+    setTimeout(() => {
+        document.querySelector('.modal-content').classList.add('active');
+    },50)
+})
+
+modalContainer.addEventListener('click',(e) => {
+    if(e.path[0] === modalContainer){
+        hideModal();
+    }
+})
+
+document.querySelector('.hide-modal').addEventListener('click',hideModal);
 
 

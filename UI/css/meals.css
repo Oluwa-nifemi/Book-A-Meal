@@ -14,7 +14,7 @@ button{
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
-    width: 80%;   
+    width: 75%;   
     padding: 10px 0 
 }
 .header{
@@ -102,6 +102,19 @@ button{
 .modal-header{
     font-size: 2.5em;
     text-align: center;
+}
+.hide-modal{
+    background-color: transparent;
+    height: 22px;
+    width: 40px;
+    border: none;
+    right: 10px;
+    position: absolute;
+    top: 20px;
+    outline: none;
+}
+.hide-modal img{
+    height: 100%;
 }
 .modal-form{
     width: 85%;
