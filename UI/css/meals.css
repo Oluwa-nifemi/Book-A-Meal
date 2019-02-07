@@ -1,0 +1,142 @@
+body{
+    background-color: #4BBF6B;
+    width: 100vw;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+button{
+    cursor: pointer;
+}
+.container{
+    min-width: 400px;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+    width: 80%;   
+    padding: 10px 0 
+}
+.header{
+    font-family: 'Raleway',sans-serif;
+    text-align: center;
+    font-size: 2.5em;
+    margin: 20px 0 10px;
+}
+.meal{
+    display: flex;
+    width: 85%;
+    margin: auto;
+}
+.meal img{
+    max-height: 80px;
+    width: 100px;
+}
+.meal-details{
+    margin-left: 10px;
+    width: 70%;
+}
+.meal-details p{
+    margin: 10px 0;
+    font-family: 'Raleway',sans-serif;    
+}
+.meal-details a{
+    text-decoration: none;
+    font-weight: 600;
+    color: black;
+    font-size: 1.3em
+}
+.split{
+    height: 1px;
+    background-color: rgb(176, 177, 177);
+    width: 85%;
+    margin: 10px auto;
+}
+.add-meal{
+    height: 40px;
+    padding: 5px;
+    border: none;
+    background: #4BBF6B;
+    width: 40px;
+    border-radius: 50%;
+    float: right;
+    margin-right: 8%;
+    outline: none;
+    box-shadow: 0 0 1rem #4BBF6B;
+    transition: 500ms  ease-in-out;
+}
+.add-meal:hover{
+    transform: scale(1.2)
+}
+.add-meal img{
+    height: 100%;
+}
+.modal-container{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);    
+    display: none;
+}
+.modal-content{
+    background-color: white;
+    min-height: 400px;
+    margin: 50px auto;
+    width: 50%;
+    font-family: 'Raleway',sans-serif;
+    padding-top: 10px;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.466);
+    border-radius: 5px;
+    transition: 500ms;
+    top : -700px;
+    position: absolute;
+    left: 50%;
+    margin-left: -25%;
+}
+.modal-container.active{
+    display: block;
+}
+.modal-content.active{
+    top : 0;
+}
+.modal-header{
+    font-size: 2.5em;
+    text-align: center;
+}
+.modal-form{
+    width: 85%;
+    margin: auto;
+}
+.form-group{
+    margin: 10px 0;
+    display: flex;
+}
+.modal-form label{
+    width: 20%;
+    vertical-align: top;
+    display: inline-block;
+}
+.modal-form input{
+    height: 25px;    
+}
+.modal-form input,.modal-form textarea{
+    border: 1px solid rgb(202, 202, 202);
+    width: 80%;
+    border-radius: 5px;    
+}
+.modal-form input:focus,.modal-form textarea:focus,.modal-button:focus{
+    box-shadow: 0 0 5px rgba(75, 191, 108);
+    border-radius: 5px;
+    outline: none;
+}
+.modal-button{
+    background-color: #4BBF6B;
+    height: 30px;
+    padding: 5px 10px;
+    min-width: 70px;
+    border: none;
+    color: white;
+    font-family: 'Raleway',sans-serif;    
+    border-radius: 5px;
+    margin-left: auto;    
+}
