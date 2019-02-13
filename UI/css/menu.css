@@ -117,3 +117,44 @@ button{
 .hide-modal img{
     height: 100%;
 }
+.search{
+    display: flex;
+    width: 70%;
+    margin: 20px auto;
+}
+.search input{
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    border: none;
+    background-color: #4BBF6B;
+    color: white;
+    padding-left: 10px;
+    font-family: 'Raleway',sans-serif;
+    font-size: 1.05em;
+    outline: none;
+}
+.search input:focus{
+    box-shadow: 0 0 .5rem #4BBF6B;
+}
+.search input::placeholder{
+    color: rgba(255, 255, 255, 0.8);
+}
+.modal-content .meals{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+    padding: 0 30px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.modal-content .meal{
+    border-bottom: 1px solid rgb(176, 177, 177);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    width: 100%
+}
+.modal-content .meal img{
+    width: 100px;
+    margin-right: 5px
+}
