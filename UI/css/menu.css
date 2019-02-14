@@ -65,7 +65,7 @@ button{
     outline: none;
     transition: 500ms ease-in-out;
 }
-.add-meal:hover{
+.container .add-meal:hover{
     transform: scale(1.2);
     box-shadow: 0 0 1rem #4BBF6B;
 }
@@ -152,9 +152,22 @@ button{
     border-bottom: 1px solid rgb(176, 177, 177);
     padding-bottom: 10px;
     margin-bottom: 10px;
-    width: 100%
+    width: 100%;
+    position: relative;
 }
 .modal-content .meal img{
     width: 100px;
     margin-right: 5px
+}
+.meal .add-meal{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 33px;
+    width: 33px;
+    margin: 0;
+}
+.meal .add-meal img{
+    width: 100%;
+    margin: 0
 }
