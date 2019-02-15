@@ -1,0 +1,211 @@
+body{
+    background-color: #4BBF6B;
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+button{
+    cursor: pointer;
+}
+.container{
+    min-width: 400px;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+    width: 75%;   
+    padding: 10px 0 
+}
+.header{
+    font-family: 'Raleway',sans-serif;
+    text-align: center;
+    font-size: 2.5em;
+    margin: 20px 0 10px;
+}
+.meals{
+    column-count: 3;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.meal{
+    width: 100%;
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    margin-bottom: 20px;
+}
+.meal img{
+    width: 100%;
+    height: auto;
+}
+.meal-title{
+    text-decoration: none;
+    font-weight: 600;
+    color: black;
+    font-size: 1.3em;
+}
+.meal-details p{
+    margin: 10px 5px;
+    font-family: 'Raleway',sans-serif; 
+}
+.split{
+    border: 1px dashed rgb(122, 121, 121);
+    width: 100%;
+    margin: 5px 0;       
+}
+.meal-price{
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Nunito',sans-serif;
+    margin-right: auto;
+}
+.order-details{
+    display: flex;
+    padding-right: 10px;
+    align-items: center
+}
+.order-details button{
+    height: 30px;
+    width: 25px;
+    background-color: #4BBF6B;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+.order-details button img{
+    height: 100%;
+}
+.modal-container{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);    
+    display: none;
+}
+.modal-content{
+    background-color: white;
+    min-height: 200px;
+    margin: 50px auto;
+    width: 70%;
+    font-family: 'Raleway',sans-serif;
+    padding-top: 10px;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.466);
+    border-radius: 5px;
+    transition: 500ms;
+    top : -700px;
+    position: absolute;
+    left: 50%;
+    margin-left: -35%;
+}
+.modal-container.active{
+    display: block;
+}
+.modal-content.active {
+    top : 0;
+}
+.modal-header,.order-header{
+    font-size: 2.5em;
+    text-align: center;
+    text-transform: capitalize;
+}
+.modal-content .split{
+    height: 1px;
+    background-color: rgb(176, 177, 177);
+    width: 85%;
+    margin: 10px auto;
+    border: none;
+}
+.hide-modal{
+    background-color: transparent;
+    height: 22px;
+    width: 40px;
+    border: none;
+    right: 10px;
+    position: absolute;
+    top: 20px;
+    outline: none;
+}
+.hide-modal img{
+    height: 100%;
+}
+.modal-form{
+    width: 85%;
+    margin: auto;
+}
+.form-group{
+    margin: 10px 0;
+    display: flex;
+}
+.modal-form label{
+    width: 30%;
+    vertical-align: top;
+    display: inline-block;
+}
+.modal-form input{
+    height: 25px;    
+}
+.modal-form input{
+    border: 1px solid rgb(202, 202, 202);
+    width: 70%;
+    border-radius: 5px;    
+}
+.modal-form input:focus{
+    box-shadow: 0 0 5px rgba(75, 191, 108);
+    border-radius: 5px;
+    outline: none;
+}
+.order-summary{
+    font-family: 'Nunito';
+    font-size: 1.2em;
+    padding: 0 100px;
+    margin: 10px;
+    max-height: 300px;
+    overflow: auto;
+}
+.order-header{
+    font-size: 1.8em;
+    margin: 10px 0 10px;
+}
+.order-summary .split{
+    width: 100%;
+    display: inline-block;
+}
+.orderbtn{
+    background-color: #4BBF6B;
+    height: 30px;
+    padding: 5px 10px;
+    min-width: 70px;
+    border: none;
+    color: white;
+    font-family: 'Raleway',sans-serif;    
+    border-radius: 5px;
+    margin-left: auto;    
+    font-size: 1.025em;
+}
+.form-group:last-of-type{
+    grid-column: 2;
+}
+.checkout{
+    float: right;
+    height: 35px;
+    background-color: #4BBF6B;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-family: 'Nunito' , sans-serif;
+    margin-right: 20px;
+    width: 115px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.checkout img{
+    height: 20px;
+}
