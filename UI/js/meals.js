@@ -7,7 +7,7 @@ class Meal {
         const meal = document.createElement('div');
         meal.classList.add('meal')
         const image = document.createElement('img');
-        image.src = `images/${this.image}`;
+        image.src = `../images/${this.image}`;
         const mealDetails  = document.createElement('div');
         mealDetails.classList.add('meal-details');
         const mealTitle = document.createElement('p');
