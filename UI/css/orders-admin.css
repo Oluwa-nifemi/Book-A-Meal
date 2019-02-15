@@ -1,0 +1,100 @@
+body{
+    background-color: #4BBF6B;
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+button{
+    cursor: pointer;
+}
+.container{
+    min-width: 400px;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+    width: 75%;   
+    padding: 10px 0 
+}
+.header{
+    font-family: 'Raleway',sans-serif;
+    text-align: center;
+    font-size: 2.5em;
+    margin: 20px 0 10px;
+}
+.order{
+    width: 85%;
+    margin: auto;
+    transition: 500ms;
+    padding: 5px 30px;
+    box-sizing : border-box;
+    overflow: hidden;
+    font-family: 'Nunito' , sans-serif;
+}
+.order:hover{
+    box-shadow: 0 0 1rem rgb(176,177,177);
+}
+.order p{
+    margin: 10px 0;
+}
+.customer-name{
+    font-size: 1.5em;
+    font-family: 'Raleway' , sans-serif;    
+}
+.order-confirm{
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    margin-left: 5px;
+    transition: 500ms;
+}
+.order-confirm input{
+    height: 16px;
+    width: 16px;
+}
+
+/* Hide default HTML checkbox */
+.order-confirm input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.order-confirm .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.order-confirm .slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.order-confirm input:checked + .slider {
+    background-color: #4BBF6B;
+}
+
+.order-confirm input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+}
