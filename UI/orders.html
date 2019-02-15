@@ -10,9 +10,17 @@
 </head>
 <body>
     <div class="container">
-        <p class="header">ORDERS</p>
-        <div class="meals"></div>
-        <button class="checkout">Checkout <img src="images/svg/cart.svg"></button>
+        <button class="nav-toggle"><img src="images/svg/nav.svg"><img src="images/svg/cancel.svg"></button>
+        <ul class="nav">
+            <li><a href="menu.html">MENU</a></li>
+            <li><a href="orders.html">CART</a></li>
+            <li><a href="confirm.html">ORDERS</a></li>
+        </ul>
+        <div class="orders-wrapper">
+            <p class="header">CART</p>
+            <div class="meals"></div>
+            <button class="checkout">Checkout <img src="images/svg/cart.svg"></button>
+        </div>
     </div>
     <div class="modal-container">
         <div class="modal-content">
@@ -43,6 +51,7 @@
             </ul>
         </div>
     </div>
+    <script src="js/nav.js"></script>
     <script src="js/orders.js"></script>
 </body>
 </html>

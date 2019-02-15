@@ -10,45 +10,55 @@
 </head>
 <body>
     <div class="container">
-        <p class="header">MENU FOR 27/10/2019</p>
-        <div class="meals">
-            <div class="meal">
-                <img src="../images/meal1.jpg">
-                <div class="meal-details">
-                    <p class="meal-title">Cottage Pie</p>
-                    <p class="meal-quantity">
-                        Quantity: <input type="number" disabled>
-                        <button class="edit-quantity active"><img src="../images/svg/edit.svg"></button>
-                        <button class="save-quantity"><img src="../images/svg/save.svg"></button>
-                    </p>
+        <button class="nav-toggle"><img src="../images/svg/nav.svg"><img src="../images/svg/cancel.svg"></button>
+        <ul class="nav">
+            <li><a href="meals.html">MEALS</a></li>
+            <li><a href="menu.html">MENU</a></li>
+            <li><a href="orders.html">ORDERS</a></li>
+            <li><a href="history.html">HISTORY</a></li>
+        </ul>
+        <div class="menu-wrapper">         
+            <p class="header">MENU FOR 27/10/2019</p>
+            <div class="meals">
+                <div class="meal">
+                    <img src="../images/meal1.jpg">
+                    <div class="meal-details">
+                        <p class="meal-title">Cottage Pie</p>
+                        <p class="meal-quantity">
+                            Quantity: <input type="number" disabled>
+                            <button class="edit-quantity active"><img src="../images/svg/edit.svg"></button>
+                            <button class="save-quantity"><img src="../images/svg/save.svg"></button>
+                        </p>
+                    </div>
+                </div>
+                <div class="split"></div>
+                <div class="meal">
+                    <img src="../images/meal1.jpg">
+                    <div class="meal-details">
+                        <p class="meal-title">Cottage Pie</p>
+                        <p class="meal-quantity">
+                            Quantity: <input type="number" disabled>
+                            <button class="edit-quantity active"><img src="../images/svg/edit.svg"></button>
+                            <button class="save-quantity"><img src="../images/svg/save.svg"></button>
+                        </p>
+                    </div>
+                </div>
+                <div class="split"></div>
+                <div class="meal">
+                    <img src="../images/meal1.jpg">
+                    <div class="meal-details">
+                        <p class="meal-title">Cottage Pie</p>
+                        <p class="meal-quantity">
+                            Quantity: <input type="number" disabled>
+                            <button class="edit-quantity active"><img src="../images/svg/edit.svg"></button>
+                            <button class="save-quantity"><img src="../images/svg/save.svg"></button>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="split"></div>
-            <div class="meal">
-                <img src="../images/meal1.jpg">
-                <div class="meal-details">
-                    <p class="meal-title">Cottage Pie</p>
-                    <p class="meal-quantity">
-                        Quantity: <input type="number" disabled>
-                        <button class="edit-quantity active"><img src="../images/svg/edit.svg"></button>
-                        <button class="save-quantity"><img src="../images/svg/save.svg"></button>
-                    </p>
-                </div>
-            </div>
-            <div class="split"></div>
-            <div class="meal">
-                <img src="../images/meal1.jpg">
-                <div class="meal-details">
-                    <p class="meal-title">Cottage Pie</p>
-                    <p class="meal-quantity">
-                        Quantity: <input type="number" disabled>
-                        <button class="edit-quantity active"><img src="../images/svg/edit.svg"></button>
-                        <button class="save-quantity"><img src="../images/svg/save.svg"></button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <button class="add-meal"><img src="../images/svg/plus.svg" alt=""></button>
+            <button class="add-meal"><img src="../images/svg/plus.svg" alt=""></button>
+    
+        </div>    
     </div>
     <div class="modal-container">
         <div class="modal-content">
@@ -112,6 +122,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/nav.js"></script>
     <script src="../js/menu.js"></script>
 </body>
 </html>

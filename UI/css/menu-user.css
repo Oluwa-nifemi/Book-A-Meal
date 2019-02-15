@@ -15,7 +15,66 @@ button{
     border-radius: 5px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
     width: 75%;   
-    padding: 10px 0 
+    padding: 10px 30px;
+    display: flex;
+    position: relative;
+}
+.menu-wrapper{
+    width: 100%;
+}
+.nav-toggle{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    top : 100px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+    transition: 500ms;
+    outline: none;
+}
+.nav-toggle.active{
+    left: 180px;
+}
+.nav-toggle img{
+    height: 100%;
+    display: none;
+}
+.nav-toggle:not(.active) :first-child{
+    display: block;
+}
+.nav-toggle.active :last-child{
+    display: block;
+}
+.nav{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 10px;
+    margin-top: 100px;
+    width: 0;
+    transition: 500ms;
+    overflow: hidden;
+}
+.nav.active{
+    width: 200px;    
+}
+.nav li{
+    display: flex;
+    height: 40px;
+    align-items: center;
+    transition: 250ms;
+    font-family: 'Nunito', sans-serif;
+    padding-left: 15px;
+    width: 80%;
+}
+.nav li a{
+    color: black;
+    text-decoration: none;
+}
+.nav li:hover{
+    background-color: #d8d9da6e;
 }
 .header{
     font-family: 'Raleway',sans-serif;
