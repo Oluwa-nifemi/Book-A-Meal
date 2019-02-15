@@ -50,3 +50,20 @@ document.querySelector('.add-meal').addEventListener('click',() => {
         document.querySelector('.modal-content').classList.add('active');
     },50)
 })
+
+document.querySelectorAll('.edit-quantity').forEach((e) => {
+    e.addEventListener('click',() => {
+        e.parentElement.children[0].disabled = false;
+        e.parentElement.children[2].classList.add('active');
+        e.classList.remove('active');
+    })
+})
+
+document.querySelectorAll('.save-quantity').forEach((e) => {
+    e.addEventListener('click',() => {
+        e.parentElement.children[0].disabled = true;
+        //Send fetch request to edit quantity
+        e.parentElement.children[1].classList.add('active');
+        e.classList.remove('active');
+    })
+})

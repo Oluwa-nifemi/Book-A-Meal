@@ -47,6 +47,36 @@ button{
     font-size: 1.3em;
     cursor: pointer;
 }
+.meal-quantity{
+    display: flex;
+    align-items: center;
+}
+.meal-quantity input{
+    height: 23px;
+    cursor: text;
+    margin: 0 5px;
+    outline: none;
+    border: 1px solid rgb(176, 177, 177);
+    border-radius: 5px;
+    width: 50px;
+    text-align: right;
+}
+.meal-quantity button{
+    display: none;
+    background-color: transparent;
+    border: none;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    align-content: center;
+    outline: none;
+}
+.meal-quantity button img{
+    width: 100%;
+}       
+.meal-quantity button.active{
+    display: inline-flex;
+}
 .split{
     height: 1px;
     background-color: rgb(176, 177, 177);
