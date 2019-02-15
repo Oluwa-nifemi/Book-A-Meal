@@ -1,0 +1,57 @@
+body{
+    background-color: #4BBF6B;
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+button{
+    cursor: pointer;
+}
+.container{
+    min-width: 400px;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+    width: 75%;   
+    padding: 10px 0 
+}
+.header{
+    font-family: 'Raleway',sans-serif;
+    text-align: center;
+    font-size: 2.5em;
+    margin: 20px 0 10px;
+}
+.day-row{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    width: 85%;
+    margin: 20px auto;
+}
+.day{
+    font-family: 'Nunito',sans-serif;    
+    width: 100%;
+    margin: auto;
+}
+.day p{
+    margin: 5px 0;
+}
+.day-header{
+    font-size: 1.8em;
+    margin: 10px 0;
+}
+.split{
+    height: 1px;
+    background-color: rgb(176, 177, 177);
+    width: 85%;
+    margin: 10px auto;
+}
+.day a{
+    text-decoration: none;
+    color: white;
+    background-color: #4BBF6B;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+}
