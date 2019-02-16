@@ -268,3 +268,42 @@ button{
 .checkout img{
     height: 20px;
 }
+@media(max-width : 1200px){
+    .nav-toggle.active {
+        left: 120px;
+    }
+    .nav.active{
+        flex-shrink: 0;
+        width: 110px;
+    }
+}
+@media(max-width : 1000px){
+    .container{
+        width: 85%;
+    }
+}
+@media(max-width : 600px){
+    body{
+        background-color: white
+    }
+    .container{
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+        min-width: unset;
+        box-shadow: none;
+        overflow: hidden;
+    }
+    .meals{
+        column-count: 2;
+    }
+    .modal-content{
+        width: 84%;
+        margin-left: -42%;
+    }
+}
+@media(max-width : 450px){
+    .meals{
+        column-count: 1;
+    }
+}
