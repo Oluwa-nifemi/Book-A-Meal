@@ -59,6 +59,15 @@ class Menu {
         }
         return { err: "Meal doesn't exist in menu" };
     }
+
+    static deleteMeal(id) {
+        const menu = this.getMenu();
+        const meals = JSON.parse(fs.readFileSync(p));
+        const index = meals.findIndex(m => m.date === menu.date);
+        menu.meals = menu.meals.filter(meal => meal.id !== id);
+        meals[index] = menu;
+        return meals;
+    }
 }
 
 export default Menu;
