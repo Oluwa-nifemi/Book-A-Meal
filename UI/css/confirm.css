@@ -1,0 +1,162 @@
+body{
+    background-color: #4BBF6B;
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+button{
+    cursor: pointer;
+}
+.container{
+    min-width: 400px;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+    width: 75%;   
+    padding: 10px 30px;
+    display: flex;
+    position: relative;
+}
+.nav-toggle{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    top : 110px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+    transition: 500ms;
+    outline: none;
+}
+.nav-toggle.active{
+    left: 180px;
+}
+.nav-toggle img{
+    height: 100%;
+    display: none;
+}
+.nav-toggle:not(.active) :first-child{
+    display: block;
+}
+.nav-toggle.active :last-child{
+    display: block;
+}
+.nav{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 10px;
+    margin-top: 100px;
+    width: 0;
+    transition: 500ms;
+    overflow: hidden;
+}
+.nav.active{
+    width: 200px;    
+}
+.nav li{
+    display: flex;
+    height: 40px;
+    align-items: center;
+    transition: 250ms;
+    font-family: 'Nunito', sans-serif;
+    padding-left: 15px;
+    width: 80%;
+}
+.nav li a{
+    color: black;
+    text-decoration: none;
+}
+.nav li:hover{
+    background-color: #d8d9da6e;
+}
+.confirm-wrapper{
+    width: 100%;
+}
+.tabs-buttons{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+.tabs-button{
+    width: 50%;
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    color: #17923a;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+    transition: 500ms;    
+}
+.tabs-button.active{
+    background-color: #19ff593b;
+}
+.indicator{
+    position: absolute;
+    width: 50%;
+    height: 1px;
+    background-color: #81de9b;
+    bottom: 0;
+    transition: 500ms;
+    will-change: left, right;
+}
+.indicator.right{
+    margin-left: 50%;  
+}
+.tab{
+    margin: 10px 0;
+    padding: 0 20px;
+    display: none;
+}
+.tab.active{
+    display: block;
+}
+.tab .header{
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.75em;
+    text-align: center;    
+    margin: 10px 0;    
+}
+.orders{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 20px;
+}
+.order{
+    margin: auto;    
+    font-family: 'Nunito',sans-serif;            
+    min-width: 90%;
+}
+.order-date{
+    font-size: 1.3em;
+    margin: 0;
+    padding-left: 10px; 
+}
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+tr{
+    height: 50px;
+}
+tr:nth-of-type(2n){
+    background-color: rgba(128, 128, 128, 0.09);
+}
+tr td,tr th{
+    text-align: center;
+    border: 1px solid #dee2e6;            
+    width: 100px;
+}
+tr td:nth-of-type(1){
+    padding: 10px;
+    min-width: 100px;
+    width: fit-content;
+}
+tfoot td{
+    font-weight: bold;
+}
