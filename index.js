@@ -28,7 +28,8 @@ app.put('/api/v1/meals/:id', (req, res) => {
 
 app.delete('/api/v1/meals/:id', (req, res) => {
     try {
-        res.send(Meal.delete(parseInt(req.params.id, 10)));
+        Meal.delete(parseInt(req.params.id, 10));
+        res.status(204).send();
     } catch (err) {
         res.send({ err: err.message });
     }
@@ -47,8 +48,8 @@ app.put('/api/v1/menu', (req, res) => {
     res.send(Menu.editMeal(req.body));
 });
 
-app.delete('/api/v1/menu/:id', (req, res) => {
-    Menu.deleteMeal(parseInt(req.params.id, 10));
-    res.status(204).send();
+//  ORDER ITEM ROUTES
+app.get('/api/v1/order-items/:userid', (req, res) => {
+    res.send(OrderItem.getOrderItems(parseInt(req.params.userid, 10)));
 });
 app.listen(PORT);
