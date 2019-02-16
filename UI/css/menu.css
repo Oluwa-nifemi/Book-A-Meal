@@ -291,6 +291,8 @@ button{
         width: 100%;
         margin: 0;
         box-shadow: none;
+        min-width: unset;
+        box-shadow: none;
     }
     .modal-content .meals{
         grid-template-columns: 1fr;
