@@ -6,7 +6,6 @@ const p = path.join(path.dirname(process.mainModule.filename), 'data', 'meals.js
 
 class Meal {
     constructor({
-        id,
         title,
         description,
         image,
@@ -14,12 +13,27 @@ class Meal {
         defaultQuantity,
     }) {
         Object.assign(this, {
-            id, title, description, image, price, defaultQuantity,
+            title, description, image, price, defaultQuantity,
         });
     }
 
     static fetchMeals() {
         return fs.readFileSync(p);
+    }
+
+    add() {
+        try {
+            const meals = JSON.parse(this.constructor.fetchMeals());
+            const meal = {
+                id: meals.length + 1,
+                ...this,
+            };
+            meals.push(meal);
+            fs.writeFileSync(p, JSON.stringify(meals));
+            return meal;
+        } catch (err) {
+            return err;
+        }
     }
 }
 
