@@ -17,8 +17,13 @@ app.get('/api/v1/meals', (req, res) => {
     res.send(meal);
 });
 
-app.post('/api/v1/meals', (req,res) => {
-    const meal = new Meal({...req.body});
+app.post('/api/v1/meals', (req, res) => {
+    const meal = new Meal({ ...req.body });
     res.send(meal.add());
+});
+
+app.post('/api/v1/meals/:id', (req, res) => {
+    const meal = new Meal({ ...req.body });
+    res.send(meal.update(parseInt(req.params.id, 10)));
 });
 app.listen(PORT);

@@ -35,6 +35,26 @@ class Meal {
             return err;
         }
     }
+
+    update(id) {
+        try {
+            const meals = JSON.parse(this.constructor.fetchMeals());
+            const meal = {
+                id,
+                ...this,
+            };
+            const index = meals.findIndex(m => id === m.id);
+            if (index !== -1) {
+                meals[index] = meal;
+                fs.writeFileSync(p, JSON.stringify(meals));
+                return meals[index];
+            } else {
+                throw new Error('Meal not found');
+            }
+        } catch (err) {
+            return { err: err.message };
+        }
+    }
 }
 
 // export default Meal;
