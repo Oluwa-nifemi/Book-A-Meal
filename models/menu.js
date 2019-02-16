@@ -45,6 +45,20 @@ class Menu {
         }
         return { err: 'Meal already in menu' };
     }
+
+    static editMeal(meal) {
+        const menu = this.getMenu();
+        const meals = JSON.parse(fs.readFileSync(p));
+        const index = meals.findIndex(m => m.date === menu.date);
+        const mealIndex = menu.meals.findIndex(m => m.id === meal.id);
+        if (mealIndex !== -1) {
+            menu.meals[mealIndex] = meal;
+            meals[index] = menu;
+            fs.writeFileSync(p, JSON.stringify(meals));
+            return meal;
+        }
+        return { err: "Meal doesn't exist in menu" };
+    }
 }
 
 export default Menu;

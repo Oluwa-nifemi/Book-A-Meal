@@ -43,4 +43,7 @@ app.post('/api/v1/menu', (req, res) => {
     res.send(Menu.addMeal(req.body));
 });
 
+app.put('/api/v1/menu', (req, res) => {
+    res.send(Menu.editMeal(req.body));
+});
 app.listen(PORT);
