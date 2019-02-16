@@ -160,3 +160,41 @@ tr td:nth-of-type(1){
 tfoot td{
     font-weight: bold;
 }
+@media(max-width : 1200px){
+    .nav-toggle.active {
+        left: 120px;
+    }
+    .nav.active{
+        flex-shrink: 0;
+        width: 110px;
+    }
+}
+@media(max-width : 1000px){
+    .container{
+        width: 85%
+    }
+}
+@media(max-width : 800px){
+    .orders{
+        grid-template-columns: 1fr;
+    }
+}
+@media(max-width : 550px){
+    body{
+        background-color: white
+    }
+    .container{
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+        min-width: unset;
+        box-shadow: none;
+    }
+    .nav-toggle{
+        top: 20px;
+        left: 5px;
+    }
+    .tabs{
+        overflow: hidden;
+    }
+}
