@@ -161,8 +161,8 @@ button{
     height: 100%;
 }
 .modal-container{
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.2);    
     display: none;
@@ -259,6 +259,15 @@ button{
     width: 100%;
     margin: 0
 }
+@media(max-width : 1200px){
+    .nav-toggle.active {
+        left: 120px;
+    }
+    .nav.active{
+        flex-shrink: 0;
+        width: 110px;
+    }
+}
 @media(max-width : 1000px){
     .modal-content{
         margin-left: -35%;
@@ -275,14 +284,13 @@ button{
     }
 }
 @media(max-width : 600px){
+    body{
+        background-color: white
+    }
     .container{
         width: 100%;
-        min-height: 100vh;
-        border-radius: 0;
         margin: 0;
-    }
-    .nav.active{
-        width: 250px;
+        box-shadow: none;
     }
     .modal-content .meals{
         grid-template-columns: 1fr;
