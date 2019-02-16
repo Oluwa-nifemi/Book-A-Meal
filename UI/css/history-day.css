@@ -156,3 +156,23 @@ button{
     -ms-transform: translateX(18px);
     transform: translateX(18px);
 }
+@media(max-width : 1000px){
+    .container{
+        width: 85%
+    }
+}
+@media(max-width : 800px){
+    .nav-toggle.active {
+        left: 150px;
+    }
+}
+@media(max-width : 550px){
+    body{
+        background-color: white
+    }
+    .container{
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+}
