@@ -1,6 +1,5 @@
-// import fs from 'fs';
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const p = path.join(path.dirname(process.mainModule.filename), 'data', 'meals.json');
 
@@ -68,6 +67,4 @@ class Meal {
     }
 }
 
-// export default Meal;
-
-module.exports = Meal;
+export default Meal;
