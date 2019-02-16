@@ -81,11 +81,12 @@ button{
     font-size: 2.5em;
     margin: 20px 0 10px;
 }
-.day-row{
+.days{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     width: 85%;
     margin: 20px auto;
+    grid-gap: 10px;
 }
 .day{
     font-family: 'Nunito',sans-serif;    
@@ -112,4 +113,31 @@ button{
     height: 30px;
     padding: 5px;
     border-radius: 5px;
+}
+@media(max-width : 1000px){
+    .container{
+        width: 85%
+    }
+}
+@media(max-width : 800px){
+    .days{
+        grid-template-columns: 1fr 1fr;
+    }
+    .nav-toggle.active {
+        left: 150px;
+    }
+}
+@media(max-width : 550px){
+    body{
+        background-color: white
+    }
+    .container{
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+    .days{
+        grid-template-columns: 1fr;
+        padding-left: 20px;
+    }
 }
