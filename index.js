@@ -26,4 +26,12 @@ app.post('/api/v1/meals/:id', (req, res) => {
     const meal = new Meal({ ...req.body });
     res.send(meal.update(parseInt(req.params.id, 10)));
 });
+
+app.get('/api/v1/meals/delete/:id', (req, res) => {
+    try {
+        res.send(Meal.delete(parseInt(req.params.id, 10)));
+    } catch (err) {
+        res.send({ err: err.message });
+    }
+});
 app.listen(PORT);
