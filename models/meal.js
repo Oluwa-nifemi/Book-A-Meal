@@ -47,13 +47,24 @@ class Meal {
             if (index !== -1) {
                 meals[index] = meal;
                 fs.writeFileSync(p, JSON.stringify(meals));
-                return meals[index];
             } else {
                 throw new Error('Meal not found');
             }
+            return meals[index];
         } catch (err) {
             return { err: err.message };
         }
+    }
+
+    static delete(id) {
+        const meals = JSON.parse(this.fetchMeals());
+        const index = meals.findIndex(m => m.id === id);
+        let meal = {};
+        if (index !== -1) {
+            [meal] = meals.splice(index, 1);
+        }
+        fs.writeFileSync(p, JSON.stringify(meals));
+        return meal;
     }
 }
 
