@@ -1,0 +1,14 @@
+[
+    {
+        "userId" : 1,
+        "date" : "27-12-12",
+        "orderItems" : [2,3,4],
+        "state" : "pending"
+    },
+    {
+        "userId" : 2,
+        "date" : "27-12-12",
+        "orderItems" : [1,3],
+        "state" : "delivered"
+    }
+]
