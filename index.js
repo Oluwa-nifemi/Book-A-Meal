@@ -47,4 +47,9 @@ app.post('/api/v1/menu', (req, res) => {
 app.put('/api/v1/menu', (req, res) => {
     res.send(Menu.editMeal(req.body));
 });
+
+//  ORDER ITEM ROUTES
+app.get('/api/v1/order-items/:userid', (req, res) => {
+    res.send(OrderItem.getOrderItems(parseInt(req.params.userid, 10)));
+});
 app.listen(PORT);
