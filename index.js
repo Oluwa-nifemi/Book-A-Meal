@@ -9,10 +9,16 @@ const Meal = require('./models/meal');
 
 const app = express();
 
+app.use(express.json());
+
 const PORT = process.env.PORT || 3000;
 app.get('/api/v1/meals', (req, res) => {
     const meal = Meal.fetchMeals();
     res.send(meal);
 });
 
+app.post('/api/v1/meals', (req,res) => {
+    const meal = new Meal({...req.body});
+    res.send(meal.add());
+});
 app.listen(PORT);
