@@ -99,3 +99,16 @@ button{
 .form-group:last-child{
     display: flex;
 }
+@media(max-width : 600px){
+    .container{
+        width: 90%;
+    }
+}
+@media(max-width : 400px){
+    .form-group{
+        display: block;
+    }
+    .form-group label{
+        display: block;
+    }
+}
