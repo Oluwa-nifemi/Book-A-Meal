@@ -17,8 +17,14 @@
   },
   "homepage": "https://github.com/Oluwa-nifemi/Book-A-Meal#readme",
   "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
     "eslint": "^5.14.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0"
+    "eslint-plugin-import": "^2.16.0",
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
   }
 }
