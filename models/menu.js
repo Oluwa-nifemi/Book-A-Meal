@@ -1,4 +1,7 @@
 import fs from 'fs';
+import path from 'path';
+
+const p = path.join(path.dirname(process.mainModule.filename), 'data', 'menu.json');
 
 class Menu {
     constructor({
@@ -12,14 +15,16 @@ class Menu {
         });
     }
 
-    static async getMenu() {
-        return fs.readFile('../data/menu.json', 'utf8', (err, data) => {
-            if (err) throw err;
+    static getMenu() {
+        try {
+            const data = fs.readFileSync(p);
             const today = new Date();
-            const todayFormatted = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
-            const menuToday = JSON.parse(data).find(menu => menu.date === todayFormatted);
+            const todayFormatted = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+            const menuToday = JSON.parse(data).find(menu => `${menu.date}` === todayFormatted);
             return menuToday || {};
-        });
+        } catch (err) {
+            return { err: err.message };
+        }
     }
 }
 
