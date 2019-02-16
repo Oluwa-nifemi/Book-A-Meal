@@ -56,14 +56,9 @@ class Meal {
     }
 
     static delete(id) {
-        const meals = JSON.parse(this.fetchMeals());
-        const index = meals.findIndex(m => m.id === id);
-        let meal = {};
-        if (index !== -1) {
-            [meal] = meals.splice(index, 1);
-        }
+        let meals = JSON.parse(this.fetchMeals());
+        meals = meals.filter(meal => meal.id !== id);
         fs.writeFileSync(p, JSON.stringify(meals));
-        return meal;
     }
 }
 

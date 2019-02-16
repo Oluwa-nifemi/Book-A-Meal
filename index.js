@@ -28,7 +28,8 @@ app.put('/api/v1/meals/:id', (req, res) => {
 
 app.delete('/api/v1/meals/:id', (req, res) => {
     try {
-        res.send(Meal.delete(parseInt(req.params.id, 10)));
+        Meal.delete(parseInt(req.params.id, 10));
+        res.status(204).send();
     } catch (err) {
         res.send({ err: err.message });
     }
