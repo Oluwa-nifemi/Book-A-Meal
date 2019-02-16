@@ -39,4 +39,8 @@ app.get('/api/v1/menu', (req, res) => {
     res.send(Menu.getMenu());
 });
 
+app.post('/api/v1/menu', (req, res) => {
+    res.send(Menu.addMeal(req.body));
+});
+
 app.listen(PORT);
