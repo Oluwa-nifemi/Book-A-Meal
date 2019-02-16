@@ -40,7 +40,7 @@ input[type=number]::-webkit-outer-spin-button {
     outline: none;
 }
 .nav-toggle.active{
-    left: 180px;
+    left: 170px;
 }
 .nav-toggle img{
     height: 100%;
@@ -137,7 +137,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .modal-container{
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.2);    
     display: none;
@@ -219,4 +219,39 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .split:last-of-type{
     display: none;
+}
+@media(max-width : 1200px){
+    .nav-toggle.active {
+        left: 120px;
+    }
+    .nav.active{
+        flex-shrink: 0;
+        width: 110px;
+    }
+}
+@media(max-width : 1000px){
+    .modal-content{
+        width: 70%;
+        margin-left: -35%;
+    }
+}
+@media(max-width : 600px){
+    body{
+        background-color: white
+    }
+    .container{
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+    .modal-content{
+        width: 90%;
+        margin-left: -45%
+    }
+    .modal-form label{
+        width: 40%;
+    }
+    .modal-form input,.modal-form textarea{
+        width: 60%;
+    }
 }
