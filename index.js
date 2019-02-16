@@ -1,12 +1,8 @@
-
-// import express from 'express';
-// import Meal from './models/meal';
-// import Menu from './models/menu';
-// import OrderItem from './models/order-item';
-// import Order from './models/order';
-const express = require('express');
-const Meal = require('./models/meal');
-const Menu = require('./models/menu');
+import express from 'express';
+import Meal from './models/meal';
+import Menu from './models/menu';
+import OrderItem from './models/order-item';
+import Order from './models/order';
 
 const app = express();
 
@@ -38,6 +34,7 @@ app.delete('/api/v1/meals/:id', (req, res) => {
     }
 });
 
+//  MENU ROUTES
 app.get('/api/v1/menu', (req, res) => {
     res.send(Menu.getMenu());
 });
