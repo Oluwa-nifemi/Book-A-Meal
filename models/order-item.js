@@ -30,6 +30,18 @@ class OrderItem {
         fs.writeFileSync(p, JSON.stringify(orderItems));
         return this;
     }
+
+    static edit(meal) {
+        const orderItems = JSON.parse(fs.readFileSync(p));
+        const index = orderItems.findIndex(item => item.mealId === meal.userId &&
+        item.userId === meal.mealId);
+        if (index !== -1) {
+            orderItems[index] = meal;
+            fs.writeFileSync(p, JSON.stringify(orderItems));
+            return meal;
+        }
+        return { err: "Meal doesn't exist database" };
+    }
 }
 
 export default OrderItem;
