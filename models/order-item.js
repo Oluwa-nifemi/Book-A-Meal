@@ -20,6 +20,16 @@ class OrderItem {
         const orderItemsFiltered = orderItems.filter(item => item.userId === id && item.status === 'cart');
         return orderItemsFiltered;
     }
+
+    add() {
+        const orderItems = JSON.parse(fs.readFileSync(p));
+        if (orderItems.find(item => item.mealId === this.mealId && item.userId === this.userId)) {
+            return { err: 'Meal already exists you can increase the quantity in your cart' };
+        }
+        orderItems.push(this);
+        fs.writeFileSync(p, JSON.stringify(orderItems));
+        return this;
+    }
 }
 
 export default OrderItem;
