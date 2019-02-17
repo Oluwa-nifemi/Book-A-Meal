@@ -52,4 +52,9 @@ app.put('/api/v1/menu', (req, res) => {
 app.get('/api/v1/order-items/:userid', (req, res) => {
     res.send(OrderItem.getOrderItems(parseInt(req.params.userid, 10)));
 });
+
+app.post('/api/v1/order-items', (req, res) => {
+    const orderItem = new OrderItem(req.body);
+    res.send(orderItem.add());
+});
 app.listen(PORT);
