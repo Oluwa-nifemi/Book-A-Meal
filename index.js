@@ -59,6 +59,11 @@ app.post('/api/v1/order-items', (req, res) => {
 });
 
 app.put('/api/v1/order-items', (req, res) => {
-    res.send(OrderItem.edit(req.body))
-})
+    res.send(OrderItem.edit(req.body));
+});
+
+//  ORDER ROUTES
+app.get('/api/v1/orders', (req, res) => {
+    res.send(Order.getOrders());
+});
 app.listen(PORT);
