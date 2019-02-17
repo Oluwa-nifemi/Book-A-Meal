@@ -18,6 +18,13 @@ class Order {
     static getOrders() {
         return fs.readFileSync(p);
     }
+
+    add() {
+        const orders = JSON.parse(this.constructor.getOrders());
+        orders.push(this);
+        fs.writeFileSync(p, JSON.stringify(orders));
+        return this;
+    }
 }
 
 export default Order;

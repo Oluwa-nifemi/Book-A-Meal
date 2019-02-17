@@ -66,4 +66,9 @@ app.put('/api/v1/order-items', (req, res) => {
 app.get('/api/v1/orders', (req, res) => {
     res.send(Order.getOrders());
 });
+
+app.post('/api/v1/orders', (req, res) => {
+    const order = new Order(req.body);
+    res.send(order.add());
+});
 app.listen(PORT);
