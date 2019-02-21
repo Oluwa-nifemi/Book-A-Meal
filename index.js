@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 //  MEAL ROUTES
 app.get('/api/v1/meals', (req, res) => {
     const meal = Meal.fetchMeals();
-    res.send(meal);
+    res.json(meal);
 });
 
 app.post('/api/v1/meals', (req, res) => {
@@ -72,3 +72,5 @@ app.post('/api/v1/orders', (req, res) => {
     res.send(order.add());
 });
 app.listen(PORT);
+
+export default app;
