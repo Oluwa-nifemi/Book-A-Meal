@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const p = path.join(path.dirname(process.mainModule.filename), 'data', 'meals.json');
+const p = path.join(__dirname, '../data', 'meals.json');
 
 class Meal {
     constructor({
@@ -17,7 +17,7 @@ class Meal {
     }
 
     static fetchMeals() {
-        return fs.readFileSync(p);
+        return fs.readFileSync(p, 'utf-8');
     }
 
     add() {
