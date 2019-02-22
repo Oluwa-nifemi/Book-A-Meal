@@ -1,10 +1,14 @@
 import chai from 'chai';
 import request from 'chai-http';
 import app from '../index';
+import fs from 'fs';
+import path from 'path'; 
 
 const { expect, use } = chai;
 
 use(request);
+
+const p = path.join(__dirname, '../data', 'meals.json');
 
 const apiVersion = '/api/v1';
 
@@ -16,7 +20,10 @@ describe('Get meals', () => {
             .then((meals) => {
                 expect(meals).to.be.an('array');
                 expect(meals[0]).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity');
-            });
+            })
+            .catch((err) => {
+                console.log(err);                
+            })
     });
 });
 
@@ -35,9 +42,12 @@ describe('Add meal', () => {
             .then((meal) => {
                 expect(meal).to.be.an('object');
                 expect(meal).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity');                
+                const meals = JSON.parse(fs.readFileSync(p, 'utf-8'));
+                meals.pop();
+                fs.writeFileSync(p,JSON.stringify(meals));
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.message);
             });
     });
 });
@@ -45,7 +55,7 @@ describe('Add meal', () => {
 describe('Edit meal', () => {
     it('Should return meal', () => {
         chai.request(app)
-            .put(`${apiVersion}/meals/4`)
+            .put(`${apiVersion}/meals/15`)
             .send({
                 title: 'Sparghetti',
                 description: 'Juicy tasty cheesy cheeseburger',
@@ -59,7 +69,7 @@ describe('Edit meal', () => {
                 expect(meal).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity');                
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.message);
             });
     });
 });
@@ -69,10 +79,10 @@ describe('Delete meal', () => {
         chai.request(app)
             .delete(`${apiVersion}/meals/4`)
             .then((res) => {
-                expect(res).to.be.empty;
+                expect(res.text).to.be.equal('');
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.message);
             });
     });
 });
