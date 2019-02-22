@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const p = path.join(path.dirname(process.mainModule.filename), 'data', 'menu.json');
+const p = path.join(__dirname, '../data', 'menu.json');
 
 class Menu {
     constructor({
