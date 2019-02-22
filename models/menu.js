@@ -35,12 +35,12 @@ class Menu {
 
     static addMeal(meal) {
         const menu = this.getMenu();
-        const meals = JSON.parse(fs.readFileSync(p));
-        const index = meals.findIndex(m => m.date === menu.date);
+        const menus = JSON.parse(fs.readFileSync(p));
+        const index = menus.findIndex(m => m.date === menu.date);
         if (!menu.meals.find(m => m.id === meal.id)) {
             menu.meals.push(meal);
-            meals[index] = menu;
-            fs.writeFileSync(p, JSON.stringify(meals));
+            menus[index] = menu;
+            fs.writeFileSync(p, JSON.stringify(menus));
             return meal;
         }
         return { err: 'Meal already in menu' };
