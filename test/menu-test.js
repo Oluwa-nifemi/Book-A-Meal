@@ -40,9 +40,31 @@ describe('Add to Menu', () => {
         .then(meal => {
             expect(meal).to.be.an('object');
             expect(meal).to.have.all.keys('id','quantity');
+            const allMenus = JSON.parse(fs.readFileSync(p));
             const menu = Menu.getMenu();
             menu.meals = menu.meals.filter(m => m.id !== meal.id);
-            fs.writeFileSync(p,JSON.stringify(menu));
+            const i = allMenus.findIndex(m => m.date === menu.date);
+            allMenus[i] = menu;
+            fs.writeFileSync(p,JSON.stringify(allMenus));
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
+    })
+})
+
+describe('Edit menu', () => {
+    it('Should return meal',() => {
+        chai.request(app)
+        .put(`${apiVersion}/menu`)
+        .send({
+            "id" : 3,
+            "quantity" : 1,
+        })
+        .then(res => res.body)
+        .then(meal => {
+            expect(meal).to.be.an('object');
+            expect(meal).to.have.all.keys('id','quantity');
         })
         .catch(err => {
             console.log(err.message)
