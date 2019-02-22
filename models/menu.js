@@ -48,13 +48,13 @@ class Menu {
 
     static editMeal(meal) {
         const menu = this.getMenu();
-        const meals = JSON.parse(fs.readFileSync(p));
-        const index = meals.findIndex(m => m.date === menu.date);
+        const menus = JSON.parse(fs.readFileSync(path.join(__dirname, '../data', 'menu.json')));
+        const index = menus.findIndex(m => m.date === menu.date);
         const mealIndex = menu.meals.findIndex(m => m.id === meal.id);
         if (mealIndex !== -1) {
             menu.meals[mealIndex] = meal;
-            meals[index] = menu;
-            fs.writeFileSync(p, JSON.stringify(meals));
+            menus[index] = menu;
+            fs.writeFileSync(p, JSON.stringify(menus));
             return meal;
         }
         return { err: "Meal doesn't exist in menu" };
