@@ -46,10 +46,9 @@ class Meal {
             if (index !== -1) {
                 meals[index] = meal;
                 fs.writeFileSync(p, JSON.stringify(meals));
-            } else {
-                throw new Error('Meal not found');
+                return meals[index];
             }
-            return meals[index];
+            return {};
         } catch (err) {
             return { err: err.message };
         }
