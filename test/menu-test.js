@@ -22,6 +22,9 @@ describe('Get Menu', () => {
             expect(menu).to.be.an('object');
             expect(menu).to.have.all.keys('date','meals')
         })
+        .catch(err => {
+            console.log(err.message)
+        })
     })
 })
 
@@ -40,6 +43,9 @@ describe('Add to Menu', () => {
             const menu = Menu.getMenu();
             menu.meals = menu.meals.filter(m => m.id !== meal.id);
             fs.writeFileSync(p,JSON.stringify(menu));
+        })
+        .catch(err => {
+            console.log(err.message)
         })
     })
 })
