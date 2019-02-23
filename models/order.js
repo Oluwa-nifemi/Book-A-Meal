@@ -16,14 +16,36 @@ class Order {
     }
 
     static getOrders() {
-        return fs.readFileSync(p,'utf-8');
+       return fs.readFileSync(p, 'utf-8')
     }
 
     add() {
         const orders = JSON.parse(this.constructor.getOrders());
-        orders.push(this);
+        const id = orders.length + 1;
+        orders.push({ id, ...this });
         fs.writeFileSync(p, JSON.stringify(orders));
-        return this;
+        return { id, ...this };
+    }
+
+    static getUserOrders(userId) {
+        let orders = JSON.parse(this.getOrders());
+        orders = orders.filter(order => order.userId === userId);
+        return orders;
+    }
+
+    static editState(id, state) {
+        const orders = JSON.parse(this.getOrders());
+        const order = orders.find(e => e.id === id);
+        if (order) {
+            order.state = state;
+            fs.writeFileSync(p, JSON.stringify(orders));
+        }
+    }
+
+    static delete(id) {
+        let orders = JSON.parse(this.getOrders());
+        orders = orders.filter(order => order.id !== id || order.state !== 'pending');
+        fs.writeFileSync(p, JSON.stringify(orders));
     }
 }
 

@@ -77,10 +77,25 @@ app.get('/api/v1/orders', (req, res) => {
     res.json(Order.getOrders());
 });
 
+app.get('/api/v1/orders/:userid', (req, res) => {
+    res.json(Order.getUserOrders(parseInt(req.params.userid, 10)));
+});
+
 app.post('/api/v1/orders', (req, res) => {
     const order = new Order(req.body);
     res.json(order.add());
 });
+
+app.put('/api/v1/orders/:id/:state', (req, res) => {
+    Order.editState(parseInt(req.params.id, 10), req.params.state);
+    res.status(200).send();
+});
+
+app.delete('/api/v1/orders/:id', (req, res) => {
+    Order.delete(parseInt(req.params.id, 10));
+    res.status(200).send();
+});
+
 app.listen(PORT);
 
 export default app;
