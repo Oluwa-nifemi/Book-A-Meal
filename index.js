@@ -85,6 +85,11 @@ app.post('/api/v1/orders', (req, res) => {
     const order = new Order(req.body);
     res.json(order.add());
 });
+
+app.put('/api/v1/orders/:id/:state', (req, res) => {
+    Order.editState(parseInt(req.params.id, 10), req.params.state);
+    res.status(200).send();
+});
 app.listen(PORT);
 
 export default app;
