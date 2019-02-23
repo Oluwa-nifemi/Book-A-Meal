@@ -4,7 +4,7 @@
   "description": "A meal booking app built with React and Node",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require @babel/register",
+    "test": "mocha --require @babel/register --exit",
     "start": "nodemon --exec babel-node index.js",
     "build": "babel ./ -d ./dist --ignore ./node_modules/,./dist/  -s"
   },
