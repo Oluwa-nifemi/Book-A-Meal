@@ -26,6 +26,19 @@ describe('Get orders', () => {
     })
 })
 
+describe('Get orders by user id', () => {
+    it('Should return all orders belong to that user', () => {
+        chai.request(app)
+            .get(`${apiVersion}/orders/1`)
+            .then(res => res.body)
+            .then(orders => {
+                expect(orders).to.be.an('array')
+                const invalid = orders.filter(order => order.userId !== 1).length;
+                expect(invalid).to.be.equal(0);
+            })
+    })
+})
+
 describe('Add order',() => {
     it('Should return the added order', () => {
         chai.request(app)
