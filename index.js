@@ -13,48 +13,74 @@ const PORT = process.env.PORT || 3000;
 //  MEAL ROUTES
 app.get('/api/v1/meals', (req, res) => {
     const meal = Meal.fetchMeals();
-    res.send(meal);
+    res.json(meal);
 });
 
 app.post('/api/v1/meals', (req, res) => {
     const meal = new Meal({ ...req.body });
-    res.send(meal.add());
+    res.json(meal.add());
 });
 
 app.put('/api/v1/meals/:id', (req, res) => {
     const meal = new Meal({ ...req.body });
-    res.send(meal.update(parseInt(req.params.id, 10)));
+    res.json(meal.update(parseInt(req.params.id, 10)));
 });
 
 app.delete('/api/v1/meals/:id', (req, res) => {
     try {
         Meal.delete(parseInt(req.params.id, 10));
-        res.status(204).send();
+        res.status(204).json();
     } catch (err) {
-        res.send({ err: err.message });
+        res.json({ err: err.message });
     }
 });
 
 //  MENU ROUTES
 app.get('/api/v1/menu', (req, res) => {
-    res.send(Menu.getMenu());
+    res.json(Menu.getMenu());
 });
 
 app.post('/api/v1/menu', (req, res) => {
-    res.send(Menu.addMeal(req.body));
+    res.json(Menu.addMeal(req.body));
 });
 
 app.put('/api/v1/menu', (req, res) => {
-    res.send(Menu.editMeal(req.body));
+    res.json(Menu.editMeal(req.body));
+});
+
+app.delete('/api/v1/menu/:id', (req, res) => {
+    Menu.deleteMeal(parseInt(req.params.id, 10));
+    res.status(204).send();
 });
 
 //  ORDER ITEM ROUTES
 app.get('/api/v1/order-items/:userid', (req, res) => {
-    res.send(OrderItem.getOrderItems(parseInt(req.params.userid, 10)));
+    res.json(OrderItem.getOrderItems(parseInt(req.params.userid, 10)));
 });
 
 app.post('/api/v1/order-items', (req, res) => {
     const orderItem = new OrderItem(req.body);
-    res.send(orderItem.add());
+    res.json(orderItem.add());
+});
+
+app.put('/api/v1/order-items', (req, res) => {
+    res.json(OrderItem.edit(req.body));
+});
+
+app.delete('/api/v1/order-items/:id', (req, res) => {
+    OrderItem.delete(parseInt(req.params.id, 10));
+    res.status(204).send();
+});
+
+//  ORDER ROUTES
+app.get('/api/v1/orders', (req, res) => {
+    res.json(Order.getOrders());
+});
+
+app.post('/api/v1/orders', (req, res) => {
+    const order = new Order(req.body);
+    res.json(order.add());
 });
 app.listen(PORT);
+
+export default app;
