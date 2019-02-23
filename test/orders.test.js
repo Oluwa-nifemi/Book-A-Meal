@@ -12,6 +12,9 @@ const p = path.join(__dirname, '../data', 'menu.json');
 
 const apiVersion = '/api/v1';
 
+//Get id of item added during add order test to delete during delete order test
+let id;
+
 describe('Get orders', () => {
     it('Should return all orders', () => {
         chai.request(app)
@@ -20,5 +23,38 @@ describe('Get orders', () => {
             .then(orders => {
                 expect(orders).to.be.an('array')
             })
+    })
+})
+
+describe('Add order',() => {
+    it('Should return the added order', () => {
+        chai.request(app)
+            .post(`${apiVersion}/orders`)
+            .send(
+                {
+                    "userId" : 1,
+                    "date" : "27-12-12",
+                    "orderItems" : [1,4],
+                    "state" : "pending"
+                }
+            )
+            .then(res => res.body)
+            .then((order) => {
+                id = order.id;
+                expect(order).to.be.an('object');
+            })
+    })
+})
+
+describe('Delete order', () => {
+    it('Should return empty response', () => {
+        chai.request(app)
+        .delete(`${apiVersion}/orders/${id}`)
+        .then((res) => {
+            expect(res.text).to.be.equal('');
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
     })
 })
