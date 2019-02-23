@@ -90,6 +90,12 @@ app.put('/api/v1/orders/:id/:state', (req, res) => {
     Order.editState(parseInt(req.params.id, 10), req.params.state);
     res.status(200).send();
 });
+
+app.delete('/api/v1/orders/:id', (req, res) => {
+    Order.delete(parseInt(req.params.id, 10));
+    res.status(200).send();
+});
+
 app.listen(PORT);
 
 export default app;
