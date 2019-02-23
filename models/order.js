@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const p = path.join(path.dirname(process.mainModule.filename), 'data', 'orders.json');
+const p = path.join(__dirname, '../data', 'orders.json');
 
 class Order {
     constructor({
@@ -16,7 +16,7 @@ class Order {
     }
 
     static getOrders() {
-        return fs.readFileSync(p);
+        return fs.readFileSync(p,'utf-8');
     }
 
     add() {
