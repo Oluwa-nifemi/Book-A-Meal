@@ -4,9 +4,13 @@
   "description": "A meal booking app built with React and Node",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require @babel/register --exit",
+    "test": "nyc mocha --require @babel/register --exit",
     "start": "nodemon --exec babel-node index.js",
-    "build": "babel ./ -d ./dist --ignore ./node_modules/,./dist/  -s"
+    "build": "babel ./ -d ./dist --ignore ./node_modules/,./dist/  -s",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
   },
   "repository": {
     "type": "git",
