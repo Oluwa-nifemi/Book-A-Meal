@@ -8,8 +8,6 @@ const { expect, use } = chai;
 
 use(request);
 
-const p = path.join(__dirname, '../data', 'menu.json');
-
 const apiVersion = '/api/v1';
 
 //Get id of item added during add order test to delete during delete order test
