@@ -77,6 +77,10 @@ app.get('/api/v1/orders', (req, res) => {
     res.json(Order.getOrders());
 });
 
+app.get('/api/v1/orders/:userid', (req, res) => {
+    res.json(Order.getUserOrders(parseInt(req.params.userid, 10)));
+});
+
 app.post('/api/v1/orders', (req, res) => {
     const order = new Order(req.body);
     res.json(order.add());

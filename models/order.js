@@ -26,6 +26,12 @@ class Order {
         fs.writeFileSync(p, JSON.stringify(orders));
         return { id, ...this };
     }
+
+    static getUserOrders(userId) {
+        let orders = JSON.parse(this.getOrders());
+        orders = orders.filter(order => order.userId === userId);
+        return orders;
+    }
 }
 
 export default Order;
