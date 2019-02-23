@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _express = _interopRequireDefault(require("express"));
 
 var _meal = _interopRequireDefault(require("./models/meal"));
@@ -23,54 +28,80 @@ var PORT = process.env.PORT || 3000; //  MEAL ROUTES
 app.get('/api/v1/meals', function (req, res) {
   var meal = _meal.default.fetchMeals();
 
-  res.send(meal);
+  res.json(meal);
 });
 app.post('/api/v1/meals', function (req, res) {
   var meal = new _meal.default(_objectSpread({}, req.body));
-  res.send(meal.add());
+  res.json(meal.add());
 });
 app.put('/api/v1/meals/:id', function (req, res) {
   var meal = new _meal.default(_objectSpread({}, req.body));
-  res.send(meal.update(parseInt(req.params.id, 10)));
+  res.json(meal.update(parseInt(req.params.id, 10)));
 });
 app.delete('/api/v1/meals/:id', function (req, res) {
   try {
     _meal.default.delete(parseInt(req.params.id, 10));
 
-    res.status(204).send();
+    res.status(204).json();
   } catch (err) {
-    res.send({
+    res.json({
       err: err.message
     });
   }
 }); //  MENU ROUTES
 
 app.get('/api/v1/menu', function (req, res) {
-  res.send(_menu.default.getMenu());
+  res.json(_menu.default.getMenu());
 });
 app.post('/api/v1/menu', function (req, res) {
-  res.send(_menu.default.addMeal(req.body));
+  res.json(_menu.default.addMeal(req.body));
 });
 app.put('/api/v1/menu', function (req, res) {
-  res.send(_menu.default.editMeal(req.body));
+  res.json(_menu.default.editMeal(req.body));
+});
+app.delete('/api/v1/menu/:id', function (req, res) {
+  _menu.default.deleteMeal(parseInt(req.params.id, 10));
+
+  res.status(204).send();
 }); //  ORDER ITEM ROUTES
 
 app.get('/api/v1/order-items/:userid', function (req, res) {
-  res.send(_orderItem.default.getOrderItems(parseInt(req.params.userid, 10)));
+  res.json(_orderItem.default.getOrderItems(parseInt(req.params.userid, 10)));
 });
 app.post('/api/v1/order-items', function (req, res) {
   var orderItem = new _orderItem.default(req.body);
-  res.send(orderItem.add());
+  res.json(orderItem.add());
 });
 app.put('/api/v1/order-items', function (req, res) {
-  res.send(_orderItem.default.edit(req.body));
+  res.json(_orderItem.default.edit(req.body));
+});
+app.delete('/api/v1/order-items/:id', function (req, res) {
+  _orderItem.default.delete(parseInt(req.params.id, 10));
+
+  res.status(204).send();
 }); //  ORDER ROUTES
 
 app.get('/api/v1/orders', function (req, res) {
-  res.send(_order.default.getOrders());
+  res.json(_order.default.getOrders());
+});
+app.get('/api/v1/orders/:userid', function (req, res) {
+  res.json(_order.default.getUserOrders(parseInt(req.params.userid, 10)));
 });
 app.post('/api/v1/orders', function (req, res) {
   var order = new _order.default(req.body);
-  res.send(order.add());
+  res.json(order.add());
+});
+app.put('/api/v1/orders/:id/:state', function (req, res) {
+  _order.default.editState(parseInt(req.params.id, 10), req.params.state);
+
+  res.status(200).send();
+});
+app.delete('/api/v1/orders/:id', function (req, res) {
+  _order.default.delete(parseInt(req.params.id, 10));
+
+  res.status(200).send();
 });
 app.listen(PORT);
+var _default = app;
+exports.default = _default;
+//# sourceMappingURL=index.js.map

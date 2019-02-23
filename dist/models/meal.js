@@ -21,7 +21,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var p = _path.default.join(_path.default.dirname(process.mainModule.filename), 'data', 'meals.json');
+var p = _path.default.join(__dirname, '../data', 'meals.json');
 
 var Meal =
 /*#__PURE__*/
@@ -81,11 +81,11 @@ function () {
           meals[index] = meal;
 
           _fs.default.writeFileSync(p, JSON.stringify(meals));
-        } else {
-          throw new Error('Meal not found');
+
+          return meals[index];
         }
 
-        return meals[index];
+        return {};
       } catch (err) {
         return {
           err: err.message
@@ -95,7 +95,7 @@ function () {
   }], [{
     key: "fetchMeals",
     value: function fetchMeals() {
-      return _fs.default.readFileSync(p);
+      return _fs.default.readFileSync(p, 'utf-8');
     }
   }, {
     key: "delete",
@@ -114,3 +114,4 @@ function () {
 
 var _default = Meal;
 exports.default = _default;
+//# sourceMappingURL=meal.js.map

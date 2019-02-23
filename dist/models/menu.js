@@ -17,7 +17,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var p = _path.default.join(_path.default.dirname(process.mainModule.filename), 'data', 'menu.json');
+var p = _path.default.join(__dirname, '../data', 'menu.json');
 
 var Menu =
 /*#__PURE__*/
@@ -68,8 +68,8 @@ function () {
     key: "addMeal",
     value: function addMeal(meal) {
       var menu = this.getMenu();
-      var meals = JSON.parse(_fs.default.readFileSync(p));
-      var index = meals.findIndex(function (m) {
+      var menus = JSON.parse(_fs.default.readFileSync(p));
+      var index = menus.findIndex(function (m) {
         return m.date === menu.date;
       });
 
@@ -77,9 +77,9 @@ function () {
         return m.id === meal.id;
       })) {
         menu.meals.push(meal);
-        meals[index] = menu;
+        menus[index] = menu;
 
-        _fs.default.writeFileSync(p, JSON.stringify(meals));
+        _fs.default.writeFileSync(p, JSON.stringify(menus));
 
         return meal;
       }
@@ -92,8 +92,8 @@ function () {
     key: "editMeal",
     value: function editMeal(meal) {
       var menu = this.getMenu();
-      var meals = JSON.parse(_fs.default.readFileSync(p));
-      var index = meals.findIndex(function (m) {
+      var menus = JSON.parse(_fs.default.readFileSync(_path.default.join(__dirname, '../data', 'menu.json')));
+      var index = menus.findIndex(function (m) {
         return m.date === menu.date;
       });
       var mealIndex = menu.meals.findIndex(function (m) {
@@ -102,9 +102,9 @@ function () {
 
       if (mealIndex !== -1) {
         menu.meals[mealIndex] = meal;
-        meals[index] = menu;
+        menus[index] = menu;
 
-        _fs.default.writeFileSync(p, JSON.stringify(meals));
+        _fs.default.writeFileSync(p, JSON.stringify(menus));
 
         return meal;
       }
@@ -117,15 +117,16 @@ function () {
     key: "deleteMeal",
     value: function deleteMeal(id) {
       var menu = this.getMenu();
-      var meals = JSON.parse(_fs.default.readFileSync(p));
-      var index = meals.findIndex(function (m) {
+      var menus = JSON.parse(_fs.default.readFileSync(p));
+      var index = menus.findIndex(function (m) {
         return m.date === menu.date;
       });
       menu.meals = menu.meals.filter(function (meal) {
         return meal.id !== id;
       });
-      meals[index] = menu;
-      return meals;
+      menus[index] = menu;
+
+      _fs.default.writeFileSync(p, JSON.stringify(menus));
     }
   }]);
 
@@ -134,3 +135,4 @@ function () {
 
 var _default = Menu;
 exports.default = _default;
+//# sourceMappingURL=menu.js.map

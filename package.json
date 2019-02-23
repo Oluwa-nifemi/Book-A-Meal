@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --require @babel/register",
     "start": "nodemon --exec babel-node index.js",
-    "build": "babel ./ -d dist"
+    "build": "babel ./ -d ./dist --ignore ./node_modules/,./dist/  -s"
   },
   "repository": {
     "type": "git",
