@@ -31,14 +31,13 @@ class OrderItem {
         return this;
     }
 
-    static edit(meal) {
+    static edit(item) {
         const orderItems = JSON.parse(fs.readFileSync(p));
-        const index = orderItems.findIndex(item => item.mealId === meal.userId
-        && item.userId === meal.mealId);
+        const index = orderItems.findIndex(elem => elem.id === item.id);
         if (index !== -1) {
-            orderItems[index] = meal;
+            orderItems[index] = item;
             fs.writeFileSync(p, JSON.stringify(orderItems));
-            return meal;
+            return item;
         }
         return { err: "Meal doesn't exist database" };
     }
