@@ -40,12 +40,6 @@ describe('Add to Menu', () => {
         .then(meal => {
             expect(meal).to.be.an('object');
             expect(meal).to.have.all.keys('id','quantity');
-            const allMenus = JSON.parse(fs.readFileSync(p));
-            const menu = Menu.getMenu();
-            menu.meals = menu.meals.filter(m => m.id !== meal.id);
-            const i = allMenus.findIndex(m => m.date === menu.date);
-            allMenus[i] = menu;
-            fs.writeFileSync(p,JSON.stringify(allMenus));
         })
         .catch(err => {
             console.log(err.message)
@@ -69,5 +63,18 @@ describe('Edit menu', () => {
         .catch(err => {
             console.log(err.message)
         })
+    })
+})
+
+describe('Delete meal from menu', () => {
+    it('Should return empty reply', () => {
+        chai.request(app)
+        .delete(`${apiVersion}/menu/5`)
+        .then((res) => {
+            expect(res.text).to.be.equal('');
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
     })
 })
