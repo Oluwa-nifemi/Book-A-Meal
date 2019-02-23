@@ -1,4 +1,5 @@
 # Book-A-Meal
+[![Build Status](https://travis-ci.org/Oluwa-nifemi/Book-A-Meal.svg?branch=develop)](https://travis-ci.org/Oluwa-nifemi/Book-A-Meal)
 A meal booking app built with React and Node
 Features
 1. Users can create an account and log in
