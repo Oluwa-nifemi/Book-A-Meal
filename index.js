@@ -48,6 +48,11 @@ app.put('/api/v1/menu', (req, res) => {
     res.json(Menu.editMeal(req.body));
 });
 
+app.delete('/api/v1/menu/:id', (req, res) => {
+    Menu.deleteMeal(parseInt(req.params.id, 10));
+    res.status(204).send();
+});
+
 //  ORDER ITEM ROUTES
 app.get('/api/v1/order-items/:userid', (req, res) => {
     res.json(OrderItem.getOrderItems(parseInt(req.params.userid, 10)));

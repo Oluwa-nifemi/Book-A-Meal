@@ -62,11 +62,11 @@ class Menu {
 
     static deleteMeal(id) {
         const menu = this.getMenu();
-        const meals = JSON.parse(fs.readFileSync(p));
-        const index = meals.findIndex(m => m.date === menu.date);
+        const menus = JSON.parse(fs.readFileSync(p));
+        const index = menus.findIndex(m => m.date === menu.date);
         menu.meals = menu.meals.filter(meal => meal.id !== id);
-        meals[index] = menu;
-        return meals;
+        menus[index] = menu;
+        fs.writeFileSync(p, JSON.stringify(menus));
     }
 }
 
