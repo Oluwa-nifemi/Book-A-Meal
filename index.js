@@ -67,6 +67,11 @@ app.put('/api/v1/order-items', (req, res) => {
     res.json(OrderItem.edit(req.body));
 });
 
+app.delete('/api/v1/order-items/:id', (req, res) => {
+    OrderItem.delete(parseInt(req.params.id, 10));
+    res.status(204).send();
+});
+
 //  ORDER ROUTES
 app.get('/api/v1/orders', (req, res) => {
     res.json(Order.getOrders());
