@@ -38,8 +38,14 @@ class Order {
         const order = orders.find(e => e.id === id);
         if (order) {
             order.state = state;
-            fs.writeFileSync(p, JSON.stringify(orders));            
+            fs.writeFileSync(p, JSON.stringify(orders));
         }
+    }
+
+    static delete(id) {
+        let orders = JSON.parse(this.getOrders());
+        orders = orders.filter(order => order.id !== id || order.state !== 'pending');
+        fs.writeFileSync(p, JSON.stringify(orders));
     }
 }
 
