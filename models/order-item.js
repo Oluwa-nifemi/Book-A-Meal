@@ -33,14 +33,20 @@ class OrderItem {
 
     static edit(meal) {
         const orderItems = JSON.parse(fs.readFileSync(p));
-        const index = orderItems.findIndex(item => item.mealId === meal.userId &&
-        item.userId === meal.mealId);
+        const index = orderItems.findIndex(item => item.mealId === meal.userId
+        && item.userId === meal.mealId);
         if (index !== -1) {
             orderItems[index] = meal;
             fs.writeFileSync(p, JSON.stringify(orderItems));
             return meal;
         }
         return { err: "Meal doesn't exist database" };
+    }
+
+    static delete(id) {
+        let orderItems = JSON.parse(fs.readFileSync(p));
+        orderItems = orderItems.filter(item => item.id !== id);
+        fs.writeFileSync(p, JSON.stringify(orderItems));
     }
 }
 
