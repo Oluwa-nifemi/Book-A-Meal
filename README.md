@@ -1,5 +1,6 @@
 # Book-A-Meal
 [![Build Status](https://travis-ci.org/Oluwa-nifemi/Book-A-Meal.svg?branch=develop)](https://travis-ci.org/Oluwa-nifemi/Book-A-Meal)
+[![Coverage Status](https://coveralls.io/repos/github/Oluwa-nifemi/Book-A-Meal/badge.svg?branch=develop)](https://coveralls.io/github/Oluwa-nifemi/Book-A-Meal?branch=develop)
 
 A meal booking app built with React and Node
 Features
