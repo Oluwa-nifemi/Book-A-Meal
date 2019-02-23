@@ -1,6 +1,9 @@
 language: node_js
 node_js:
  - "node"
+env:
+ global:
+ - CODECLIMATE_REPO_TOKEN=a57ba8ecce405599a431478a5ba64dbc27f83da2164fc265450348a2787d3997
 cache:
   directories:
     - "node_modules"
