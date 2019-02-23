@@ -16,7 +16,7 @@ class Order {
     }
 
     static getOrders() {
-        return fs.readFileSync(p, 'utf-8');
+       return fs.readFileSync(p, 'utf-8')
     }
 
     add() {
