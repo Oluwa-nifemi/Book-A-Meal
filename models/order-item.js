@@ -26,9 +26,10 @@ class OrderItem {
         if (orderItems.find(item => item.mealId === this.mealId && item.userId === this.userId)) {
             return { err: 'Meal already exists you can increase the quantity in your cart' };
         }
-        orderItems.push(this);
+        const id = orderItems.length + 1;
+        orderItems.push({ id, ...this });
         fs.writeFileSync(p, JSON.stringify(orderItems));
-        return this;
+        return { id, ...this };
     }
 
     static edit(item) {
