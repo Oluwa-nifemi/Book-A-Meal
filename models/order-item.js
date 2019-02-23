@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const p = path.join(path.dirname(process.mainModule.filename), 'data', 'order-items.json');
+const p = path.join(__dirname, '../data', 'order-items.json');
 
 class OrderItem {
     constructor({
