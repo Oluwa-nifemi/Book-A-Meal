@@ -32,6 +32,15 @@ class Order {
         orders = orders.filter(order => order.userId === userId);
         return orders;
     }
+
+    static editState(id, state) {
+        const orders = JSON.parse(this.getOrders());
+        const order = orders.find(e => e.id === id);
+        if (order) {
+            order.state = state;
+            fs.writeFileSync(p, JSON.stringify(orders));            
+        }
+    }
 }
 
 export default Order;
