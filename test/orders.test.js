@@ -71,3 +71,16 @@ describe('Delete order', () => {
         });
     })
 })
+
+describe('Edit order state',() => {
+    it('Should return empty response', () => {
+        chai.request(app)
+        .put(`${apiVersion}/orders/1/delivered`)
+        .then((res) => {
+            expect(res.text).to.be.equal('');
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
+    })
+})
