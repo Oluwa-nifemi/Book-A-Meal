@@ -23,9 +23,7 @@ class Order {
         const orderItems = JSON.parse(fs.readFileSync(p_items,'utf-8'));
         orders.forEach(order => {
             order.orderItems = order.orderItems.map(item => orderItems.find(i => i.id === item));
-            order.orderItems = order.orderItems.map(item => {
-                return { ...Meal.fetchMealById(item.mealId), ...item };
-            });
+            order.orderItems = order.orderItems.map(item => ({ ...Meal.fetchMealById(item.mealId), ...item }))
         });
         return orders;
     }
