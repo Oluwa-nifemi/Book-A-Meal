@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import Meal from './meal';
 
 const p = path.join(__dirname, '../data', 'order-items.json');
 
@@ -16,7 +17,8 @@ class OrderItem {
     }
 
     static getOrderItems(id) {
-        const orderItems = JSON.parse(fs.readFileSync(p));
+        let orderItems = JSON.parse(fs.readFileSync(p));
+        orderItems = orderItems.map(item => ({ ...Meal.fetchMealById(item.mealId), ...item }));
         const orderItemsFiltered = orderItems.filter(item => item.userId === id && item.status === 'cart');
         return orderItemsFiltered;
     }
