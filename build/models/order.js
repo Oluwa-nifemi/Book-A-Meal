@@ -9,6 +9,8 @@ var _fs = _interopRequireDefault(require("fs"));
 
 var _path = _interopRequireDefault(require("path"));
 
+var _meal = _interopRequireDefault(require("./meal"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -22,6 +24,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var p = _path.default.join(__dirname, '../data', 'orders.json');
+
+var p_items = _path.default.join(__dirname, '../data', 'order-items.json');
 
 var Order =
 /*#__PURE__*/
@@ -60,12 +64,24 @@ function () {
   }], [{
     key: "getOrders",
     value: function getOrders() {
-      return _fs.default.readFileSync(p, 'utf-8');
+      var orders = JSON.parse(_fs.default.readFileSync(p, 'utf-8'));
+      var orderItems = JSON.parse(_fs.default.readFileSync(p_items, 'utf-8'));
+      orders.forEach(function (order) {
+        order.orderItems = order.orderItems.map(function (item) {
+          return orderItems.find(function (i) {
+            return i.id === item;
+          });
+        });
+        order.orderItems = order.orderItems.map(function (item) {
+          return _objectSpread({}, _meal.default.fetchMealById(item.mealId), item);
+        });
+      });
+      return orders;
     }
   }, {
     key: "getUserOrders",
     value: function getUserOrders(userId) {
-      var orders = JSON.parse(this.getOrders());
+      var orders = this.getOrders();
       orders = orders.filter(function (order) {
         return order.userId === userId;
       });
@@ -74,7 +90,7 @@ function () {
   }, {
     key: "editState",
     value: function editState(id, state) {
-      var orders = JSON.parse(this.getOrders());
+      var orders = this.getOrders();
       var order = orders.find(function (e) {
         return e.id === id;
       });
@@ -88,7 +104,7 @@ function () {
   }, {
     key: "delete",
     value: function _delete(id) {
-      var orders = JSON.parse(this.getOrders());
+      var orders = this.getOrders();
       orders = orders.filter(function (order) {
         return order.id !== id || order.state !== 'pending';
       });

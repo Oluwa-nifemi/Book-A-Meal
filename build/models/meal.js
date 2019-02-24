@@ -48,7 +48,7 @@ function () {
     key: "add",
     value: function add() {
       try {
-        var meals = JSON.parse(this.constructor.fetchMeals());
+        var meals = this.constructor.fetchMeals();
 
         var meal = _objectSpread({
           id: meals.length + 1
@@ -67,7 +67,7 @@ function () {
     key: "update",
     value: function update(id) {
       try {
-        var meals = JSON.parse(this.constructor.fetchMeals());
+        var meals = this.constructor.fetchMeals();
 
         var meal = _objectSpread({
           id: id
@@ -95,7 +95,15 @@ function () {
   }], [{
     key: "fetchMeals",
     value: function fetchMeals() {
-      return _fs.default.readFileSync(p, 'utf-8');
+      return JSON.parse(_fs.default.readFileSync(p, 'utf-8'));
+    }
+  }, {
+    key: "fetchMealById",
+    value: function fetchMealById(id) {
+      var meals = this.fetchMeals();
+      return meals.find(function (m) {
+        return m.id === id;
+      });
     }
   }, {
     key: "delete",
