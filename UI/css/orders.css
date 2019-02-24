@@ -301,6 +301,16 @@ button{
         width: 84%;
         margin-left: -42%;
     }
+    .modal-header,.order-header{
+        font-size: 1.5em;
+    }
+    .order-summary{
+        padding: 0;
+        padding-left: 10px;
+    }
+    .hide-modal{
+        top: 14px;
+    }
 }
 @media(max-width : 450px){
     .meals{

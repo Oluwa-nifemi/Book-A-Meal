@@ -297,6 +297,16 @@ button{
     .modal-content .meals{
         grid-template-columns: 1fr;
     }
+    .meal .add-meal{
+        opacity: 0.6;
+        transition: 250ms;
+    }
+    .meal .add-meal:hover{
+        opacity: 1;
+    }
+    .modal-header {
+        font-size: 1.5em;
+    }
 }
 @media(max-width : 400px){
     .nav-toggle{

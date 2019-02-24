@@ -28,22 +28,6 @@ class Meal {
     }
 }
 
-const modalContainer = document.querySelector('.modal-container');
-const hideModal = () => {
-    document.querySelector('.modal-content').classList.remove('active');        
-    setTimeout(() => {
-        modalContainer.classList.remove('active');
-    },450)
-}
-
-modalContainer.addEventListener('click',(e) => {
-    if(e.path[0] === modalContainer){
-        hideModal();
-    }
-})
-
-document.querySelector('.hide-modal').addEventListener('click',hideModal);
- 
 document.querySelector('.add-meal').addEventListener('click',() => {
     modalContainer.classList.add('active');
     setTimeout(() => {
