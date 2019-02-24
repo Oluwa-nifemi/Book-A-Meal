@@ -1,12 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import Meal from './meal';
 
 const p = path.join(__dirname, '../data', 'menu.json');
 
 class Menu {
     constructor({
         userId,
-        date,
+        date, 
         orderItems,
         state,
     }) {
@@ -26,6 +27,9 @@ class Menu {
                 menuToday.meals = [];
                 data.push(menuToday);
                 fs.writeFileSync(p, JSON.stringify(data));
+            }
+            if (menuToday.meals) {
+                menuToday.meals = menuToday.meals.map(meal => ({ ...meal, ...Meal.fetchMealById(meal.id) }));
             }
             return menuToday;
         } catch (err) {
