@@ -1,15 +1,15 @@
 import chai from 'chai';
 import request from 'chai-http';
-import app from '../index';
+import app from '../api/index';
 import fs from 'fs';
 import path from 'path'; 
-import Menu from '../models/menu';
+import Menu from '../api/models/menu';
 
 const { expect, use } = chai;
 
 use(request);
 
-const p = path.join(__dirname, '../data', 'menu.json');
+const p = path.join(__dirname, '../api/data', 'menu.json');
 
 const apiVersion = '/api/v1';
 

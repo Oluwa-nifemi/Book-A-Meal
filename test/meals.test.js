@@ -1,6 +1,6 @@
 import chai from 'chai';
 import request from 'chai-http';
-import app from '../index';
+import app from '../api/index';
 import fs from 'fs';
 import path from 'path'; 
 
@@ -8,7 +8,7 @@ const { expect, use } = chai;
 
 use(request);
 
-const p = path.join(__dirname, '../data', 'meals.json');
+const p = path.join(__dirname, '../api/data', 'meals.json');
 
 const apiVersion = '/api/v1';
 

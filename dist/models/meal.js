@@ -114,4 +114,3 @@ function () {
 
 var _default = Meal;
 exports.default = _default;
-//# sourceMappingURL=meal.js.map

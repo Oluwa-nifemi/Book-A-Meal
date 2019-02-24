@@ -135,4 +135,3 @@ function () {
 
 var _default = Menu;
 exports.default = _default;
-//# sourceMappingURL=menu.js.map

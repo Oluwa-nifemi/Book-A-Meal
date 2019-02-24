@@ -1,6 +1,6 @@
 import chai from 'chai';
 import request from 'chai-http';
-import app from '../index';
+import app from '../api/index';
 import fs from 'fs';
 import path from 'path'; 
 

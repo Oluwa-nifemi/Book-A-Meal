@@ -114,4 +114,3 @@ function () {
 
 var _default = OrderItem;
 exports.default = _default;
-//# sourceMappingURL=order-item.js.map

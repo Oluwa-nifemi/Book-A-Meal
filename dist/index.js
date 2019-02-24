@@ -104,4 +104,3 @@ app.delete('/api/v1/orders/:id', function (req, res) {
 app.listen(PORT);
 var _default = app;
 exports.default = _default;
-//# sourceMappingURL=index.js.map
