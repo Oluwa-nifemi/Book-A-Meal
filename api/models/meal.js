@@ -17,12 +17,17 @@ class Meal {
     }
 
     static fetchMeals() {
-        return fs.readFileSync(p, 'utf-8');
+        return JSON.parse(fs.readFileSync(p, 'utf-8'));
+    }
+
+    static fetchMealById(id) {
+        const meals = this.fetchMeals();
+        return meals.find(m => m.id === id);
     }
 
     add() {
         try {
-            const meals = JSON.parse(this.constructor.fetchMeals());
+            const meals = this.constructor.fetchMeals();
             const meal = {
                 id: meals.length + 1,
                 ...this,
@@ -37,7 +42,7 @@ class Meal {
 
     update(id) {
         try {
-            const meals = JSON.parse(this.constructor.fetchMeals());
+            const meals = this.constructor.fetchMeals();
             const meal = {
                 id,
                 ...this,
