@@ -256,4 +256,10 @@ input[type=number]::-webkit-outer-spin-button {
     .modal-form input,.modal-form textarea{
         width: 60%;
     }
+    .nav-toggle{
+        left: 5px;
+    }
+    .modal-header{
+        font-size: 1.5em;
+    }
 }

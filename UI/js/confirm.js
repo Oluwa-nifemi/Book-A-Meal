@@ -1,5 +1,4 @@
 document.querySelectorAll('.tabs-button').forEach((e) => {
-    console.log(e);
     e.addEventListener('click',() => {
         document.querySelector('.tabs-button.active').classList.remove('active');
         e.classList.add('active');
@@ -14,3 +13,13 @@ document.querySelectorAll('.tabs-button').forEach((e) => {
     })
 })
 
+document.querySelectorAll('.delete').forEach((e) => {
+    e.addEventListener('click',() => {
+        modalContainer.classList.add('active');
+        setTimeout(() => {
+            document.querySelector('.modal-content').classList.add('active');        
+        },50)
+    })
+})
+
+document.querySelector('.cancel').addEventListener('click',hideModal);

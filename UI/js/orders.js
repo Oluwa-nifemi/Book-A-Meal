@@ -2,23 +2,7 @@ class Order {
     constructor({image,title,description,price,id,quantity} ){
         Object.assign(this,{image,title,description,price,id,quantity})
     }
-    getMealDiv(){
-        const meal = document.createElement('div');
-        meal.classList.add('meal')
-        const image = document.createElement('img');
-        image.src = `images/${this.image}`;
-        const mealDetails  = document.createElement('div');
-        mealDetails.classList.add('meal-details');
-        const mealTitle = document.createElement('p');
-        mealTitle.classList.add('meal-title');
-        mealTitle.innerText = this.title;
-        const mealDescription = document.createElement('p');
-        mealDescription.classList.add('meal-description')
-        mealDescription.innerText = this.description;
-        mealDetails.appendChild(mealTitle);
-        mealDetails.appendChild(mealDescription);
-        const split = document.createElement('div');
-        split.classList.add('split');
+    getOrderDetails(){
         const orderDetails = document.createElement('div');
         orderDetails.classList.add('order-details');
         const mealPrice = document.createElement('span');
@@ -44,11 +28,33 @@ class Order {
         orderDetails.appendChild(mealPrice);
         orderDetails.appendChild(removeBtn);
         orderDetails.appendChild(mealQuantity);
-        orderDetails.appendChild(addBtn)
+        orderDetails.appendChild(addBtn);
+        return orderDetails;
+    }
+    getMealDetails(){
+        const mealDetails  = document.createElement('div');
+        mealDetails.classList.add('meal-details');
+        const mealTitle = document.createElement('p');
+        mealTitle.classList.add('meal-title');
+        mealTitle.innerText = this.title;
+        const mealDescription = document.createElement('p');
+        mealDescription.classList.add('meal-description')
+        mealDescription.innerText = this.description;
+        mealDetails.appendChild(mealTitle);
+        mealDetails.appendChild(mealDescription);
+        return mealDetails;
+    }
+    getMealDiv(){
+        const meal = document.createElement('div');
+        meal.classList.add('meal')
+        const image = document.createElement('img');
+        image.src = `images/${this.image}`;
+        const split = document.createElement('div');
+        split.classList.add('split');
         meal.appendChild(image);
-        meal.appendChild(mealDetails);
+        meal.appendChild(this.getMealDetails());
         meal.appendChild(split);
-        meal.appendChild(orderDetails);
+        meal.appendChild(this.getOrderDetails());
         meal.appendChild(split.cloneNode());
         return meal;
     }
@@ -103,26 +109,10 @@ const mealsArray = [
         quantity : 3
     },
 ]
-const modalContainer = document.querySelector('.modal-container');
 mealsArray.forEach(elem => {
     const order = new Order(elem);
     document.querySelector('.meals').appendChild(order.getMealDiv())
 })
-
-const hideModal = () => {
-    document.querySelector('.modal-content').classList.remove('active');        
-    setTimeout(() => {
-        modalContainer.classList.remove('active');
-    },450)
-}
-
-modalContainer.addEventListener('click',(e) => {
-    if(e.path[0] === modalContainer){
-        hideModal();
-    }
-})
-
-document.querySelector('.hide-modal').addEventListener('click',hideModal);
 
 document.querySelector('.checkout').addEventListener('click',() => {
     modalContainer.classList.add('active');

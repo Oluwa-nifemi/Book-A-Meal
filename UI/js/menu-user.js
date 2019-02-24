@@ -3,6 +3,32 @@ class Meal {
         const {image,title,description,price,id} = meal;
         Object.assign(this,{image,title,description,price,id})
     }
+    getOrderDetails(){
+        const orderDetails = document.createElement('div');
+        orderDetails.classList.add('order-details');
+        const split = document.createElement('div');
+        split.classList.add('split');
+        orderDetails.appendChild(split);
+        const mealPrice = document.createElement('span');
+        mealPrice.classList.add('meal-price')
+        mealPrice.innerText = this.price;
+        const orderMealBtn = document.createElement('button');
+        orderMealBtn.classList.add('order-meal');
+        orderMealBtn.innerText = 'Order'; 
+        const mealId = this.id;
+        orderMealBtn.addEventListener('click',() => {
+            modalContainer.classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.modal-content').classList.add('active');
+            },50)
+            document.querySelector('#meal-id').value = mealId;
+            document.querySelector('.modal-header').innerText = mealTitle.innerText;
+        })
+        orderDetails.appendChild(mealPrice);
+        orderDetails.appendChild(orderMealBtn);
+        orderDetails.appendChild(split.cloneNode());
+        return orderDetails;
+    }
     getMealDiv(){
         const meal = document.createElement('div');
         meal.classList.add('meal')
@@ -18,35 +44,13 @@ class Meal {
         mealDescription.innerText = this.description;
         mealDetails.appendChild(mealTitle);
         mealDetails.appendChild(mealDescription);
-        const orderDetails = document.createElement('div');
-        orderDetails.classList.add('order-details');
-        const split = document.createElement('div');
-        split.classList.add('split');
-        orderDetails.appendChild(split);
-        const mealPrice = document.createElement('span');
-        mealPrice.classList.add('meal-price')
-        mealPrice.innerText = this.price;
-        const orderMealBtn = document.createElement('button');
-        orderMealBtn.classList.add('order-meal');
-        orderMealBtn.innerText = 'Order'; 
-        orderDetails.appendChild(mealPrice);
-        orderDetails.appendChild(orderMealBtn);
-        orderDetails.appendChild(split.cloneNode());
-        const mealId = this.id;
-        orderMealBtn.addEventListener('click',() => {
-            modalContainer.classList.add('active');
-            setTimeout(() => {
-                document.querySelector('.modal-content').classList.add('active');
-            },50)
-            document.querySelector('#meal-id').value = mealId;
-            document.querySelector('.modal-header').innerText = mealTitle.innerText;
-        })
         meal.appendChild(image);
         meal.appendChild(mealDetails);
-        meal.appendChild(orderDetails);
+        meal.appendChild(this.getOrderDetails());
         return meal;
     }
 }
+
 const mealsArray = [
     {
         image : 'meal1.jpg',
@@ -133,6 +137,7 @@ const mealsArray = [
         id : 1
     }
 ]
+
 const meals =  [];
 const modalContainer = document.querySelector('.modal-container');
 mealsArray.forEach(elem => {
