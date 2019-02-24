@@ -6,12 +6,14 @@
   "scripts": {
     "test": "nyc mocha --require @babel/register --exit",
     "dev": "nodemon --exec babel-node api/index.js",
-    "start" : "node ./dist/index.js",
-    "build": "babel ./api -d ./dist",
+    "clean" : "rm -rf ./build",
+    "start" : "npm run clean && npm run build && node ./build/index.js",
+    "build": "babel ./api -d ./build && npm run transfer-files",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
-    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
+    "transfer-files" : "cp -R ./api/data ./build"
   },
   "repository": {
     "type": "git",
