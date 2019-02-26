@@ -108,7 +108,7 @@ function () {
   }, {
     key: "delete",
     value: function _delete(id) {
-      var meals = JSON.parse(this.fetchMeals());
+      var meals = this.fetchMeals();
       meals = meals.filter(function (meal) {
         return meal.id !== id;
       });
