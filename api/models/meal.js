@@ -60,7 +60,7 @@ class Meal {
     }
 
     static delete(id) {
-        let meals = JSON.parse(this.fetchMeals());
+        let meals = this.fetchMeals();
         meals = meals.filter(meal => meal.id !== id);
         fs.writeFileSync(p, JSON.stringify(meals));
     }

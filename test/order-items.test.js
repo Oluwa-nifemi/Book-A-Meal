@@ -1,8 +1,6 @@
 import chai from 'chai';
 import request from 'chai-http';
 import app from '../api/index';
-import fs from 'fs';
-import path from 'path'; 
 
 const { expect, use } = chai;
 
@@ -19,10 +17,10 @@ describe('Get order items', () => {
         .then(res => res.body)
         .then(items => {
             expect(items).to.be.an('array');
-            if(items[0]) {
-                expect(items[0]).to.have.all.keys('mealId','userId','id','quantity','status');
-            }
-        });
+        })
+        .catch(err => {
+            console.log(err)
+        })
 });
 
 describe('Add order item', () => {
@@ -41,37 +39,44 @@ describe('Add order item', () => {
                 expect(order).to.be.an('object');
                 expect(order).to.have.all.keys('mealId','userId','id','quantity','status');                
             })
+            .then(() => {
+                describe('Edit order item',() => {
+                    it('Should return added item', () => {
+                        chai.request(app)
+                            .put(`${apiVersion}/order-items`)
+                            .send({
+                                id,
+                                "mealId": 1,
+                                "userId": 2,
+                                "quantity": 10,
+                                "status": "cart"
+                            })
+                            .then(res => res.body)
+                            .then(order => {
+                                expect(order).to.be.an('object');
+                            })
+                            .then(() => {
+                                describe('Delete order item', () => {
+                                    it('Should return empty response', () => {
+                                        chai.request(app)
+                                        .delete(`${apiVersion}/order-items/${id}`)
+                                        .then((res) => {
+                                            expect(res.text).to.be.equal('');
+                                        })
+                                        .catch((err) => {
+                                            console.log(err);
+                                        });
+                                    })
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    });
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     });
 });
-
-describe('Edit order item',() => {
-    it('Should return added item', () => {
-        chai.request(app)
-            .put(`${apiVersion}/order-items`)
-            .send({
-                id,
-                "mealId": 5,
-                "userId": 2,
-                "quantity": 10,
-                "status": "cart"
-            })
-            .then(res => res.body)
-            .then(order => {
-                expect(order).to.be.an('object');
-                expect(order).to.have.all.keys('mealId','userId','id','quantity','status');                
-            })
-    });
-})
-
-describe('Delete order item', () => {
-    it('Should return empty response', () => {
-        chai.request(app)
-        .delete(`${apiVersion}/order-items/${id}`)
-        .then((res) => {
-            expect(res.text).to.be.equal('');
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
-    })
-})

@@ -17,9 +17,12 @@ describe('Get orders', () => {
     it('Should return all orders', () => {
         chai.request(app)
             .get(`${apiVersion}/orders`)
-            .then(res => JSON.parse(res.body))
+            .then(res => res.body)
             .then(orders => {
                 expect(orders).to.be.an('array')
+            })
+            .catch(err => {
+                console.log(err)
             })
     })
 })
@@ -34,6 +37,9 @@ describe('Get orders by user id', () => {
                 const invalid = orders.filter(order => order.userId !== 1).length;
                 expect(invalid).to.be.equal(0);
             })
+            .catch(err => {
+                console.log(err)
+            })
     })
 })
 
@@ -45,7 +51,7 @@ describe('Add order',() => {
                 {
                     "userId" : 1,
                     "date" : "27-12-12",
-                    "orderItems" : [1,4],
+                    "orderItems" : [2,4],
                     "state" : "pending"
                 }
             )
@@ -54,19 +60,23 @@ describe('Add order',() => {
                 id = order.id;
                 expect(order).to.be.an('object');
             })
-    })
-})
-
-describe('Delete order', () => {
-    it('Should return empty response', () => {
-        chai.request(app)
-        .delete(`${apiVersion}/orders/${id}`)
-        .then((res) => {
-            expect(res.text).to.be.equal('');
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+            .then(() => {
+                describe('Delete order', () => {
+                    it('Should return empty response', () => {
+                        chai.request(app)
+                        .delete(`${apiVersion}/orders/${id}`)
+                        .then((res) => {
+                            expect(res.text).to.be.equal('');
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                    })
+                })                
+            })
+            .catch(err => {
+                console.log(err)
+            })
     })
 })
 
@@ -78,7 +88,7 @@ describe('Edit order state',() => {
             expect(res.text).to.be.equal('');
         })
         .catch((err) => {
-            console.log(err.message);
+            console.log(err);
         });
     })
 })

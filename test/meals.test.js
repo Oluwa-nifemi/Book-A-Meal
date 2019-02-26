@@ -12,11 +12,13 @@ const p = path.join(__dirname, '../api/data', 'meals.json');
 
 const apiVersion = '/api/v1';
 
+let id; 
+
 describe('Get meals', () => {
     it('Should return meals array', () => {
         chai.request(app)
             .get(`${apiVersion}/meals`)
-            .then(data => JSON.parse(data.body))
+            .then(data => data.body)
             .then((meals) => {
                 expect(meals).to.be.an('array');
                 expect(meals[0]).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity');
@@ -42,9 +44,44 @@ describe('Add meal', () => {
             .then((meal) => {
                 expect(meal).to.be.an('object');
                 expect(meal).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity');                
-                const meals = JSON.parse(fs.readFileSync(p, 'utf-8'));
-                meals.pop();
-                fs.writeFileSync(p,JSON.stringify(meals));
+                id = meal.id;
+            })
+            .then(() => {
+                describe('Edit meal', () => {
+                    it('Should return meal', () => {
+                        chai.request(app)
+                            .put(`${apiVersion}/meals/${id}`)
+                            .send({
+                                title: 'Sparghetti',
+                                description: 'Juicy tasty cheesy cheeseburger',
+                                image: 'image1.jpg',
+                                price: 23.6,
+                                defaultQuantity: 100,
+                            })
+                            .then(res => res.body)
+                            .then((meal) => {
+                                expect(meal).to.be.an('object');
+                                expect(meal).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity');                
+                            })
+                            .catch((err) => {
+                                console.log(err.message);
+                            });
+                    });
+                });                
+            })
+            .then(() => {
+                describe('Delete meal', () => {
+                    it('Should return nothing and status code 204', () => {
+                        chai.request(app)
+                            .delete(`${apiVersion}/meals/${id}`)
+                            .then((res) => {
+                                expect(res.text).to.be.equal('');
+                            })
+                            .catch((err) => {
+                                console.log(err.message);
+                            });
+                    });
+                });
             })
             .catch((err) => {
                 console.log(err.message);
@@ -52,37 +89,3 @@ describe('Add meal', () => {
     });
 });
 
-describe('Edit meal', () => {
-    it('Should return meal', () => {
-        chai.request(app)
-            .put(`${apiVersion}/meals/15`)
-            .send({
-                title: 'Sparghetti',
-                description: 'Juicy tasty cheesy cheeseburger',
-                image: 'image1.jpg',
-                price: 23.6,
-                defaultQuantity: 100,
-            })
-            .then(res => res.body)
-            .then((meal) => {
-                expect(meal).to.be.an('object');
-                expect(meal).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity');                
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-    });
-});
-
-describe('Delete meal', () => {
-    it('Should return nothing and status code 204', () => {
-        chai.request(app)
-            .delete(`${apiVersion}/meals/4`)
-            .then((res) => {
-                expect(res.text).to.be.equal('');
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-    });
-});

@@ -41,40 +41,42 @@ describe('Add to Menu', () => {
             expect(meal).to.be.an('object');
             expect(meal).to.have.all.keys('id','quantity');
         })
+        .then(() => {
+            describe('Edit menu', () => {
+                it('Should return meal',() => {
+                    chai.request(app)
+                    .put(`${apiVersion}/menu`)
+                    .send({
+                        "id" : 5,
+                        "quantity" : 1,
+                    })
+                    .then(res => res.body)
+                    .then(meal => {
+                        expect(meal).to.be.an('object');
+                        expect(meal).to.have.all.keys('id','quantity');
+                    })
+                    .catch(err => {
+                        console.log(err.message)
+                    })
+                })
+            })
+        })
+        .then(() => {
+            describe('Delete meal from menu', () => {
+                it('Should return empty reply', () => {
+                    chai.request(app)
+                    .delete(`${apiVersion}/menu/5`)
+                    .then((res) => {
+                        expect(res.text).to.be.equal('');
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    });
+                })
+            })
+        })
         .catch(err => {
             console.log(err.message)
         })
-    })
-})
-
-describe('Edit menu', () => {
-    it('Should return meal',() => {
-        chai.request(app)
-        .put(`${apiVersion}/menu`)
-        .send({
-            "id" : 3,
-            "quantity" : 1,
-        })
-        .then(res => res.body)
-        .then(meal => {
-            expect(meal).to.be.an('object');
-            expect(meal).to.have.all.keys('id','quantity');
-        })
-        .catch(err => {
-            console.log(err.message)
-        })
-    })
-})
-
-describe('Delete meal from menu', () => {
-    it('Should return empty reply', () => {
-        chai.request(app)
-        .delete(`${apiVersion}/menu/5`)
-        .then((res) => {
-            expect(res.text).to.be.equal('');
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
     })
 })
