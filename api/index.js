@@ -2,6 +2,7 @@ import express from 'express';
 import db from './config/database';
 import routes from './routes/routes';
 import Meal from './models/Meal';
+import Menu from './models/Menu';
 
 const app = express();
 
