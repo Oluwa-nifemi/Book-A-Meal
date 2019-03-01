@@ -18,7 +18,8 @@ class Meal {
     }
 
     static fetchMeals() {
-        return JSON.parse(fs.readFileSync(p, 'utf-8'));
+        return MealModel.findAll()
+            .then(meals => meals.map(meal => meal.dataValues));
     }
 
     static fetchMealById(id) {
@@ -26,7 +27,7 @@ class Meal {
         return meals.find(m => m.id === id);
     }
 
-    async add() {
+    add() {
         return MealModel.create(this);
     }
 
