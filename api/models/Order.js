@@ -1,19 +1,20 @@
 import Sequelize from 'sequelize';
 import db from '../config/database';
 
-const OrderItem = db.define('OrderItem', {
+const Order = db.define('Order', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    quantity: {
-        type: Sequelize.INTEGER,
-    },
-    status: {
+    state: {
         type: Sequelize.STRING,
-        defaultValue: 'cart'
+        defaultValue: 'pending',
+    },
+    date: {
+        type: Sequelize.DATEONLY,
+        defaultValue: Sequelize.NOW,
     },
 });
 
-export default OrderItem;
+export default Order;
