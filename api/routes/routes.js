@@ -1,8 +1,8 @@
 import express from 'express';
-import Meal from '../models/meal';
-import Menu from '../models/menu';
-import OrderItem from '../models/order-item';
-import Order from '../models/order';
+import Meal from '../controllers/meal';
+import Menu from '../controllers/menu';
+import OrderItem from '../controllers/order-item';
+import Order from '../controllers/order';
 
 const router = express.Router();
 
