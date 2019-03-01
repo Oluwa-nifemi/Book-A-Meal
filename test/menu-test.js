@@ -3,7 +3,7 @@ import request from 'chai-http';
 import app from '../api/index';
 import fs from 'fs';
 import path from 'path'; 
-import Menu from '../api/models/menu';
+import Menu from '../api/controllers/menu';
 
 const { expect, use } = chai;
 
