@@ -1,12 +1,13 @@
 import express from 'express';
 import db from './config/database';
 import routes from './routes/routes';
+import Meal from './models/Meal';
 
 const app = express();
 
-db.authenticate()
+db.sync()
     .then(() => {
-        console.log('Connected');
+        console.log('Connection established');
     })
     .catch(console.log);
 
