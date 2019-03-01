@@ -16,7 +16,12 @@ router.get('/meals', (req, res) => {
 
 router.post('/meals', (req, res) => {
     const meal = new Meal({ ...req.body });
-    res.json(meal.add());
+    meal.add()
+        .then(m => m.dataValues)
+        .then((data) => {
+            res.status(200).send(data);
+        })
+        .catch(console.log);
 });
 
 router.put('/meals/:id', (req, res) => {
