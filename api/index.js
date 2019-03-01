@@ -4,6 +4,7 @@ import routes from './routes/routes';
 import Meal from './models/Meal';
 import Menu from './models/Menu';
 import OrderItem from './models/OrderItem';
+import Order from './models/Order';
 
 const app = express();
 
