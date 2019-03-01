@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import MealModel from '../models/Meal';
 
 const p = path.join(__dirname, '../data', 'meals.json');
 
@@ -25,19 +26,8 @@ class Meal {
         return meals.find(m => m.id === id);
     }
 
-    add() {
-        try {
-            const meals = this.constructor.fetchMeals();
-            const meal = {
-                id: meals.length + 1,
-                ...this,
-            };
-            meals.push(meal);
-            fs.writeFileSync(p, JSON.stringify(meals));
-            return meal;
-        } catch (err) {
-            return err;
-        }
+    async add() {
+        return MealModel.create(this);
     }
 
     update(id) {
