@@ -12,6 +12,7 @@ const OrderItem = db.define('OrderItem', {
     },
     status: {
         type: Sequelize.STRING,
+        defaultValue: 'cart'
     },
 });
 
