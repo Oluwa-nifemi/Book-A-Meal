@@ -39,9 +39,7 @@ class Meal {
     }
 
     static delete(id) {
-        let meals = this.fetchMeals();
-        meals = meals.filter(meal => meal.id !== id);
-        fs.writeFileSync(p, JSON.stringify(meals));
+        return MealModel.destroy({ where: { id } });
     }
 }
 
