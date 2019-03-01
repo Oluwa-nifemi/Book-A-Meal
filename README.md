@@ -63,3 +63,4 @@ Run ```bash npm test``` in the termincal for the cloned folder
 ### Author
 * Adeyemi Oluwanifemi
 
+The documentation for the API can be found at https://documenter.getpostman.com/view/6781270/S11Huyy2
