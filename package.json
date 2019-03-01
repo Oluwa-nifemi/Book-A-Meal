@@ -6,14 +6,14 @@
   "scripts": {
     "test": "nyc mocha --require @babel/register --exit",
     "dev": "nodemon --exec babel-node api/index.js",
-    "clean" : "rm -rf ./build",
-    "start" : "node ./build/index.js",
+    "clean": "rm -rf ./build",
+    "start": "node ./build/index.js",
     "build": "npm run clean && babel ./api -d ./build && npm run transfer-files",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
-    "transfer-files" : "cp -R ./api/data ./build"
+    "transfer-files": "cp -R ./api/data ./build"
   },
   "repository": {
     "type": "git",
@@ -46,7 +46,10 @@
   },
   "dependencies": {
     "chai-http": "^4.2.1",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "pg": "^7.8.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.42.1"
   },
   "engines": {
     "node": "10.x"
