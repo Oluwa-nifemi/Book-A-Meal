@@ -19,9 +19,7 @@ class Meal {
 
     static fetchMeals() {
         return MealModel.findAll()
-            .then((meals) => {
-                return meals.map(meal => meal.dataValues);
-            });
+            .then(meals => meals.map(meal => meal.dataValues));
     }
 
     static fetchMealById(id) {
@@ -29,7 +27,7 @@ class Meal {
         return meals.find(m => m.id === id);
     }
 
-    async add() {
+    add() {
         return MealModel.create(this);
     }
 
