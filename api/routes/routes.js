@@ -10,8 +10,11 @@ router.use(express.json());
 
 //  MEAL ROUTES
 router.get('/meals', (req, res) => {
-    const meal = Meal.fetchMeals();
-    res.json(meal);
+    Meal.fetchMeals()
+        .then((meals) => {
+            res.status(200).send(meals);
+        })
+        .catch(console.log);
 });
 
 router.post('/meals', (req, res) => {
