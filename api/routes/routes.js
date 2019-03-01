@@ -28,8 +28,10 @@ router.post('/meals', (req, res) => {
 });
 
 router.put('/meals/:id', (req, res) => {
-    const meal = new Meal({ ...req.body });
-    res.json(meal.update(parseInt(req.params.id, 10)));
+    Meal.update(req.body, parseInt(req.params.id, 10))
+        .then((meal) => {
+            res.status(200).send(meal);
+        });
 });
 
 router.delete('/meals/:id', (req, res) => {

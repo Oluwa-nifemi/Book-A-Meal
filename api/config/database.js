@@ -10,6 +10,7 @@ const db = new Sequelize('Book-A-Meal', 'postgres', 'password', {
         acquire: 30000,
         idle: 10000,
     },
+    logging: false,
 });
 
 export default db;

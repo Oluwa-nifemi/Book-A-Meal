@@ -31,23 +31,11 @@ class Meal {
         return MealModel.create(this);
     }
 
-    update(id) {
-        try {
-            const meals = this.constructor.fetchMeals();
-            const meal = {
-                id,
-                ...this,
-            };
-            const index = meals.findIndex(m => id === m.id);
-            if (index !== -1) {
-                meals[index] = meal;
-                fs.writeFileSync(p, JSON.stringify(meals));
-                return meals[index];
-            }
-            return {};
-        } catch (err) {
-            return { err: err.message };
-        }
+    static update(meal, id) {
+        return MealModel.update(meal, { where: { id }, returning: true })
+            .then(res => res.pop())
+            .then(modded => modded.pop())
+            .then(m => m.dataValues);
     }
 
     static delete(id) {
