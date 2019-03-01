@@ -3,8 +3,15 @@ import Meal from './models/meal';
 import Menu from './models/menu';
 import OrderItem from './models/order-item';
 import Order from './models/order';
+import db from './config/database';
 
 const app = express();
+
+db.authenticate()
+    .then(() => {
+        console.log('Connected');
+    })
+    .catch(console.log);
 
 app.use(express.json());
 
