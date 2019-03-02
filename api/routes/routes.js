@@ -3,6 +3,7 @@ import Meal from '../controllers/meal';
 import Menu from '../controllers/menu';
 import OrderItem from '../controllers/order-item';
 import Order from '../controllers/order';
+import User from '../controllers/user';
 
 const router = express.Router();
 
@@ -104,4 +105,27 @@ router.delete('/orders/:id', (req, res) => {
     res.status(200).send();
 });
 
+// USER ROUTES
+router.post('/users/login', (req, res) => {
+    User.login(req.body)
+        .then((status) => {
+            res.status(status.code).send(status);
+        });
+});
+
+router.post('/users/signup', (req, res) => {
+    User.signup(req.body)
+        .then((user) => {
+            res.status(200).send(user);
+        })
+        .catch((err) => {
+            if (err.errors) {
+                const errorMessages = [];
+                err.errors.forEach((e) => {
+                    errorMessages.push(e.message);
+                });
+                res.status(409).send(errorMessages);
+            }
+        });
+});
 export default router;
