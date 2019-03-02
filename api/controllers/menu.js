@@ -71,13 +71,23 @@ class Menu {
     }
 
     static deleteMeal(id) {
-        const menu = this.getMenu();
-        const menus = JSON.parse(fs.readFileSync(p));
-        const index = menus.findIndex(m => m.date === menu.date);
-        menu.meals = menu.meals.filter(meal => meal.id !== id);
-        menus[index] = menu;
-        fs.writeFileSync(p, JSON.stringify(menus));
+        return this.getMenu()
+            .then((menu) => {
+                const { meals } = menu;
+                const mealIndex = meals.findIndex(m => m.id === id);
+                if (mealIndex > -1) {
+                    meals.splice(mealIndex, 1);
+                    MenuModel.update({ meals }, { where: { date: new Date() } });
+                    return {
+                        code: 204,
+                    };
+                }
+                return {
+                    code: 409,
+                };
+            });
     }
 }
+
 
 export default Menu;
