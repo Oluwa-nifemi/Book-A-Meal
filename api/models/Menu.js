@@ -7,7 +7,7 @@ const Menu = db.define('Menu', {
         defaultValue: Sequelize.NOW,
     },
     meals: {
-        type: Sequelize.ARRAY(Sequelize.TEXT),
+        type: Sequelize.ARRAY(Sequelize.JSON),
         defaultValue: [],
     },
 });
