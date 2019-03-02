@@ -46,7 +46,11 @@ router.delete('/meals/:id', (req, res) => {
 
 //  MENU ROUTES
 router.get('/menu', (req, res) => {
-    res.json(Menu.getMenu());
+    Menu.getMenu()
+        .then((m) => {
+            res.status(200).send(m);
+        })
+        .catch(console.log);
 });
 
 router.post('/menu', (req, res) => {
