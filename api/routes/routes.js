@@ -61,7 +61,10 @@ router.post('/menu', (req, res) => {
 });
 
 router.put('/menu', (req, res) => {
-    res.json(Menu.editMeal(req.body));
+    Menu.editMeal(req.body)
+        .then((meal) => {
+            res.status(meal.code).send(meal);
+        });
 });
 
 router.delete('/menu/:id', (req, res) => {

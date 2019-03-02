@@ -49,17 +49,25 @@ class Menu {
     }
 
     static editMeal(meal) {
-        const menu = this.getMenu();
-        const menus = JSON.parse(fs.readFileSync(path.join(__dirname, '../data', 'menu.json')));
-        const index = menus.findIndex(m => m.date === menu.date);
-        const mealIndex = menu.meals.findIndex(m => m.id === meal.id);
-        if (mealIndex !== -1) {
-            menu.meals[mealIndex] = meal;
-            menus[index] = menu;
-            fs.writeFileSync(p, JSON.stringify(menus));
-            return meal;
-        }
-        return { err: "Meal doesn't exist in menu" };
+        return this.getMenu()
+            .then((menu) => {
+                const { meals } = menu;
+                const mealIndex = meals.findIndex(m => m.id === meal.id);
+                if (mealIndex > -1) {
+                    meals.splice(mealIndex, 1, meal);
+                    MenuModel.update({ meals }, { where: { date: new Date() } });
+                    return {
+                        status: 'success',
+                        code: 200,
+                        message: 'The meal was succesfully edited',
+                    };
+                }
+                return {
+                    status: 'failure',
+                    code: 409,
+                    message: 'Meal is not on the menu',
+                };
+            });
     }
 
     static deleteMeal(id) {
