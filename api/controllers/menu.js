@@ -7,7 +7,7 @@ const p = path.join(__dirname, '../data', 'menu.json');
 class Menu {
     constructor({
         userId,
-        date, 
+        date,
         orderItems,
         state,
     }) {
@@ -28,16 +28,24 @@ class Menu {
     }
 
     static addMeal(meal) {
-        const menu = this.getMenu();
-        const menus = JSON.parse(fs.readFileSync(p));
-        const index = menus.findIndex(m => m.date === menu.date);
-        if (!menu.meals.find(m => m.id === meal.id)) {
-            menu.meals.push(meal);
-            menus[index] = menu;
-            fs.writeFileSync(p, JSON.stringify(menus));
-            return meal;
-        }
-        return { err: 'Meal already in menu' };
+        return this.getMenu()
+            .then((menu) => {
+                const { meals } = menu;
+                if (!meals.find(m => m.id === meal.id)) {
+                    meals.push(meal);
+                    MenuModel.update({ meals }, { where: { date: new Date() } });
+                    return {
+                        status: 'success',
+                        code: 200,
+                        message: 'The meal was added to the database',
+                    };
+                }
+                return {
+                    status: 'failure',
+                    code: 409,
+                    message: 'Meal already in menu',
+                };
+            });
     }
 
     static editMeal(meal) {

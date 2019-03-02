@@ -54,7 +54,10 @@ router.get('/menu', (req, res) => {
 });
 
 router.post('/menu', (req, res) => {
-    res.json(Menu.addMeal(req.body));
+    Menu.addMeal(req.body)
+        .then((meal) => {
+            res.status(meal.code).send(meal);
+        });
 });
 
 router.put('/menu', (req, res) => {
