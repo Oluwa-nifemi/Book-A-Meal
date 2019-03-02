@@ -2,7 +2,7 @@ import UserModel from '../models/User';
 
 class User {
     static login(user) {
-        return UserModel.find({ where: { email: user.email } })
+        return UserModel.findOne({ where: { email: user.email } })
             .then((userdb) => {
                 if (userdb.password === user.password) {
                     return {
