@@ -8,6 +8,7 @@ const Menu = db.define('Menu', {
     },
     meals: {
         type: Sequelize.ARRAY(Sequelize.TEXT),
+        defaultValue: [],
     },
 });
 
