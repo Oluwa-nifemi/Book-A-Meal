@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import Meal from './meal';
+import MenuModel from '../models/Menu';
 
 const p = path.join(__dirname, '../data', 'menu.json');
 
@@ -17,24 +17,14 @@ class Menu {
     }
 
     static getMenu() {
-        try {
-            const data = JSON.parse(fs.readFileSync(p));
-            const today = new Date();
-            const todayFormatted = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
-            const menuToday = data.find(menu => `${menu.date}` === todayFormatted) || {};
-            if (!Object.keys(menuToday).length) {
-                menuToday.date = todayFormatted;
-                menuToday.meals = [];
-                data.push(menuToday);
-                fs.writeFileSync(p, JSON.stringify(data));
-            }
-            if (menuToday.meals) {
-                menuToday.meals = menuToday.meals.map(meal => ({ ...meal, ...Meal.fetchMealById(meal.id) }));
-            }
-            return menuToday;
-        } catch (err) {
-            return { err: err.message };
-        }
+        return MenuModel.findOne({ where: { date: new Date() } })
+            .then((menu) => {
+                if (menu) {
+                    return menu;
+                }
+                return MenuModel.create();
+            })
+            .then(m => m.dataValues);
     }
 
     static addMeal(meal) {

@@ -21,16 +21,15 @@ User.hasMany(OrderItem);
 
 Meal.belongsToMany(OrderItem, { through: 'ItemMeal' });
 
-db.sync()
-    .then(() => {
-        console.log('Connection established');
-    })
-    .catch(console.log);
-
 const PORT = process.env.PORT || 3000;
 
 app.use('/api/v1', routes);
 
-app.listen(PORT);
+db.sync()
+    .then(() => {
+        console.log('Connection established');
+        app.listen(PORT);
+    })
+    .catch(console.log);
 
 export default app;
