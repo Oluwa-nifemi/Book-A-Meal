@@ -68,8 +68,10 @@ router.put('/menu', (req, res) => {
 });
 
 router.delete('/menu/:id', (req, res) => {
-    Menu.deleteMeal(parseInt(req.params.id, 10));
-    res.status(204).send();
+    Menu.deleteMeal(parseInt(req.params.id, 10))
+        .then((meal) => {
+            res.status(meal.code).send(meal);
+        });
 });
 
 //  ORDER ITEM ROUTES
