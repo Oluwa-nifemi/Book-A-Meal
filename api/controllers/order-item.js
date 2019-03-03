@@ -69,14 +69,28 @@ class OrderItem {
     }
 
     static edit(item) {
-        const orderItems = JSON.parse(fs.readFileSync(p));
-        const index = orderItems.findIndex(elem => elem.id === item.id);
-        if (index !== -1) {
-            orderItems[index] = item;
-            fs.writeFileSync(p, JSON.stringify(orderItems));
-            return item;
-        }
-        return { err: "Meal doesn't exist database" };
+        return OrderItemModel.update(
+            { quantity: item.quantity },
+            {
+                where: { id: item.id, UserId: item.userId },
+                returning: true,
+            },
+        )
+            .then((response) => {
+                if (response[0]) {
+                    const orderItems = response[1][0];
+                    return {
+                        status: 'success',
+                        code: 200,
+                        ...orderItems.dataValues,
+                    };
+                }
+                return {
+                    status: 'failure',
+                    code: 404,
+                    message: 'The item is not on your cart.',
+                };
+            });
     }
 
     static delete(id) {
