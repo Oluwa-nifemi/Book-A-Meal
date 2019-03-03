@@ -72,13 +72,19 @@ class Order {
         return orders;
     }
 
-    static editState(id, state) {
-        const orders = this.getOrders(false);
-        const order = orders.find(e => e.id === id);
-        if (order) {
-            order.state = state;
-            fs.writeFileSync(p, JSON.stringify(orders));
+    static async editState(id, state) {
+        const response = await OrderModel.update({ state }, { where: { id }, returning: true });
+        if (response[0]) {
+            return {
+                status: 'success',
+                code: 200,
+            };
         }
+        return {
+            status: 'failure',
+            code: 404,
+            message: 'The order does not exist',
+        };
     }
 
     static delete(id) {
