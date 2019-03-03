@@ -32,9 +32,7 @@ class Order {
             const createdOrder = await OrderModel.create();
             const orderItems = await OrderItemModel.findAll({
                 where: {
-                    id: {
-                        [Op.or]: order.orderItems,
-                    },
+                    id: order.orderItems,
                     UserId: order.userId,
                 },
             });
