@@ -21,7 +21,7 @@ class Order {
     }
 
     static async getOrders() {
-        let orders = await OrderItemModel.findAll();
+        let orders = await OrderModel.findAll({ include: [OrderItemModel] });
         orders = orders.map(order => order.dataValues);
         return orders;
     }
