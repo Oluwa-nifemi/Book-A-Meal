@@ -92,14 +92,16 @@ router.post('/order-items', (req, res) => {
 
 router.put('/order-items', (req, res) => {
     OrderItem.edit(req.body)
-        .then((order) => {
-            res.status(order.code).send(order);
+        .then((data) => {
+            res.status(data.code).send(data);
         });
 });
 
 router.delete('/order-items/:id', (req, res) => {
-    OrderItem.delete(parseInt(req.params.id, 10));
-    res.status(204).send();
+    OrderItem.delete(parseInt(req.params.id, 10))
+        .then(() => {
+            res.status(204).send();
+        });
 });
 
 //  ORDER ROUTES
