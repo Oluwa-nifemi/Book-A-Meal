@@ -16,7 +16,7 @@ class OrderItem {
     }
 
     static async getOrderItems(id) {
-        let orders = await OrderItemModel.findAll({ where: { UserId: id, status: 'cart' } });
+        let orders = await OrderItemModel.findAll({ where: { UserId: id, status: 'cart' }, include: [MealModel] });
         orders = orders.map(order => order.dataValues);
         return orders;
     }
@@ -94,9 +94,7 @@ class OrderItem {
     }
 
     static delete(id) {
-        let orderItems = JSON.parse(fs.readFileSync(p));
-        orderItems = orderItems.filter(item => item.id !== id);
-        fs.writeFileSync(p, JSON.stringify(orderItems));
+        return OrderItemModel.destroy({ where: { id, status: 'cart' } });
     }
 }
 
