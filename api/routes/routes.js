@@ -97,11 +97,17 @@ router.delete('/order-items/:id', (req, res) => {
 
 //  ORDER ROUTES
 router.get('/orders', (req, res) => {
-    res.json(Order.getOrders());
+    Order.getOrders()
+        .then((orders) => {
+            res.status(200).send(orders);
+        });
 });
 
 router.get('/orders/:userid', (req, res) => {
-    res.json(Order.getUserOrders(parseInt(req.params.userid, 10)));
+    Order.getUserOrders(parseInt(req.params.userid, 10))
+        .then((orders) => {
+            res.status(200).send(orders);
+        });
 });
 
 router.post('/orders', (req, res) => {
