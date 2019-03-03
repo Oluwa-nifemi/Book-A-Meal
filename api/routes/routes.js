@@ -4,6 +4,7 @@ import Menu from '../controllers/menu';
 import OrderItem from '../controllers/order-item';
 import Order from '../controllers/order';
 import User from '../controllers/user';
+import order from '../controllers/order';
 
 const router = express.Router();
 
@@ -90,7 +91,10 @@ router.post('/order-items', (req, res) => {
 });
 
 router.put('/order-items', (req, res) => {
-    res.json(OrderItem.edit(req.body));
+    OrderItem.edit(req.body)
+        .then((order) => {
+            res.status(order.code).send(order);
+        });
 });
 
 router.delete('/order-items/:id', (req, res) => {
@@ -122,8 +126,8 @@ router.post('/orders', (req, res) => {
 
 router.put('/orders/:id/:state', (req, res) => {
     Order.editState(parseInt(req.params.id, 10), req.params.state)
-        .then((order) => {
-            res.status(200).send(order);
+        .then((orderObj) => {
+            res.status(orderObj.code).send(orderObj);
         });
 });
 
