@@ -104,7 +104,10 @@ router.get('/orders', (req, res) => {
 });
 
 router.get('/orders/:userid', (req, res) => {
-    res.json(Order.getUserOrders(parseInt(req.params.userid, 10)));
+    Order.getUserOrders(parseInt(req.params.userid, 10))
+        .then((orders) => {
+            res.status(200).send(orders);
+        });
 });
 
 router.post('/orders', (req, res) => {
