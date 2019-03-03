@@ -76,7 +76,10 @@ router.delete('/menu/:id', (req, res) => {
 
 //  ORDER ITEM ROUTES
 router.get('/order-items/:userid', (req, res) => {
-    res.json(OrderItem.getOrderItems(parseInt(req.params.userid, 10)));
+    OrderItem.getOrderItems(parseInt(req.params.userid, 10))
+        .then((orders) => {
+            res.send(orders);
+        });
 });
 
 router.post('/order-items', (req, res) => {
