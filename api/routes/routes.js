@@ -4,7 +4,6 @@ import Menu from '../controllers/menu';
 import OrderItem from '../controllers/order-item';
 import Order from '../controllers/order';
 import User from '../controllers/user';
-import order from '../controllers/order';
 
 const router = express.Router();
 
