@@ -105,8 +105,10 @@ router.get('/orders/:userid', (req, res) => {
 });
 
 router.post('/orders', (req, res) => {
-    const order = new Order(req.body);
-    res.json(order.add());
+    Order.add(req.body)
+        .then((order) => {
+            res.status(order.code).send(order);
+        });
 });
 
 router.put('/orders/:id/:state', (req, res) => {
