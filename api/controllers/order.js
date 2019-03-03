@@ -87,10 +87,21 @@ class Order {
         };
     }
 
-    static delete(id) {
-        let orders = this.getOrders(false);
-        orders = orders.filter(order => order.id !== id || order.state !== 'pending');
-        fs.writeFileSync(p, JSON.stringify(orders));
+    static async delete(id) {
+        try {
+            await OrderModel.destroy({ where: { id } });
+            return {
+                status: 'success',
+                code: 204,
+                message: 'The order has been deleted',
+            };
+        } catch (err) {
+            return {
+                status: 'failure',
+                code: 500,
+                message: 'Something went wrong, please try again',
+            };
+        }
     }
 }
 

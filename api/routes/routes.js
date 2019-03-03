@@ -121,12 +121,14 @@ router.put('/orders/:id/:state', (req, res) => {
     Order.editState(parseInt(req.params.id, 10), req.params.state)
         .then((order) => {
             res.status(200).send(order);
-        })
+        });
 });
 
 router.delete('/orders/:id', (req, res) => {
-    Order.delete(parseInt(req.params.id, 10));
-    res.status(200).send();
+    Order.delete(parseInt(req.params.id, 10))
+        .then((response) => {
+            res.status(response.code).send(response);
+        });
 });
 
 // USER ROUTES
