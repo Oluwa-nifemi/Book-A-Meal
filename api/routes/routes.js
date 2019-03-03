@@ -80,8 +80,10 @@ router.get('/order-items/:userid', (req, res) => {
 });
 
 router.post('/order-items', (req, res) => {
-    const orderItem = new OrderItem(req.body);
-    res.json(orderItem.add());
+    OrderItem.add(req.body)
+        .then((item) => {
+            res.status(item.code).send(item);
+        });
 });
 
 router.put('/order-items', (req, res) => {
