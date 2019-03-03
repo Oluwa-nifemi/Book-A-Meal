@@ -15,11 +15,10 @@ class OrderItem {
         });
     }
 
-    static getOrderItems(id) {
-        let orderItems = JSON.parse(fs.readFileSync(p));
-        orderItems = orderItems.map(item => ({ ...Meal.fetchMealById(item.mealId), ...item }));
-        const orderItemsFiltered = orderItems.filter(item => item.userId === id && item.status === 'cart');
-        return orderItemsFiltered;
+    static async getOrderItems(id) {
+        let orders = await OrderItemModel.findAll({ where: { UserId: id, status: 'cart' } });
+        orders = orders.map(order => order.dataValues);
+        return orders;
     }
 
     static async add(item) {
