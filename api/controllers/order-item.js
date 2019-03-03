@@ -1,8 +1,7 @@
 import fs from 'fs';
-import path from 'path';
-import Meal from './meal';
-
-const p = path.join(__dirname, '../data', 'order-items.json');
+import OrderItemModel from '../models/OrderItem';
+import MealModel from '../models/Meal';
+import UserModel from '../models/User';
 
 class OrderItem {
     constructor({
@@ -23,15 +22,51 @@ class OrderItem {
         return orderItemsFiltered;
     }
 
-    add() {
-        const orderItems = JSON.parse(fs.readFileSync(p));
-        if (orderItems.find(item => item.mealId === this.mealId && item.userId === this.userId)) {
-            return { err: 'Meal already exists you can increase the quantity in your cart' };
+    static async add(item) {
+        const meal = await MealModel.findOne({ where: { id: item.mealId } });
+        const prevItem = await OrderItemModel.findOne({
+            include: [
+                {
+                    model: MealModel,
+                    where: { id: item.mealId },
+                },
+                {
+                    model: UserModel,
+                    where: { id: item.userId },
+                },
+            ],
+        });
+        if (prevItem) {
+            return {
+                status: 'failure',
+                code: 409,
+                message: 'The item is already on your cart. You can increase the amount',
+            };
         }
-        const id = orderItems.length + 1;
-        orderItems.push({ id, ...this });
-        fs.writeFileSync(p, JSON.stringify(orderItems));
-        return { id, ...this };
+        if (meal) {
+            const i = await OrderItemModel.create({ quantity: item.quantity });
+            const user = await UserModel.findOne({ where: { id: item.userId } });
+            if (!user) {
+                return {
+                    status: 'failure',
+                    code: 404,
+                    message: 'The user does not exist',
+                };
+            }
+            i.addMeal(meal);
+            i.setUser(user);
+            return {
+                status: 'success',
+                code: 200,
+                ...i.dataValues,
+                meal,
+            };
+        }
+        return {
+            status: 'failure',
+            code: 404,
+            message: 'The meal does not exist',
+        };
     }
 
     static edit(item) {
