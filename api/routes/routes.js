@@ -118,8 +118,10 @@ router.post('/orders', (req, res) => {
 });
 
 router.put('/orders/:id/:state', (req, res) => {
-    Order.editState(parseInt(req.params.id, 10), req.params.state);
-    res.status(200).send();
+    Order.editState(parseInt(req.params.id, 10), req.params.state)
+        .then((order) => {
+            res.status(200).send(order);
+        })
 });
 
 router.delete('/orders/:id', (req, res) => {
