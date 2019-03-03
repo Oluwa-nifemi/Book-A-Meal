@@ -20,18 +20,21 @@ class Order {
         });
     }
 
-    static getOrders(details = true) {
-        let orders = JSON.parse(fs.readFileSync(p, 'utf-8'));
-        if (details) {
-            const orderItems = JSON.parse(fs.readFileSync(pItems, 'utf-8'));
-            orders = orders.map((order) => {
-                const orderMapped = order;
-                orderMapped.orderItems = orderMapped.orderItems
-                    .map(item => orderItems.find(i => i.id === item))
-                    .map(item => ({ ...Meal.fetchMealById(item.mealId), ...item }));
-                return orderMapped;
-            });
-        }
+    static async getOrders() {
+        // let orders = JSON.parse(fs.readFileSync(p, 'utf-8'));
+        // if (details) {
+        //     const orderItems = JSON.parse(fs.readFileSync(pItems, 'utf-8'));
+        //     orders = orders.map((order) => {
+        //         const orderMapped = order;
+        //         orderMapped.orderItems = orderMapped.orderItems
+        //             .map(item => orderItems.find(i => i.id === item))
+        //             .map(item => ({ ...Meal.fetchMealById(item.mealId), ...item }));
+        //         return orderMapped;
+        //     });
+        // }
+        // return orders;
+        let orders = await OrderItemModel.findAll();
+        orders = orders.map(order => order.dataValues);
         return orders;
     }
 
