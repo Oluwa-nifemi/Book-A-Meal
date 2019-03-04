@@ -15,6 +15,9 @@ const Order = db.define('Order', {
         type: Sequelize.DATEONLY,
         defaultValue: Sequelize.NOW,
     },
+    address: {
+        type: Sequelize.STRING,
+    }
 });
 
 export default Order;
