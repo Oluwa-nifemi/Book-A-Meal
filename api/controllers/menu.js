@@ -1,8 +1,4 @@
-import fs from 'fs';
-import path from 'path';
 import MenuModel from '../models/Menu';
-
-const p = path.join(__dirname, '../data', 'menu.json');
 
 class Menu {
     constructor({
@@ -16,76 +12,51 @@ class Menu {
         });
     }
 
-    static getMenu() {
-        return MenuModel.findOne({ where: { date: new Date() } })
-            .then((menu) => {
-                if (menu) {
-                    return menu;
-                }
-                return MenuModel.create();
-            })
-            .then(m => m.dataValues);
+    static async getMenu(req, res) {
+        let menu = await MenuModel.findOne({ where: { date: new Date() } });
+        if (!menu) {
+            menu = await MenuModel.create();
+        }
+        res.status(200).send(menu.dataValues);
     }
 
-    static addMeal(meal) {
-        return this.getMenu()
-            .then((menu) => {
-                const { meals } = menu;
-                if (!meals.find(m => m.id === meal.id)) {
-                    meals.push(meal);
-                    MenuModel.update({ meals }, { where: { date: new Date() } });
-                    return {
-                        status: 'success',
-                        code: 200,
-                        message: 'The meal was added to the database',
-                    };
-                }
-                return {
-                    status: 'failure',
-                    code: 409,
-                    message: 'Meal already in menu',
-                };
-            });
+    static async addMeal(req, res) {
+        const menu = await MenuModel.findOne({ where: { date: new Date() } });
+        const { meals } = menu;
+        const meal = req.body;
+        if (!meals.find(m => m.id === meal.id)) {
+            meals.push(meal);
+            await MenuModel.update({ meals }, { where: { date: new Date() } });
+            res.send('The meal was added to the database');
+        }
+        res.status(409).send('Meal already in menu');
     }
 
-    static editMeal(meal) {
-        return this.getMenu()
-            .then((menu) => {
-                const { meals } = menu;
-                const mealIndex = meals.findIndex(m => m.id === meal.id);
-                if (mealIndex > -1) {
-                    meals.splice(mealIndex, 1, meal);
-                    MenuModel.update({ meals }, { where: { date: new Date() } });
-                    return {
-                        status: 'success',
-                        code: 200,
-                        message: 'The meal was succesfully edited',
-                    };
-                }
-                return {
-                    status: 'failure',
-                    code: 409,
-                    message: 'Meal is not on the menu',
-                };
-            });
+    static async editMeal(req, res) {
+        const meal = req.body;
+        const menu = await MenuModel.findOne({ where: { date: new Date() } });
+        const { meals } = menu;
+        const mealIndex = meals.findIndex(m => m.id === meal.id);
+        if (mealIndex > -1) {
+            meals.splice(mealIndex, 1, meal);
+            await MenuModel.update({ meals }, { where: { date: new Date() } });
+            res.status(200).send('The meal was succesfully edited');
+        }
+        res.status(409).send('Meal is not on the menu');
     }
 
-    static deleteMeal(id) {
-        return this.getMenu()
-            .then((menu) => {
-                const { meals } = menu;
-                const mealIndex = meals.findIndex(m => m.id === id);
-                if (mealIndex > -1) {
-                    meals.splice(mealIndex, 1);
-                    MenuModel.update({ meals }, { where: { date: new Date() } });
-                    return {
-                        code: 204,
-                    };
-                }
-                return {
-                    code: 409,
-                };
-            });
+    static async deleteMeal(req, res) {
+        const menu = await MenuModel.findOne({ where: { date: new Date() } });
+        const id = parseInt(req.params.id, 10);
+        const { meals } = menu;
+        const mealIndex = meals.findIndex(m => m.id === id);
+        if (mealIndex > -1) {
+            meals.splice(mealIndex, 1);
+            MenuModel.update({ meals }, { where: { date: new Date() } });
+            res.status(204).send();
+            return;
+        }
+        res.send(409);
     }
 }
 

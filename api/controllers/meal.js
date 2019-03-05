@@ -17,9 +17,10 @@ class Meal {
         });
     }
 
-    static fetchMeals() {
-        return MealModel.findAll()
-            .then(meals => meals.map(meal => meal.dataValues));
+    static async fetchMeals(req, res) {
+        const meals = await MealModel.findAll();
+        const mealsDetails = meals.map(meal => meal.dataValues);
+        res.status(200).send(mealsDetails);
     }
 
     static fetchMealById(id) {
@@ -27,19 +28,27 @@ class Meal {
         return meals.find(m => m.id === id);
     }
 
-    add() {
-        return MealModel.create(this);
+    static async add(req, res) {
+        const meal = await MealModel.create(req.body);
+        const mealDetails = meal.dataValues;
+        res.status(200).send(mealDetails);
     }
 
-    static update(meal, id) {
-        return MealModel.update(meal, { where: { id }, returning: true })
-            .then(res => res.pop())
-            .then(modded => modded.pop())
-            .then(m => m.dataValues);
+    static async update(req, res) {
+        const updated = await MealModel.update(req.body,
+            { where: { id: req.params.id }, returning: true });
+        const updatedMeal = updated[1][0];
+        res.status(200).send(updatedMeal);
     }
 
-    static delete(id) {
-        return MealModel.destroy({ where: { id } });
+    static async delete(req, res) {
+        const id = parseInt(req.params.id, 10);
+        try {
+            await MealModel.destroy({ where: { id } });
+            res.status(204).json();
+        } catch (err) {
+            res.json({ err: err.message });
+        }
     }
 }
 

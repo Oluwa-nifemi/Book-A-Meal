@@ -15,15 +15,18 @@ class OrderItem {
         });
     }
 
-    static async getOrderItems(id) {
+    static async getOrderItems(req, res) {
+        const id = parseInt(req.params.userid, 10);
         let orders = await OrderItemModel.findAll({ where: { UserId: id, status: 'cart' }, include: [MealModel] });
         orders = orders.map(order => order.dataValues);
-        return orders;
+        res.status(200).send(orders);
     }
 
-    static async add(item) {
+    static async add(req, res) {
+        const item = req.body;
         const meal = await MealModel.findOne({ where: { id: item.mealId } });
         const prevItem = await OrderItemModel.findOne({
+            where: { status: 'cart' },
             include: [
                 {
                     model: MealModel,
@@ -36,65 +39,43 @@ class OrderItem {
             ],
         });
         if (prevItem) {
-            return {
-                status: 'failure',
-                code: 409,
-                message: 'The item is already on your cart. You can increase the amount',
-            };
+            res.status(409).send('The item is already on your cart');
         }
         if (meal) {
             const i = await OrderItemModel.create({ quantity: item.quantity });
             const user = await UserModel.findOne({ where: { id: item.userId } });
             if (!user) {
-                return {
-                    status: 'failure',
-                    code: 404,
-                    message: 'The user does not exist',
-                };
+                res.status(404).send('User does not exist');
+                return;
             }
             i.addMeal(meal);
             i.setUser(user);
-            return {
-                status: 'success',
-                code: 200,
-                ...i.dataValues,
-                meal,
-            };
+            res.status(200).send({ ...i.dataValues, meal });
         }
-        return {
-            status: 'failure',
-            code: 404,
-            message: 'The meal does not exist',
-        };
+        res.status(404).send('The meal does not exist');
     }
 
-    static edit(item) {
-        return OrderItemModel.update(
+    static async edit(req, res) {
+        const item = req.body;
+        const response = await OrderItemModel.update(
             { quantity: item.quantity },
             {
                 where: { id: item.id, UserId: item.userId },
                 returning: true,
             },
-        )
-            .then((response) => {
-                if (response[0]) {
-                    const orderItems = response[1][0];
-                    return {
-                        status: 'success',
-                        code: 200,
-                        ...orderItems.dataValues,
-                    };
-                }
-                return {
-                    status: 'failure',
-                    code: 404,
-                    message: 'The item is not on your cart.',
-                };
-            });
+        );
+        if (response[0]) {
+            const orderItem = response[1][0];
+            res.status(200).send(orderItem);
+            return;
+        }
+        res.status(404).send('The item is not on your cart');
     }
 
-    static delete(id) {
-        return OrderItemModel.destroy({ where: { id, status: 'cart' } });
+    static async delete(req, res) {
+        const id = parseInt(req.params.id, 10);
+        await OrderItemModel.destroy({ where: { id, status: 'cart' } });
+        res.status(204).send();
     }
 }
 
