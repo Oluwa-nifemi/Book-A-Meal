@@ -28,6 +28,7 @@ class Menu {
             meals.push(meal);
             await MenuModel.update({ meals }, { where: { date: new Date() } });
             res.send('The meal was added to the database');
+            return true;
         }
         res.status(409).send('Meal already in menu');
     }
@@ -41,6 +42,7 @@ class Menu {
             meals.splice(mealIndex, 1, meal);
             await MenuModel.update({ meals }, { where: { date: new Date() } });
             res.status(200).send('The meal was succesfully edited');
+            return true;
         }
         res.status(409).send('Meal is not on the menu');
     }
@@ -54,7 +56,7 @@ class Menu {
             meals.splice(mealIndex, 1);
             MenuModel.update({ meals }, { where: { date: new Date() } });
             res.status(204).send();
-            return;
+            return true;
         }
         res.status(409);
     }
