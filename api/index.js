@@ -6,6 +6,7 @@ import Menu from './models/Menu';
 import OrderItem from './models/OrderItem';
 import Order from './models/Order';
 import User from './models/User';
+import Caterer from './models/Caterer';
 
 const app = express();
 
