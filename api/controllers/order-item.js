@@ -74,7 +74,7 @@ class OrderItem {
 
     static async delete(req, res) {
         const id = parseInt(req.params.id, 10);
-        await OrderItemModel.destroy({ where: { id, status: 'cart' } });
+        await OrderItemModel.destroy({ where: { id, status: 'cart', UserId: req.params.tokenId } });
         res.status(204).send();
     }
 }

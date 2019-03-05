@@ -58,6 +58,9 @@ class Order {
 
     static async getUserOrders(req, res) {
         const UserId = req.params.userid;
+        if (UserId !== req.params.tokenId) {
+            res.status(403).send('You\'re not allowed to access that');
+        }
         let orders = await OrderModel.findAll({ where: { UserId }, include: [OrderItemModel] });
         orders = orders.map(order => order.dataValues);
         res.status(200).send(orders);
@@ -75,7 +78,7 @@ class Order {
     static async delete(req, res) {
         const { id } = req.params;
         try {
-            await OrderModel.destroy({ where: { id } });
+            await OrderModel.destroy({ where: { id, UserId: req.params.tokenId } });
             res.status(204).send();
         } catch (err) {
             res.status(500).send('Something went wrong, please try again');
