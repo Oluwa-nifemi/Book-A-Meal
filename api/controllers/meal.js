@@ -1,8 +1,4 @@
-import fs from 'fs';
-import path from 'path';
 import MealModel from '../models/Meal';
-
-const p = path.join(__dirname, '../data', 'meals.json');
 
 class Meal {
     constructor({
@@ -20,25 +16,20 @@ class Meal {
     static async fetchMeals(req, res) {
         const meals = await MealModel.findAll();
         const mealsDetails = meals.map(meal => meal.dataValues);
-        res.status(200).send(mealsDetails);
-    }
-
-    static fetchMealById(id) {
-        const meals = this.fetchMeals();
-        return meals.find(m => m.id === id);
+        res.status(200).json(mealsDetails);
     }
 
     static async add(req, res) {
         const meal = await MealModel.create(req.body);
         const mealDetails = meal.dataValues;
-        res.status(200).send(mealDetails);
+        res.status(200).json(mealDetails);
     }
 
     static async update(req, res) {
         const updated = await MealModel.update(req.body,
             { where: { id: req.params.id }, returning: true });
         const updatedMeal = updated[1][0];
-        res.status(200).send(updatedMeal);
+        res.status(200).json(updatedMeal);
     }
 
     static async delete(req, res) {
