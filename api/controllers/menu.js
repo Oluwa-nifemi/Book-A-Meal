@@ -56,7 +56,7 @@ class Menu {
             res.status(204).send();
             return;
         }
-        res.send(409);
+        res.status(409);
     }
 }
 
