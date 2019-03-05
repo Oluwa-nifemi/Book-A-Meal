@@ -4,51 +4,58 @@ import Menu from '../controllers/menu';
 import OrderItem from '../controllers/order-item';
 import Order from '../controllers/order';
 import User from '../controllers/user';
+import Auth from '../controllers/auth';
+import Caterer from '../controllers/caterer';
 
 const router = express.Router();
 
 router.use(express.json());
 
 //  MEAL ROUTES
-router.get('/meals', Meal.fetchMeals);
+router.get('/meals', Auth.confirmToken, Auth.confirmCaterer, Meal.fetchMeals);
 
-router.post('/meals', Meal.add);
+router.post('/meals', Auth.confirmToken, Auth.confirmCaterer, Meal.add);
 
-router.put('/meals/:id', Meal.update);
+router.put('/meals/:id', Auth.confirmToken, Auth.confirmCaterer, Meal.update);
 
-router.delete('/meals/:id', Meal.delete);
+router.delete('/meals/:id', Auth.confirmToken, Auth.confirmCaterer, Meal.delete);
 
 //  MENU ROUTES
-router.get('/menu', Menu.getMenu);
+router.get('/menu', Auth.confirmToken, Menu.getMenu);
 
-router.post('/menu', Menu.addMeal);
+router.post('/menu', Auth.confirmToken, Menu.addMeal);
 
-router.put('/menu', Menu.editMeal);
+router.put('/menu', Auth.confirmToken, Menu.editMeal);
 
-router.delete('/menu/:id', Menu.deleteMeal);
+router.delete('/menu/:id', Auth.confirmToken, Menu.deleteMeal);
 
 //  ORDER ITEM ROUTES
-router.get('/order-items/:userid', OrderItem.getOrderItems);
+router.get('/order-items/:userid', Auth.confirmToken, OrderItem.getOrderItems);
 
-router.post('/order-items', OrderItem.add);
+router.post('/order-items', Auth.confirmToken, OrderItem.add);
 
-router.put('/order-items', OrderItem.edit);
+router.put('/order-items', Auth.confirmToken, OrderItem.edit);
 
-router.delete('/order-items/:id', OrderItem.delete);
+router.delete('/order-items/:id', Auth.confirmToken, OrderItem.delete);
 
 //  ORDER ROUTES
-router.get('/orders', Order.getOrders);
+router.get('/orders', Auth.confirmToken, Order.getOrders);
 
-router.get('/orders/:userid', Order.getUserOrders);
+router.get('/orders/:userid', Auth.confirmToken, Order.getUserOrders);
 
-router.post('/orders', Order.add);
+router.post('/orders', Auth.confirmToken, Order.add);
 
-router.put('/orders/:id/:state', Order.editState);
+router.put('/orders/:id/:state', Auth.confirmToken, Order.editState);
 
-router.delete('/orders/:id', Order.delete);
+router.delete('/orders/:id', Auth.confirmToken, Order.delete);
 // USER ROUTES
 router.post('/users/login', User.login);
 
 router.post('/users/signup', User.signup);
+
+//  CATERER ROUTES
+router.post('/caterers/login', Caterer.login);
+
+router.post('/caterers/signup', Caterer.signup);
 
 export default router;
