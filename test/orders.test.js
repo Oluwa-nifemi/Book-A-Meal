@@ -1,8 +1,11 @@
 import chai from 'chai';
 import request from 'chai-http';
 import app from '../api/index';
-import fs from 'fs';
-import path from 'path'; 
+import CatererModel from '../api/models/Caterer';
+import UserModel from '../api/models/User';
+import OrderItemModel from '../api/models/OrderItem';
+import MealModel from '../api/models/Meal';
+import jwt from 'jsonwebtoken';
 
 const { expect, use } = chai;
 
@@ -10,85 +13,138 @@ use(request);
 
 const apiVersion = '/api/v1';
 
-//Get id of item added during add order test to delete during delete order test
-let id;
+let catererId, userId, orderItemId, mealId, orderId;
 
-describe('Get orders', () => {
-    it('Should return all orders', () => {
-        chai.request(app)
-            .get(`${apiVersion}/orders`)
-            .then(res => res.body)
-            .then(orders => {
-                expect(orders).to.be.an('array')
+before(done => {
+    CatererModel.create({
+        email: "ordercat@gmail.com",
+        password: "password",
+        name: "Test User"
+    }).then((caterer) => {
+        catererId = caterer.id;
+            UserModel.create({
+            email: "orderuse@gmail.com",
+            password: "password",
+            name: "Test User"
+        })
+        .then((user) => {
+            userId = user.id;
+            MealModel.create({
+                title:"Indomie and Fregg",
+                description:"Quite tasty filling",
+                image:"image3.jpg",
+                price:11.6,
+                defaultQuantity:50
             })
-            .catch(err => {
-                console.log(err)
+            .then((meal) => {
+                mealId = meal.id;
+                OrderItemModel.create({
+                    "mealId": meal.id,
+                    userId,
+                    "quantity": 10,
+                    "status": "cart"
+                })
+                .then((item) => {
+                    orderItemId = item.id;
+                    done();
+                })
             })
+        })  
     })
 })
 
-describe('Get orders by user id', () => {
-    it('Should return all orders belong to that user', () => {
-        chai.request(app)
-            .get(`${apiVersion}/orders/1`)
-            .then(res => res.body)
-            .then(orders => {
-                expect(orders).to.be.an('array')
-                const invalid = orders.filter(order => order.userId !== 1).length;
-                expect(invalid).to.be.equal(0);
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    })
-})
-
-describe('Add order',() => {
-    it('Should return the added order', () => {
+describe('Add order', () => {
+    it('Should return status succes', done => {
+        const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);        
         chai.request(app)
             .post(`${apiVersion}/orders`)
-            .send(
-                {
-                    "userId" : 1,
-                    "date" : "27-12-12",
-                    "orderItems" : [2,4],
-                    "state" : "pending"
-                }
-            )
+            .set('bearer', token) 
+            .send({
+                userId,
+                "orderItems" : [orderItemId],
+                "address" : "5 Unity Estate Olambe"
+            })
             .then(res => res.body)
-            .then((order) => {
-                id = order.id;
-                expect(order).to.be.an('object');
+            .then(body => {
+                expect(body).to.be.an('object');
+                expect(body.status).to.equal('success');
+                orderId = body.data.id;
+                done();
+            })           
+    })
+})
+
+describe('Get all orders', () => {
+    it('Should return all orders', done => {
+        const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);
+        chai.request(app)
+            .get(`${apiVersion}/orders`)    
+            .set('bearer', token) 
+            .then(res => res.body)
+            .then(body => {
+                expect(body.status).to.equal('success');
+                expect(body.data).to.be.an('array');
+                done();
             })
-            .then(() => {
-                describe('Delete order', () => {
-                    it('Should return empty response', () => {
-                        chai.request(app)
-                        .delete(`${apiVersion}/orders/${id}`)
-                        .then((res) => {
-                            expect(res.text).to.be.equal('');
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                    })
-                })                
-            })
-            .catch(err => {
-                console.log(err)
+        })
+})
+
+describe('Get user orders', () => {
+    it('Should return all orders', done => {
+        const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);
+        chai.request(app)
+            .get(`${apiVersion}/orders/${userId}`)    
+            .set('bearer', token) 
+            .then(res => res.body)
+            .then(body => {
+                expect(body.status).to.equal('success');
+                expect(body.data).to.be.an('array');
+                done();
             })
     })
 })
 
-describe('Edit order state',() => {
-    it('Should return empty response', () => {
+describe('Edit order', () => {
+    it('Should return status success', done => {
+        const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);
         chai.request(app)
-        .put(`${apiVersion}/orders/1/delivered`)
-        .then((res) => {
-            expect(res.text).to.be.equal('');
+            .put(`${apiVersion}/orders/${orderId}/delivered`)
+            .set('bearer', token) 
+            .then(req => req.body)
+            .then(body => {
+                expect(body.status).to.equal('success');
+                expect(body.message).to.equal('The order has been edited');
+                done();
+            })            
+    })
+})
+
+describe('Delete order', () => {
+    it('Should return empty response',done => {
+        const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);
+        chai.request(app)
+            .delete(`${apiVersion}/orders/${orderId}`)
+            .set('bearer', token) 
+            .then(res => res.text)            
+            .then((text) => {
+                expect(text).to.equal('');
+                done();
+            })
+    })
+})
+
+after((done) => {
+    CatererModel.destroy({where : { id: catererId } })
+    .then(() => {
+        OrderItemModel.destroy({where : { id: orderItemId } })
+        .then(() => {
+            MealModel.destroy({where : { id: mealId } })
+            .then(() => {
+                UserModel.destroy({where : { id: userId } })
+                .then(() => {
+                    done();
+                })
+            })
         })
-        .catch((err) => {
-            console.log(err);
-        });
     })
 })

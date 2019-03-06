@@ -22,14 +22,17 @@ class Order {
     static async getOrders(req, res) {
         let orders = await OrderModel.findAll({ include: [OrderItemModel] });
         orders = orders.map(order => order.dataValues);
-        res.status(200).send(orders);
+        res.status(200).json({
+            status: 'success',
+            data: orders,
+        });
     }
 
     static async add(req, res) {
         const order = req.body;
         const user = await UserModel.findByPk(order.userId);
         if (user) {
-            const createdOrder = await OrderModel.create();
+            const createdOrder = await OrderModel.create({ address: user.address });
             const orderItems = await OrderItemModel.findAll({
                 where: {
                     id: order.orderItems,
@@ -51,28 +54,51 @@ class Order {
                     },
                 },
             );
-            res.status(200).send(createdOrder.dataValues);
+            res.status(200).send({
+                status: 'success',
+                messsage: 'The order was succesfully added',
+                data: createdOrder.dataValues,
+            });
+            return;
         }
-        res.status(404).send('User not found');
+        res.status(404).json({
+            status: 'failure',
+            messsage: 'The user was not found. Are you sure you are logged in to a valid account',
+        });
     }
 
     static async getUserOrders(req, res) {
-        const UserId = req.params.userid;
+        const UserId = parseInt(req.params.userid, 10);
         if (UserId !== req.params.tokenId) {
-            res.status(403).send('You\'re not allowed to access that');
+            res.status(403).json({
+                status: 'failure',
+                message: 'You are not allowed to access that',
+            });
+            return;
         }
         let orders = await OrderModel.findAll({ where: { UserId }, include: [OrderItemModel] });
         orders = orders.map(order => order.dataValues);
-        res.status(200).send(orders);
+        res.status(200).json({
+            status: 'success',
+            data: orders,
+        });
     }
 
     static async editState(req, res) {
         const { id, state } = req.params;
         const response = await OrderModel.update({ state }, { where: { id }, returning: true });
         if (response[0]) {
-            res.status(200).send('The order has been edited');
+            res.status(200).json({
+                status: 'success',
+                message: 'The order has been edited',
+            });
+            return true;
         }
-        res.status(404).send('The order was not found');
+        res.status(404).json({
+            status: 'failure',
+            message: 'The order was not found',
+        });
+        return false;
     }
 
     static async delete(req, res) {
@@ -81,7 +107,10 @@ class Order {
             await OrderModel.destroy({ where: { id, UserId: req.params.tokenId } });
             res.status(204).send();
         } catch (err) {
-            res.status(500).send('Something went wrong, please try again');
+            res.status(500).json({
+                status: 'failure',
+                message: 'Something went wrong, please try again',
+            });
         }
     }
 }

@@ -22,9 +22,10 @@ class User {
     static async signup(req, res) {
         try {
             const user = req.body;
-            const createdUser = await UserModel.create(user);
-            const userDetails = createdUser.dataValues;
-            return res.status(200).send(userDetails);
+            await UserModel.create(user);
+            return res.status(200).send({
+                status: 'success',
+            });
         } catch (err) {
             return res.status(409);
         }

@@ -1,8 +1,9 @@
 import Sequelize from 'sequelize';
+import dotenv from 'dotenv';
 
-const db = new Sequelize('Book-A-Meal', 'postgres', 'password', {
-    host: 'localhost',
-    dialect: 'postgres',
+dotenv.config();
+
+const db = new Sequelize(process.env.DB_URL, {
     operatorsAliases: false,
     pool: {
         max: 5,

@@ -30,6 +30,7 @@ app.use('/api/v1', routes);
 db.sync()
     .then(() => {
         console.log('Connection established');
+        app.emit('connected');
         app.listen(PORT);
     })
     .catch(console.log);
