@@ -1,0 +1,585 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Book A Meal",
+      "description": "Meal Booking Application",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      },
+      "contact": {
+        "email": "deyeminifemi@gmail.com"
+      }
+    },
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API Endpoints for users in the system"
+      },
+      {
+        "name": "Caterers",
+        "description": "API Endpoints for Caterers in the system"
+      },
+      {
+        "name": "Meals",
+        "description": "API Endpoints for Caterer Meals in the system"
+      },
+      {
+        "name": "Menus",
+        "description": "API Endpoints for Caterers Menus in the system"
+      },
+      {
+        "name": "Order Items",
+        "description": "API Endpoints for Users Items in Cart"
+      },
+      {
+        "name": "Orders",
+        "description": "API Endpoints for Users Orders in the system"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/api/v1/users/signup": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "description": "Register a New User in the system",
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of User"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of User"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of User"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "400": {
+              "description": "User Registration Validation Error"
+            },
+            "409": {
+              "description": "User Already Registred"
+            },
+            "200": {
+              "description": "New user is registered"
+            }
+          }
+        }
+      },
+      "/api/v1/users/login": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "description": "Log In a Registered User",
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "Email of Registered User"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of Registered User"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "400": {
+              "description": "User Login Validation Error"
+            },
+            "200": {
+              "description": "User Logged In"
+            }
+          }
+        }
+      },
+      "/api/v1/caterers/signup": {
+        "post": {
+          "tags": [
+            "Caterers"
+          ],
+          "description": "Register a New Caterer in the system",
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of Caterer"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of Caterer"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of Caterer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "409": {
+              "description": "Caterer Already Registred"
+            },
+            "200": {
+              "description": "New Caterer is registered"
+            }
+          }
+        }
+      },
+      "/api/v1/caterers/login": {
+        "post": {
+          "tags": [
+            "Caterers"
+          ],
+          "description": "Log In a Registered Caterer",
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "Email of Registered Caterer"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password of Registered Caterer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "400": {
+              "description": "Caterer Login Validation Error"
+            },
+            "200": {
+              "description": "Caterer Logged In"
+            }
+          }
+        }
+      },
+      "/api/v1/meals/": {
+        "get": {
+          "summary": "Get all meals for logged in caterer",
+          "tags": [
+            "Meals"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "409": {
+              "description": "No request token"
+            },
+            "403": {
+              "description": "Invalid request token"
+            },
+            "200": {
+              "description": "Returned Meals"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        },
+        "post": {
+          "summary": "Add New Meal to the system",
+          "tags": [
+            "Meals"
+          ],
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "Name of new Meal"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Short description for meal"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "Path to meal"
+                    },
+                    "price": {
+                      "type": "number",
+                      "description": "Price of new Meal"
+                    },
+                    "defaultQuantity": {
+                      "type": "number",
+                      "description": "Default quantity of meal made everyday"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "401": {
+              "description": "Only Authenticated Caterers are Authorized"
+            },
+            "400": {
+              "description": "Validation Error"
+            },
+            "200": {
+              "description": "New Meal Created"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      },
+      "/api/v1/menu/": {
+        "get": {
+          "summary": "Get menu",
+          "tags": [
+            "Menus"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "409": {
+              "description": "No request token"
+            },
+            "403": {
+              "description": "Invalid request token"
+            },
+            "200": {
+              "description": "Returned Meals"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        },
+        "post": {
+          "summary": "Add New Meal to Menu in the system",
+          "tags": [
+            "Menus"
+          ],
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "mealId": {
+                      "type": "number",
+                      "description": "ID of Meal to be Added"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "description": "Quantity of Meal in Menu"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "401": {
+              "description": "Only Authenticated Caterers are Authorized"
+            },
+            "400": {
+              "description": "Validation Error"
+            },
+            "200": {
+              "description": "Meal Added to Menu"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      },
+      "/api/v1/orders": {
+        "get": {
+          "summary": "Get all orders to Logged In Caterer",
+          "tags": [
+            "Orders"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "409": {
+              "description": "No request token"
+            },
+            "403": {
+              "description": "Invalid request token"
+            },
+            "200": {
+              "description": "Returned Orders"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        },
+        "post": {
+          "summary": "Checkout Orders",
+          "tags": [
+            "Orders"
+          ],
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "userId": {
+                      "type": "number",
+                      "description": "id of user that owns the order"
+                    },
+                    "address": {
+                      "type": "string",
+                      "description": "Address of user that owns the order"
+                    },
+                    "orderItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description" : "Array of id's of order items"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "responses": {
+            "401": {
+              "description": "Only Authenticated Users are Authorized"
+            },
+            "400": {
+              "description": "Validation Error"
+            },
+            "200": {
+              "description": "Order Made"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      },
+      "/api/v1/orders/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of Owner of Orders being called",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "get": {
+          "summary": "Get Orders for Logged In User",
+          "tags": [
+            "Orders"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "409": {
+              "description": "No request token"
+            },
+            "403": {
+              "description": "Invalid request token"
+            },
+            "200": {
+              "description": "Returned Orders"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      },
+      "/api/v1/order-items/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of Owner of order items being called",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "get": {
+          "summary": "Get all items in cart",
+          "tags": [
+            "Order Items"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "409": {
+              "description": "No request token"
+            },
+            "403": {
+              "description": "Invalid request token"
+            },
+            "200": {
+              "description": "Returned Orders"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      },
+      "/api/v1/order-items": {
+        "post": {
+          "summary": "Add meal to cart",
+          "tags": [
+            "Order Items"
+          ],
+          "requestBody": {
+            "description": "Input Data Format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "mealId": {
+                      "type": "number",
+                      "description": "ID of Meal to be Added"
+                    },
+                    "userId": {
+                      "type": "number",
+                      "description": "ID of Person Adding the Meal"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "description": "Quantity of Meal Being Added"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "responses": {
+            "401": {
+              "description": "Only Authenticated Users are Authorized"
+            },
+            "400": {
+              "description": "Validation Error"
+            },
+            "200": {
+              "description": "Order Made"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "JWT": {
+          "type": "apiKey",
+          "description": "JWT token is received after registering\/login, input format: \"Bearer \\<token\\>\"",
+          "name": "bearer",
+          "in": "header"
+        }
+      }
+    }
+  }
