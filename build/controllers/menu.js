@@ -5,25 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _fs = _interopRequireDefault(require("fs"));
-
-var _path = _interopRequireDefault(require("path"));
-
-var _meal = _interopRequireDefault(require("./meal"));
+var _Menu = _interopRequireDefault(require("../models/Menu"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var p = _path.default.join(__dirname, '../data', 'menu.json');
 
 var Menu =
 /*#__PURE__*/
@@ -46,100 +40,235 @@ function () {
 
   _createClass(Menu, null, [{
     key: "getMenu",
-    value: function getMenu() {
-      try {
-        var data = JSON.parse(_fs.default.readFileSync(p));
-        var today = new Date();
-        var todayFormatted = "".concat(today.getDate(), "-").concat(today.getMonth() + 1, "-").concat(today.getFullYear());
-        var menuToday = data.find(function (menu) {
-          return "".concat(menu.date) === todayFormatted;
-        }) || {};
+    value: function () {
+      var _getMenu = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(req, res) {
+        var menu;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _Menu.default.findOne({
+                  where: {
+                    date: new Date()
+                  }
+                });
 
-        if (!Object.keys(menuToday).length) {
-          menuToday.date = todayFormatted;
-          menuToday.meals = [];
-          data.push(menuToday);
+              case 2:
+                menu = _context.sent;
 
-          _fs.default.writeFileSync(p, JSON.stringify(data));
-        }
+                if (menu) {
+                  _context.next = 7;
+                  break;
+                }
 
-        if (menuToday.meals) {
-          menuToday.meals = menuToday.meals.map(function (meal) {
-            return _objectSpread({}, meal, _meal.default.fetchMealById(meal.id));
-          });
-        }
+                _context.next = 6;
+                return _Menu.default.create();
 
-        return menuToday;
-      } catch (err) {
-        return {
-          err: err.message
-        };
+              case 6:
+                menu = _context.sent;
+
+              case 7:
+                res.status(200).send(menu.dataValues);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getMenu(_x, _x2) {
+        return _getMenu.apply(this, arguments);
       }
-    }
+
+      return getMenu;
+    }()
   }, {
     key: "addMeal",
-    value: function addMeal(meal) {
-      var menu = this.getMenu();
-      var menus = JSON.parse(_fs.default.readFileSync(p));
-      var index = menus.findIndex(function (m) {
-        return m.date === menu.date;
-      });
+    value: function () {
+      var _addMeal = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(req, res) {
+        var menu, meals, meal;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _Menu.default.findOne({
+                  where: {
+                    date: new Date()
+                  }
+                });
 
-      if (!menu.meals.find(function (m) {
-        return m.id === meal.id;
-      })) {
-        menu.meals.push(meal);
-        menus[index] = menu;
+              case 2:
+                menu = _context2.sent;
+                meals = menu.meals;
+                meal = req.body;
 
-        _fs.default.writeFileSync(p, JSON.stringify(menus));
+                if (meals.find(function (m) {
+                  return m.id === meal.id;
+                })) {
+                  _context2.next = 10;
+                  break;
+                }
 
-        return meal;
+                meals.push(meal);
+                _context2.next = 9;
+                return _Menu.default.update({
+                  meals: meals
+                }, {
+                  where: {
+                    date: new Date()
+                  }
+                });
+
+              case 9:
+                res.send('The meal was added to the database');
+
+              case 10:
+                res.status(409).send('Meal already in menu');
+
+              case 11:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function addMeal(_x3, _x4) {
+        return _addMeal.apply(this, arguments);
       }
 
-      return {
-        err: 'Meal already in menu'
-      };
-    }
+      return addMeal;
+    }()
   }, {
     key: "editMeal",
-    value: function editMeal(meal) {
-      var menu = this.getMenu();
-      var menus = JSON.parse(_fs.default.readFileSync(_path.default.join(__dirname, '../data', 'menu.json')));
-      var index = menus.findIndex(function (m) {
-        return m.date === menu.date;
-      });
-      var mealIndex = menu.meals.findIndex(function (m) {
-        return m.id === meal.id;
-      });
+    value: function () {
+      var _editMeal = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(req, res) {
+        var meal, menu, meals, mealIndex;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                meal = req.body;
+                _context3.next = 3;
+                return _Menu.default.findOne({
+                  where: {
+                    date: new Date()
+                  }
+                });
 
-      if (mealIndex !== -1) {
-        menu.meals[mealIndex] = meal;
-        menus[index] = menu;
+              case 3:
+                menu = _context3.sent;
+                meals = menu.meals;
+                mealIndex = meals.findIndex(function (m) {
+                  return m.id === meal.id;
+                });
 
-        _fs.default.writeFileSync(p, JSON.stringify(menus));
+                if (!(mealIndex > -1)) {
+                  _context3.next = 11;
+                  break;
+                }
 
-        return meal;
+                meals.splice(mealIndex, 1, meal);
+                _context3.next = 10;
+                return _Menu.default.update({
+                  meals: meals
+                }, {
+                  where: {
+                    date: new Date()
+                  }
+                });
+
+              case 10:
+                res.status(200).send('The meal was succesfully edited');
+
+              case 11:
+                res.status(409).send('Meal is not on the menu');
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function editMeal(_x5, _x6) {
+        return _editMeal.apply(this, arguments);
       }
 
-      return {
-        err: "Meal doesn't exist in menu"
-      };
-    }
+      return editMeal;
+    }()
   }, {
     key: "deleteMeal",
-    value: function deleteMeal(id) {
-      var menu = this.getMenu();
-      var menus = JSON.parse(_fs.default.readFileSync(p));
-      var index = menus.findIndex(function (m) {
-        return m.date === menu.date;
-      });
-      menu.meals = menu.meals.filter(function (meal) {
-        return meal.id !== id;
-      });
-      menus[index] = menu;
+    value: function () {
+      var _deleteMeal = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(req, res) {
+        var menu, id, meals, mealIndex;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _Menu.default.findOne({
+                  where: {
+                    date: new Date()
+                  }
+                });
 
-      _fs.default.writeFileSync(p, JSON.stringify(menus));
-    }
+              case 2:
+                menu = _context4.sent;
+                id = parseInt(req.params.id, 10);
+                meals = menu.meals;
+                mealIndex = meals.findIndex(function (m) {
+                  return m.id === id;
+                });
+
+                if (!(mealIndex > -1)) {
+                  _context4.next = 11;
+                  break;
+                }
+
+                meals.splice(mealIndex, 1);
+
+                _Menu.default.update({
+                  meals: meals
+                }, {
+                  where: {
+                    date: new Date()
+                  }
+                });
+
+                res.status(204).send();
+                return _context4.abrupt("return");
+
+              case 11:
+                res.status(409);
+
+              case 12:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function deleteMeal(_x7, _x8) {
+        return _deleteMeal.apply(this, arguments);
+      }
+
+      return deleteMeal;
+    }()
   }]);
 
   return Menu;

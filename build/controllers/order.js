@@ -9,13 +9,21 @@ var _fs = _interopRequireDefault(require("fs"));
 
 var _path = _interopRequireDefault(require("path"));
 
-var _meal = _interopRequireDefault(require("./meal"));
+var _sequelize = _interopRequireDefault(require("sequelize"));
+
+var _Order = _interopRequireDefault(require("../models/Order"));
+
+var _User = _interopRequireDefault(require("../models/User"));
+
+var _OrderItem = _interopRequireDefault(require("../models/OrderItem"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -23,9 +31,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var p = _path.default.join(__dirname, '../data', 'orders.json');
-
-var pItems = _path.default.join(__dirname, '../data', 'order-items.json');
+var Op = _sequelize.default.Op;
 
 var Order =
 /*#__PURE__*/
@@ -46,77 +52,250 @@ function () {
     });
   }
 
-  _createClass(Order, [{
-    key: "add",
-    value: function add() {
-      var orders = this.constructor.getOrders(false);
-      var id = orders.length + 1;
-      orders.push(_objectSpread({
-        id: id
-      }, this));
-
-      _fs.default.writeFileSync(p, JSON.stringify(orders));
-
-      return _objectSpread({
-        id: id
-      }, this);
-    }
-  }], [{
+  _createClass(Order, null, [{
     key: "getOrders",
-    value: function getOrders() {
-      var details = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      var orders = JSON.parse(_fs.default.readFileSync(p, 'utf-8'));
+    value: function () {
+      var _getOrders = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(req, res) {
+        var orders;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _Order.default.findAll({
+                  include: [_OrderItem.default]
+                });
 
-      if (details) {
-        var orderItems = JSON.parse(_fs.default.readFileSync(pItems, 'utf-8'));
-        orders = orders.map(function (order) {
-          var orderMapped = order;
-          orderMapped.orderItems = orderMapped.orderItems.map(function (item) {
-            return orderItems.find(function (i) {
-              return i.id === item;
-            });
-          }).map(function (item) {
-            return _objectSpread({}, _meal.default.fetchMealById(item.mealId), item);
-          });
-          return orderMapped;
-        });
+              case 2:
+                orders = _context.sent;
+                orders = orders.map(function (order) {
+                  return order.dataValues;
+                });
+                res.status(200).send(orders);
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getOrders(_x, _x2) {
+        return _getOrders.apply(this, arguments);
       }
 
-      return orders;
-    }
+      return getOrders;
+    }()
+  }, {
+    key: "add",
+    value: function () {
+      var _add = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(req, res) {
+        var order, user, createdOrder, orderItems;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                order = req.body;
+                _context2.next = 3;
+                return _User.default.findByPk(order.userId);
+
+              case 3:
+                user = _context2.sent;
+
+                if (!user) {
+                  _context2.next = 16;
+                  break;
+                }
+
+                _context2.next = 7;
+                return _Order.default.create();
+
+              case 7:
+                createdOrder = _context2.sent;
+                _context2.next = 10;
+                return _OrderItem.default.findAll({
+                  where: {
+                    id: order.orderItems,
+                    UserId: order.userId
+                  }
+                });
+
+              case 10:
+                orderItems = _context2.sent;
+                createdOrder.addOrderItems(orderItems);
+                createdOrder.setUser(user);
+                _context2.next = 15;
+                return _OrderItem.default.update({
+                  status: 'checked_out'
+                }, {
+                  where: {
+                    id: _defineProperty({}, Op.or, order.orderItems),
+                    UserId: order.userId
+                  }
+                });
+
+              case 15:
+                res.status(200).send(createdOrder.dataValues);
+
+              case 16:
+                res.status(404).send('User not found');
+
+              case 17:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function add(_x3, _x4) {
+        return _add.apply(this, arguments);
+      }
+
+      return add;
+    }()
   }, {
     key: "getUserOrders",
-    value: function getUserOrders(userId) {
-      var orders = this.getOrders(true);
-      orders = orders.filter(function (order) {
-        return order.userId === userId;
-      });
-      return orders;
-    }
+    value: function () {
+      var _getUserOrders = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(req, res) {
+        var UserId, orders;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                UserId = req.params.userid;
+
+                if (UserId !== req.params.tokenId) {
+                  res.status(403).send('You\'re not allowed to access that');
+                }
+
+                _context3.next = 4;
+                return _Order.default.findAll({
+                  where: {
+                    UserId: UserId
+                  },
+                  include: [_OrderItem.default]
+                });
+
+              case 4:
+                orders = _context3.sent;
+                orders = orders.map(function (order) {
+                  return order.dataValues;
+                });
+                res.status(200).send(orders);
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function getUserOrders(_x5, _x6) {
+        return _getUserOrders.apply(this, arguments);
+      }
+
+      return getUserOrders;
+    }()
   }, {
     key: "editState",
-    value: function editState(id, state) {
-      var orders = this.getOrders(false);
-      var order = orders.find(function (e) {
-        return e.id === id;
-      });
+    value: function () {
+      var _editState = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(req, res) {
+        var _req$params, id, state, response;
 
-      if (order) {
-        order.state = state;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _req$params = req.params, id = _req$params.id, state = _req$params.state;
+                _context4.next = 3;
+                return _Order.default.update({
+                  state: state
+                }, {
+                  where: {
+                    id: id
+                  },
+                  returning: true
+                });
 
-        _fs.default.writeFileSync(p, JSON.stringify(orders));
+              case 3:
+                response = _context4.sent;
+
+                if (response[0]) {
+                  res.status(200).send('The order has been edited');
+                }
+
+                res.status(404).send('The order was not found');
+
+              case 6:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function editState(_x7, _x8) {
+        return _editState.apply(this, arguments);
       }
-    }
+
+      return editState;
+    }()
   }, {
     key: "delete",
-    value: function _delete(id) {
-      var orders = this.getOrders(false);
-      orders = orders.filter(function (order) {
-        return order.id !== id || order.state !== 'pending';
-      });
+    value: function () {
+      var _delete2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5(req, res) {
+        var id;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                id = req.params.id;
+                _context5.prev = 1;
+                _context5.next = 4;
+                return _Order.default.destroy({
+                  where: {
+                    id: id,
+                    UserId: req.params.tokenId
+                  }
+                });
 
-      _fs.default.writeFileSync(p, JSON.stringify(orders));
-    }
+              case 4:
+                res.status(204).send();
+                _context5.next = 10;
+                break;
+
+              case 7:
+                _context5.prev = 7;
+                _context5.t0 = _context5["catch"](1);
+                res.status(500).send('Something went wrong, please try again');
+
+              case 10:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this, [[1, 7]]);
+      }));
+
+      function _delete(_x9, _x10) {
+        return _delete2.apply(this, arguments);
+      }
+
+      return _delete;
+    }()
   }]);
 
   return Order;

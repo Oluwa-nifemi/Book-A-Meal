@@ -7,9 +7,11 @@ exports.default = void 0;
 
 var _fs = _interopRequireDefault(require("fs"));
 
-var _path = _interopRequireDefault(require("path"));
+var _OrderItem = _interopRequireDefault(require("../models/OrderItem"));
 
-var _meal = _interopRequireDefault(require("./meal"));
+var _Meal = _interopRequireDefault(require("../models/Meal"));
+
+var _User = _interopRequireDefault(require("../models/User"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17,13 +19,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var p = _path.default.join(__dirname, '../data', 'order-items.json');
 
 var OrderItem =
 /*#__PURE__*/
@@ -44,74 +48,238 @@ function () {
     });
   }
 
-  _createClass(OrderItem, [{
-    key: "add",
-    value: function add() {
-      var _this = this;
+  _createClass(OrderItem, null, [{
+    key: "getOrderItems",
+    value: function () {
+      var _getOrderItems = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(req, res) {
+        var id, orders;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                id = parseInt(req.params.userid, 10);
+                _context.next = 3;
+                return _OrderItem.default.findAll({
+                  where: {
+                    UserId: id,
+                    status: 'cart'
+                  },
+                  include: [_Meal.default]
+                });
 
-      var orderItems = JSON.parse(_fs.default.readFileSync(p));
+              case 3:
+                orders = _context.sent;
+                orders = orders.map(function (order) {
+                  return order.dataValues;
+                });
+                res.status(200).send(orders);
 
-      if (orderItems.find(function (item) {
-        return item.mealId === _this.mealId && item.userId === _this.userId;
-      })) {
-        return {
-          err: 'Meal already exists you can increase the quantity in your cart'
-        };
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getOrderItems(_x, _x2) {
+        return _getOrderItems.apply(this, arguments);
       }
 
-      var id = orderItems.length + 1;
-      orderItems.push(_objectSpread({
-        id: id
-      }, this));
+      return getOrderItems;
+    }()
+  }, {
+    key: "add",
+    value: function () {
+      var _add = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(req, res) {
+        var item, meal, prevItem, i, user;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                item = req.body;
+                _context2.next = 3;
+                return _Meal.default.findOne({
+                  where: {
+                    id: item.mealId
+                  }
+                });
 
-      _fs.default.writeFileSync(p, JSON.stringify(orderItems));
+              case 3:
+                meal = _context2.sent;
+                _context2.next = 6;
+                return _OrderItem.default.findOne({
+                  where: {
+                    status: 'cart'
+                  },
+                  include: [{
+                    model: _Meal.default,
+                    where: {
+                      id: item.mealId
+                    }
+                  }, {
+                    model: _User.default,
+                    where: {
+                      id: item.userId
+                    }
+                  }]
+                });
 
-      return _objectSpread({
-        id: id
-      }, this);
-    }
-  }], [{
-    key: "getOrderItems",
-    value: function getOrderItems(id) {
-      var orderItems = JSON.parse(_fs.default.readFileSync(p));
-      orderItems = orderItems.map(function (item) {
-        return _objectSpread({}, _meal.default.fetchMealById(item.mealId), item);
-      });
-      var orderItemsFiltered = orderItems.filter(function (item) {
-        return item.userId === id && item.status === 'cart';
-      });
-      return orderItemsFiltered;
-    }
+              case 6:
+                prevItem = _context2.sent;
+
+                if (prevItem) {
+                  res.status(409).send('The item is already on your cart');
+                }
+
+                if (!meal) {
+                  _context2.next = 21;
+                  break;
+                }
+
+                _context2.next = 11;
+                return _OrderItem.default.create({
+                  quantity: item.quantity
+                });
+
+              case 11:
+                i = _context2.sent;
+                _context2.next = 14;
+                return _User.default.findOne({
+                  where: {
+                    id: item.userId
+                  }
+                });
+
+              case 14:
+                user = _context2.sent;
+
+                if (user) {
+                  _context2.next = 18;
+                  break;
+                }
+
+                res.status(404).send('User does not exist');
+                return _context2.abrupt("return");
+
+              case 18:
+                i.addMeal(meal);
+                i.setUser(user);
+                res.status(200).send(_objectSpread({}, i.dataValues, {
+                  meal: meal
+                }));
+
+              case 21:
+                res.status(404).send('The meal does not exist');
+
+              case 22:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function add(_x3, _x4) {
+        return _add.apply(this, arguments);
+      }
+
+      return add;
+    }()
   }, {
     key: "edit",
-    value: function edit(item) {
-      var orderItems = JSON.parse(_fs.default.readFileSync(p));
-      var index = orderItems.findIndex(function (elem) {
-        return elem.id === item.id;
-      });
+    value: function () {
+      var _edit = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(req, res) {
+        var item, response, orderItem;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                item = req.body;
+                _context3.next = 3;
+                return _OrderItem.default.update({
+                  quantity: item.quantity
+                }, {
+                  where: {
+                    id: item.id,
+                    UserId: item.userId
+                  },
+                  returning: true
+                });
 
-      if (index !== -1) {
-        orderItems[index] = item;
+              case 3:
+                response = _context3.sent;
 
-        _fs.default.writeFileSync(p, JSON.stringify(orderItems));
+                if (!response[0]) {
+                  _context3.next = 8;
+                  break;
+                }
 
-        return item;
+                orderItem = response[1][0];
+                res.status(200).send(orderItem);
+                return _context3.abrupt("return");
+
+              case 8:
+                res.status(404).send('The item is not on your cart');
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function edit(_x5, _x6) {
+        return _edit.apply(this, arguments);
       }
 
-      return {
-        err: "Meal doesn't exist database"
-      };
-    }
+      return edit;
+    }()
   }, {
     key: "delete",
-    value: function _delete(id) {
-      var orderItems = JSON.parse(_fs.default.readFileSync(p));
-      orderItems = orderItems.filter(function (item) {
-        return item.id !== id;
-      });
+    value: function () {
+      var _delete2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(req, res) {
+        var id;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                id = parseInt(req.params.id, 10);
+                _context4.next = 3;
+                return _OrderItem.default.destroy({
+                  where: {
+                    id: id,
+                    status: 'cart',
+                    UserId: req.params.tokenId
+                  }
+                });
 
-      _fs.default.writeFileSync(p, JSON.stringify(orderItems));
-    }
+              case 3:
+                res.status(204).send();
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function _delete(_x7, _x8) {
+        return _delete2.apply(this, arguments);
+      }
+
+      return _delete;
+    }()
   }]);
 
   return OrderItem;
