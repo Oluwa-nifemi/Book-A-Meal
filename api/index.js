@@ -1,5 +1,7 @@
 import '@babel/polyfill';
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocs from './swaggerdocs.json';
 import db from './config/database';
 import routes from './routes/routes';
 import Meal from './models/Meal';
@@ -10,6 +12,8 @@ import User from './models/User';
 import Caterer from './models/Caterer';
 
 const app = express();
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Associations
 Order.belongsTo(User);
