@@ -25,7 +25,7 @@ class Caterer {
         const caterer = req.body;
         const prevUser = CatererModel.find({ where: { email: caterer.email } });
         if (prevUser) {
-            res.status(400).send({
+            res.status(409).send({
                 status: 'failure',
                 message: 'There\'s already a caterer with that email',
             });

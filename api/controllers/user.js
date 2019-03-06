@@ -27,7 +27,7 @@ class User {
             const user = req.body;
             const prevUser = UserModel.find({ where: { email: user.email } });
             if (prevUser) {
-                res.status(400).send({
+                res.status(409).send({
                     status: 'failure',
                     message: 'There\'s already a user with that email',
                 });
