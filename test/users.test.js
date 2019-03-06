@@ -39,7 +39,6 @@ describe('User login', () => {
                 expect(res.body).to.have.all.keys('status')
                 expect(res.body.status).to.be.equal('success');
                 UserModel.destroy({ where: { email: 'test@gmail.com' }})
-                done();
             })
     })
 })
