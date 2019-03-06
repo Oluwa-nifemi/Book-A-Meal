@@ -13,10 +13,13 @@ class User {
                 res.header('x-auth-token', token).status(200).send({
                     status: 'success',
                 });
+                return true;
             }
-            return res.status(400).send('Invalid email or password');
+            res.status(400).send('Invalid email or password');
+            return false;
         }
-        return res.status(400).send('Invalid email or password');
+        res.status(400).send('Invalid email or password');
+        return false;
     }
 
     static async signup(req, res) {
