@@ -21,7 +21,7 @@ class Order {
         const order = req.body;
         const user = await UserModel.findByPk(order.userId);
         if (user) {
-            const createdOrder = await OrderModel.create({ address: user.address });
+            const createdOrder = await OrderModel.create({ address: order.address });
             const orderItems = await OrderItemModel.findAll({
                 where: {
                     id: order.orderItems,
