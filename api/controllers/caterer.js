@@ -10,24 +10,30 @@ class Caterer {
         if (catererdb) {
             if (catererdb.password === req.body.password) {
                 const token = jwt.sign({ id: catererdb.id, caterer: true }, process.env.SECRET_KEY);
-                res.header('x-auth-token', token).status(200).send({
+                res.header('x-auth-token', token).status(200).json({
                     status: 'success',
                 });
+                return true;
             }
-            return res.status(400).send('Invalid email or password');
+            res.status(400).json({
+                status: 'failure',
+                message: 'Invalid email or password',
+            });
+            return false;
         }
-        return res.status(400).send('Invalid email or password');
+        res.status(400).json({
+            status: 'failure',
+            message: 'Invalid email or password',
+        });
+        return false;
     }
 
     static async signup(req, res) {
-        try {
-            const caterer = req.body;
-            const createdCaterer = await CatererModel.create(caterer);
-            const catererDetails = createdCaterer.dataValues;
-            return res.status(200).send(catererDetails);
-        } catch (err) {
-            return res.status(409);
-        }
+        const caterer = req.body;
+        await CatererModel.create(caterer);
+        res.status(200).json({
+            status: 'success',
+        });
     }
 }
 

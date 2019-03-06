@@ -4,6 +4,7 @@ import request from 'chai-http';
 import app from '../api/index';
 import UserModel from '../api/models/User';
 import jwt from 'jsonwebtoken';
+import MealModel from '../api/models/Meal';
 
 dotenv.config();
 
@@ -19,9 +20,21 @@ const userDetails = {
     name: "Test User"
 }
 
+let id;
+
 before(done => {
     UserModel.create(userDetails).then(() => {
-        done();
+        MealModel.create({
+            title:"Indomie and Fregg",
+            description:"MenuTest",
+            image:"image3.jpg",
+            price:11.6,
+            defaultQuantity:50
+        })
+        .then((meal) => {
+            id = meal.id;
+            done();
+        })
     });
 })
 
@@ -33,9 +46,11 @@ describe('Get menu', () => {
             chai.request(app)
             .get(`${apiVersion}/menu`)
             .set('bearer', token) 
-            .then(menu => menu.body)
-            .then((menu) => {
-                expect(menu).to.have.all.keys('id','date','meals','createdAt','updatedAt');
+            .then(res => res.body)
+            .then((body) => {
+                expect(body).to.have.all.keys('status','data');
+                expect(body.status).to.be.equal('success');
+                expect(body.data).to.have.all.keys('id','date','meals','createdAt','updatedAt');
                 done();
             })
         })          
@@ -45,20 +60,46 @@ describe('Post to menu', () => {
         it('Should return menu array', done => {
             UserModel.findOne( { where: { email: userDetails.email } })
             .then(user => {
-                const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+                const token = jwt.sign({ id: user.id,caterer: true }, process.env.SECRET_KEY);
                 chai.request(app)
                     .post(`${apiVersion}/menu`)
                     .set('bearer', token)                     
                     .send({
-                        "id" : 5,
+                        id,
                         "quantity" : 7,
                     })
-                    .then(res => res.text)
-                    .then(res => {
-                        expect(res).to.be.equal('The meal was added to the database');
+                    .then(res => res.body)
+                    .then(body => {
+                        expect(body).to.be.have.keys('status','message');
+                        expect(body.status).to.be.equal('success');
+                        expect(body.message).to.be.equal('The meal was added to the database');
                         done();
                     })
         })
+    });
+});
+
+describe('Edit meal in menu', () => {
+    it('Should return status and success message', done => {
+        UserModel.findOne( { where: { email: userDetails.email } })
+            .then(user => {
+                const token = jwt.sign({ id: user.id,caterer: true }, process.env.SECRET_KEY);                
+                chai.request(app)
+                .put(`${apiVersion}/menu`)
+                .set('bearer', token)                                     
+                .send({
+                    id,
+                    "quantity" : 6,
+                })
+                .then(res => res.body)
+                .then((body) => {
+                    expect(body).to.be.have.keys('status','message');
+                    expect(body.status).to.be.equal('success');
+                    expect(body.message).to.be.equal('The meal was successfully edited');
+                    done();
+                })
+                .catch(console.log)
+            }); 
     });
 });
 
@@ -66,9 +107,9 @@ describe('Delete meal from menu', () => {
     it('Should return empty reply', done => {
         UserModel.findOne( { where: { email: userDetails.email } })
             .then(user => {
-                const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);                
+                const token = jwt.sign({ id: user.id,caterer: true }, process.env.SECRET_KEY);                
                 chai.request(app)
-                .delete(`${apiVersion}/menu/5`)
+                .delete(`${apiVersion}/menu/${id}`)
                 .set('bearer', token)                     
                 .then((res) => {
                     expect(res.text).to.be.equal('');
@@ -84,6 +125,9 @@ describe('Delete meal from menu', () => {
 after(done => {
     UserModel.destroy({ where: { email: userDetails.email }})
     .then(() => {
-        done();
+        MealModel.destroy({ where: { description: 'MenuTest' }})
+        .then(() => {
+            done();
+        })
     })
 })

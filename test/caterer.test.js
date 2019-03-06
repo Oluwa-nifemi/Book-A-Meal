@@ -1,7 +1,11 @@
+import dotenv from 'dotenv';
 import chai from 'chai';
 import request from 'chai-http';
 import app from '../api/index';
-import UserModel from '../api/models/User';
+import CatererModel from '../api/models/Caterer';
+import jwt from 'jsonwebtoken';
+
+dotenv.config();
 
 const { expect, use } = chai;
 
@@ -9,11 +13,22 @@ use(request);
 
 const apiVersion = '/api/v1';
 
+const catererDetails = {
+    email: "test@gmail.com",
+    password: "password",
+    name: "Test User"
+}
 
-describe('User signup', () => {
+before(done => {
+    app.on('connected', () => {
+        done();
+    })
+})
+
+describe('Caterer signup', () => {
     it('Should return status success', () => {
         chai.request(app)
-            .post(`${apiVersion}/users/signup`)
+            .post(`${apiVersion}/caterers/signup`)
             .send({
                     email: "test@gmail.com",
                     password: "password",
@@ -22,24 +37,22 @@ describe('User signup', () => {
             .then(res => res.body)
             .then((data) => {
                 expect(data).to.have.all.keys('status')
-                expect(data.status).to.be.equal.to('success');
-                done();
+                expect(data.status).to.be.equal('success');
             })
         })
-    })
-describe('User login', () => {
+})
+describe('Caterer login', () => {
     it('Should return status success', () => {
         chai.request(app)
-            .post(`${apiVersion}/users/signup`)
+            .post(`${apiVersion}/caterers/login`)
             .send({
                     email: "test@gmail.com",
                     password: "password",
             })
             .then((res) => {
-                expect(res.body).to.have.all.keys('status')
+                expect(res.body).to.have.all.keys('status');
                 expect(res.body.status).to.be.equal('success');
-                UserModel.destroy({ where: { email: 'test@gmail.com' }})
-                done();
+                CatererModel.destroy({ where: { email: 'test@gmail.com' }})
             })
     })
 })

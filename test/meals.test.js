@@ -14,46 +14,43 @@ use(request);
 const apiVersion = '/api/v1';
 
 const catererDetails = {
-    email: "test@gmail.com",
+    email: "testasd@gmail.com",
     password: "password",
     name: "Test User"
 }
 
-let id;
+let id, catererId;
 
 before(done => {
-    CatererModel.create(catererDetails).then(() => {
+    CatererModel.create(catererDetails).then((caterer) => {
+        catererId = caterer.id;
         done();
     });
 })
 
 describe('Get meals', () => {
         it('Should return meals array', done => {
-            CatererModel.findOne( { where: { email: catererDetails.email } })
-            .then(caterer => {
-                const token = jwt.sign({ id: caterer.id, caterer: true }, process.env.SECRET_KEY);
+                const token = jwt.sign({ id: catererId, caterer: true }, process.env.SECRET_KEY);
                 chai.request(app)
                     .get(`${apiVersion}/meals`)
                     .set('bearer', token) 
-                    .then(data => data.body)
-                    .then((meals) => {
-                        expect(meals).to.be.an('array');
-                        expect(meals[0]).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity','createdAt', 'updatedAt');
+                    .then(res => res.body)
+                    .then((body) => {
+                        expect(body).to.have.all.keys('status','data');
+                        expect(body.status).to.equal('success');
+                        expect(body.data).to.be.an('array');
                         done();
                     })
                     .catch((err) => {
                         console.log(err);                
                     })
-        })
     });
 });
 
 
 describe('Add meal', () => {
     it('Should return meal', done => {
-        CatererModel.findOne( { where: { email: catererDetails.email } })        
-        .then(caterer => {
-            const token = jwt.sign({ id: caterer.id, caterer: true }, process.env.SECRET_KEY);
+            const token = jwt.sign({ id: catererId, caterer: true }, process.env.SECRET_KEY);
             chai.request(app)
                 .post(`${apiVersion}/meals`)
                 .set('bearer', token) 
@@ -65,21 +62,19 @@ describe('Add meal', () => {
                     defaultQuantity: 100,
                 })
                 .then(res => res.body)
-                .then((meal) => {
-                    expect(meal).to.be.an('object');
-                    expect(meal).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity','createdAt', 'updatedAt');
+                .then((body) => {
+                    expect(body).to.have.all.keys('status','data');
+                    expect(body.status).to.equal('success');
+                    expect(body.data).to.be.an('object');
+                    id = body.data.id;
                     done();
-                    id = meal.id;
                 })
-        });
     });
 });
 
 describe('Edit meal', () => {
     it('Should return meal', done => {
-        CatererModel.findOne( { where: { email: catererDetails.email } })        
-        .then(caterer => {
-            const token = jwt.sign({ id: caterer.id, caterer: true }, process.env.SECRET_KEY);
+            const token = jwt.sign({ id: catererId, caterer: true }, process.env.SECRET_KEY);
                 chai.request(app)
                 .put(`${apiVersion}/meals/${id}`)
                 .set('bearer', token) 
@@ -91,20 +86,18 @@ describe('Edit meal', () => {
                     defaultQuantity: 100,
                 })
                 .then(res => res.body)
-                .then((meal) => {
-                    expect(meal).to.be.an('object');
-                    expect(meal).to.have.all.keys('image', 'description', 'title', 'id', 'price', 'defaultQuantity','createdAt', 'updatedAt');
+                .then((body) => {
+                    expect(body).to.have.all.keys('status','data');
+                    expect(body.status).to.equal('success');
+                    expect(body.data).to.be.an('object');
                     done();
                 });
             })
     });
-});
 
 describe('Delete meal', () => {
     it('Should return nothing and status code 204', done => {
-        CatererModel.findOne( { where: { email: catererDetails.email } })        
-        .then(caterer => {
-            const token = jwt.sign({ id: caterer.id, caterer: true }, process.env.SECRET_KEY);
+            const token = jwt.sign({ id: catererId, caterer: true }, process.env.SECRET_KEY);
             chai.request(app)
                 .delete(`${apiVersion}/meals/${id}`)
                 .set('bearer', token) 
@@ -116,7 +109,6 @@ describe('Delete meal', () => {
                     console.log(err.message);
                 });
             })
-        })
     })
     
 after(done => {
