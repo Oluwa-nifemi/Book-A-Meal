@@ -4,18 +4,15 @@
   "description": "A meal booking app built with React and Node",
   "main": "api/index.js",
   "scripts": {
-    "seed" : "sequelize db:seed:undo:all && sequelize db:seed:all",
     "test": "nyc mocha --require @babel/register --require @babel/polyfill --exit",
-    "unseed" : "sequelize db:seed:undo:all",
     "dev": "nodemon --exec babel-node api/index.js",
     "clean": "rm -rf ./build",
     "start": "node ./build/index.js",
-    "build": "npm run clean && babel ./api -d ./build && npm run transfer-files",
+    "build": "npm run clean && babel ./api -d ./build",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
-    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
-    "transfer-files": "cp -R ./api/data ./build"
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
   },
   "repository": {
     "type": "git",
