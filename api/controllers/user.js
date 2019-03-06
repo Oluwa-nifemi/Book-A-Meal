@@ -21,7 +21,7 @@ class User {
     static async signup(req, res) {
         try {
             const user = req.body;
-            const prevUser = await UserModel.find({ where: { email: user.email } });
+            const prevUser = await UserModel.findOne({ where: { email: user.email } });
             if (prevUser) {
                 res.status(409).send({
                     status: 'failure',

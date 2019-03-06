@@ -98,7 +98,7 @@ function () {
                 _context2.prev = 0;
                 user = req.body;
                 _context2.next = 4;
-                return _User.default.find({
+                return _User.default.findOne({
                   where: {
                     email: user.email
                   }

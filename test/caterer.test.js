@@ -26,32 +26,32 @@ before(done => {
 })
 
 describe('Caterer signup', () => {
-    it('Should return status success', () => {
+    it('Should return status success', done => {
         chai.request(app)
             .post(`${apiVersion}/caterers/signup`)
-            .send({
-                    email: "test@gmail.com",
-                    password: "password",
-                    name: "Test User"
-            })
+            .send(catererDetails)
             .then(res => res.body)
             .then((data) => {
                 expect(data).to.have.all.keys('status')
-                expect(data.status).to.be.equal('success');
+                expect(data.status).to.equal('success');
+                done();
             })
         })
 })
 describe('Caterer login', () => {
-    it('Should return status success', () => {
+    it('Should return status success', done => {
         chai.request(app)
             .post(`${apiVersion}/caterers/login`)
             .send({
-                    email: "test@gmail.com",
-                    password: "password",
+                    email: catererDetails.email,
+                    password: catererDetails.password,
             })
             .then((res) => {
-                expect(res.body.status).to.be.equal('success');
-                CatererModel.destroy({ where: { email: 'test@gmail.com' }})
+                expect(res.body.status).to.equal('success');
+                CatererModel.destroy({ where: { email: catererDetails.email }})
+                .then(() => {
+                    done();
+                })
             })
     })
 })

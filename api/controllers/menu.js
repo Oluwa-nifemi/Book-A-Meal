@@ -56,17 +56,18 @@ class Menu {
     }
 
     static async deleteMeal(req, res) {
-        const menu = await MenuModel.findOne({ where: { date: new Date() } });
+        let menu = await MenuModel.findOne({ where: { date: new Date() } });
+        menu = menu.dataValues;
         const id = parseInt(req.params.id, 10);
         const { meals } = menu;
-        const mealIndex = meals.findIndex(m => m.id === id);
+        const mealIndex = meals.findIndex(m => m.mealId === id);
         if (mealIndex > -1) {
             meals.splice(mealIndex, 1);
             MenuModel.update({ meals }, { where: { date: new Date() } });
             res.status(204).send();
             return true;
         }
-        res.status(409);
+        res.status(409).send();
         return false;
     }
 }

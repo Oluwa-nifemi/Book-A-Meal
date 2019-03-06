@@ -223,7 +223,8 @@ function () {
       var _deleteMeal = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee4(req, res) {
-        var menu, id, meals, mealIndex;
+        var menu, id, _menu, meals, mealIndex;
+
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -237,14 +238,15 @@ function () {
 
               case 2:
                 menu = _context4.sent;
+                menu = menu.dataValues;
                 id = parseInt(req.params.id, 10);
-                meals = menu.meals;
+                _menu = menu, meals = _menu.meals;
                 mealIndex = meals.findIndex(function (m) {
-                  return m.id === id;
+                  return m.mealId === id;
                 });
 
                 if (!(mealIndex > -1)) {
-                  _context4.next = 11;
+                  _context4.next = 12;
                   break;
                 }
 
@@ -261,11 +263,11 @@ function () {
                 res.status(204).send();
                 return _context4.abrupt("return", true);
 
-              case 11:
-                res.status(409);
+              case 12:
+                res.status(409).send();
                 return _context4.abrupt("return", false);
 
-              case 13:
+              case 14:
               case "end":
                 return _context4.stop();
             }

@@ -9,34 +9,37 @@ use(request);
 
 const apiVersion = '/api/v1';
 
+const userDetails = {
+    email: "testuserrr@gmail.com",
+    password: "password",
+    name: "Test User"
+}
 
 describe('User signup', () => {
-    it('Should return status success', () => {
+    it('Should return status success', done => {
         chai.request(app)
             .post(`${apiVersion}/users/signup`)
-            .send({
-                    email: "test@gmail.com",
-                    password: "password",
-                    name: "Test User"
-            })
+            .send(userDetails)
             .then(res => res.body)
             .then((data) => {
                 expect(data).to.have.all.keys('status')
                 expect(data.status).to.be.equal('success');
+                done();
             })
         })
     })
 describe('User login', () => {
-    it('Should return status success', () => {
+    it('Should return status success', done => {
         chai.request(app)
             .post(`${apiVersion}/users/login`)
             .send({
-                    email: "test@gmail.com",
-                    password: "password",
+                    email: userDetails.email,
+                    password: userDetails.password,
             })
             .then((res) => {
                 expect(res.body.status).to.equal('success');
-                UserModel.destroy({ where: { email: 'test@gmail.com' }})
+                UserModel.destroy({ where: { email: userDetails.email }})
+                done();
             })
     })
 })

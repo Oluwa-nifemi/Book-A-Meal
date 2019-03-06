@@ -23,7 +23,7 @@ const mealDetails = {
 };
 
 const userDetails = {
-    email: "ordertest@gmail.com",
+    email: "orderest@gmail.com",
     password: "password",
     name: "Test User"
 }
@@ -88,13 +88,12 @@ describe('Edit order item',() => {
             .put(`${apiVersion}/order-items`)
             .set('bearer', token)             
             .send({
-                id,
+                 id,
                 userId,
                 "quantity": 10,
             })
             .then(res => res.body)
             .then(orderItem => {
-                expect(orderItem).to.be.have.all.keys('status','data');
                 expect(orderItem.status).to.be.equal('success');
                 expect(orderItem.data).to.be.an('object');
                 done();

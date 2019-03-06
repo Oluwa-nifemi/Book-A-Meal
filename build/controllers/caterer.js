@@ -101,7 +101,7 @@ function () {
               case 0:
                 caterer = req.body;
                 _context2.next = 3;
-                return _Caterer.default.find({
+                return _Caterer.default.findOne({
                   where: {
                     email: caterer.email
                   }
