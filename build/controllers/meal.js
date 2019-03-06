@@ -22,22 +22,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Meal =
 /*#__PURE__*/
 function () {
-  function Meal(_ref) {
-    var title = _ref.title,
-        description = _ref.description,
-        image = _ref.image,
-        price = _ref.price,
-        defaultQuantity = _ref.defaultQuantity;
-
+  function Meal() {
     _classCallCheck(this, Meal);
-
-    Object.assign(this, {
-      title: title,
-      description: description,
-      image: image,
-      price: price,
-      defaultQuantity: defaultQuantity
-    });
   }
 
   _createClass(Meal, null, [{

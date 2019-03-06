@@ -53,13 +53,8 @@ function () {
               case 2:
                 catererdb = _context.sent;
 
-                if (!catererdb) {
-                  _context.next = 10;
-                  break;
-                }
-
-                if (!(catererdb.password === req.body.password)) {
-                  _context.next = 8;
+                if (!(catererdb && catererdb.password === req.body.password)) {
+                  _context.next = 7;
                   break;
                 }
 
@@ -72,21 +67,14 @@ function () {
                 });
                 return _context.abrupt("return", true);
 
-              case 8:
+              case 7:
                 res.status(400).json({
                   status: 'failure',
                   message: 'Invalid email or password'
                 });
                 return _context.abrupt("return", false);
 
-              case 10:
-                res.status(400).json({
-                  status: 'failure',
-                  message: 'Invalid email or password'
-                });
-                return _context.abrupt("return", false);
-
-              case 12:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -106,21 +94,44 @@ function () {
       var _signup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var caterer;
+        var caterer, prevUser;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 caterer = req.body;
                 _context2.next = 3;
-                return _Caterer.default.create(caterer);
+                return _Caterer.default.find({
+                  where: {
+                    email: caterer.email
+                  }
+                });
 
               case 3:
+                prevUser = _context2.sent;
+
+                if (!prevUser) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                res.status(409).send({
+                  status: 'failure',
+                  message: 'There\'s already a caterer with that email'
+                });
+                return _context2.abrupt("return", false);
+
+              case 7:
+                _context2.next = 9;
+                return _Caterer.default.create(caterer);
+
+              case 9:
                 res.status(200).json({
                   status: 'success'
                 });
+                return _context2.abrupt("return", true);
 
-              case 4:
+              case 11:
               case "end":
                 return _context2.stop();
             }

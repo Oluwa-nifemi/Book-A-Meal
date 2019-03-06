@@ -30,20 +30,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var OrderItem =
 /*#__PURE__*/
 function () {
-  function OrderItem(_ref) {
-    var mealId = _ref.mealId,
-        userId = _ref.userId,
-        quantity = _ref.quantity,
-        status = _ref.status;
-
+  function OrderItem() {
     _classCallCheck(this, OrderItem);
-
-    Object.assign(this, {
-      mealId: mealId,
-      userId: userId,
-      quantity: quantity,
-      status: status
-    });
   }
 
   _createClass(OrderItem, null, [{

@@ -22,20 +22,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Menu =
 /*#__PURE__*/
 function () {
-  function Menu(_ref) {
-    var userId = _ref.userId,
-        date = _ref.date,
-        orderItems = _ref.orderItems,
-        state = _ref.state;
-
+  function Menu() {
     _classCallCheck(this, Menu);
-
-    Object.assign(this, {
-      userId: userId,
-      date: date,
-      orderItems: orderItems,
-      state: state
-    });
   }
 
   _createClass(Menu, null, [{

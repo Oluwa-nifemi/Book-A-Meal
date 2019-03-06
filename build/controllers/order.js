@@ -36,20 +36,8 @@ var Op = _sequelize.default.Op;
 var Order =
 /*#__PURE__*/
 function () {
-  function Order(_ref) {
-    var userId = _ref.userId,
-        date = _ref.date,
-        orderItems = _ref.orderItems,
-        state = _ref.state;
-
+  function Order() {
     _classCallCheck(this, Order);
-
-    Object.assign(this, {
-      userId: userId,
-      date: date,
-      orderItems: orderItems,
-      state: state
-    });
   }
 
   _createClass(Order, null, [{
@@ -117,7 +105,7 @@ function () {
 
                 _context2.next = 7;
                 return _Order.default.create({
-                  address: user.address
+                  address: order.address
                 });
 
               case 7:

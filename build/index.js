@@ -9,6 +9,10 @@ require("@babel/polyfill");
 
 var _express = _interopRequireDefault(require("express"));
 
+var _swaggerUiExpress = _interopRequireDefault(require("swagger-ui-express"));
+
+var _swaggerdocs = _interopRequireDefault(require("./swaggerdocs.json"));
+
 var _database = _interopRequireDefault(require("./config/database"));
 
 var _routes = _interopRequireDefault(require("./routes/routes"));
@@ -27,7 +31,8 @@ var _Caterer = _interopRequireDefault(require("./models/Caterer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var app = (0, _express.default)(); // Associations
+var app = (0, _express.default)();
+app.use('/api-docs', _swaggerUiExpress.default.serve, _swaggerUiExpress.default.setup(_swaggerdocs.default)); // Associations
 
 _Order.default.belongsTo(_User.default);
 
@@ -49,7 +54,7 @@ _OrderItem.default.belongsToMany(_Meal.default, {
   through: 'ItemMeal'
 });
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 4000;
 app.use('/api/v1', _routes.default);
 
 _database.default.sync().then(function () {

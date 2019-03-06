@@ -48,7 +48,10 @@ function () {
                   break;
                 }
 
-                res.status(409).send('No request token');
+                res.status(409).json({
+                  status: 'failure',
+                  message: 'No request token'
+                });
                 return _context.abrupt("return", false);
 
               case 4:
@@ -71,11 +74,17 @@ function () {
                   break;
                 }
 
-                res.status(403).send('Invalid signature');
+                res.status(403).json({
+                  status: 'failure',
+                  message: 'Invalid signature'
+                });
                 return _context.abrupt("return", false);
 
               case 18:
-                res.status(500).send('Server error');
+                res.status(500).json({
+                  status: 'failure',
+                  message: 'Server error'
+                });
                 return _context.abrupt("return", false);
 
               case 20:

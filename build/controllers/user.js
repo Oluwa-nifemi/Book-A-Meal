@@ -53,26 +53,24 @@ function () {
               case 2:
                 userdb = _context.sent;
 
-                if (!userdb) {
-                  _context.next = 6;
+                if (!(userdb && userdb.password === req.body.password)) {
+                  _context.next = 7;
                   break;
                 }
 
-                if (userdb.password === req.body.password) {
-                  token = _jsonwebtoken.default.sign({
-                    id: userdb.id
-                  }, process.env.SECRET_KEY);
-                  res.header('x-auth-token', token).status(200).send({
-                    status: 'success'
-                  });
-                }
-
-                return _context.abrupt("return", res.status(400).send('Invalid email or password'));
-
-              case 6:
-                return _context.abrupt("return", res.status(400).send('Invalid email or password'));
+                token = _jsonwebtoken.default.sign({
+                  id: userdb.id
+                }, process.env.SECRET_KEY);
+                res.header('x-auth-token', token).status(200).send({
+                  status: 'success'
+                });
+                return _context.abrupt("return", true);
 
               case 7:
+                res.status(400).send('Invalid email or password');
+                return _context.abrupt("return", false);
+
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -92,7 +90,7 @@ function () {
       var _signup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var user;
+        var user, prevUser;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -100,24 +98,46 @@ function () {
                 _context2.prev = 0;
                 user = req.body;
                 _context2.next = 4;
-                return _User.default.create(user);
+                return _User.default.find({
+                  where: {
+                    email: user.email
+                  }
+                });
 
               case 4:
+                prevUser = _context2.sent;
+
+                if (!prevUser) {
+                  _context2.next = 8;
+                  break;
+                }
+
+                res.status(409).send({
+                  status: 'failure',
+                  message: 'There\'s already a user with that email'
+                });
+                return _context2.abrupt("return", false);
+
+              case 8:
+                _context2.next = 10;
+                return _User.default.create(user);
+
+              case 10:
                 return _context2.abrupt("return", res.status(200).send({
                   status: 'success'
                 }));
 
-              case 7:
-                _context2.prev = 7;
+              case 13:
+                _context2.prev = 13;
                 _context2.t0 = _context2["catch"](0);
                 return _context2.abrupt("return", res.status(409));
 
-              case 10:
+              case 16:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 7]]);
+        }, _callee2, this, [[0, 13]]);
       }));
 
       function signup(_x3, _x4) {
