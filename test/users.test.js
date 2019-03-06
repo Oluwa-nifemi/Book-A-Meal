@@ -22,7 +22,7 @@ describe('User signup', () => {
             .then(res => res.body)
             .then((data) => {
                 expect(data).to.have.all.keys('status')
-                expect(data.status).to.be.equal.to('success');
+                expect(data.status).to.be.equal('success');
                 done();
             })
         })
