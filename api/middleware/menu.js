@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const schema = Joi.object().keys({
-    id: Joi.number().min(1),
+    mealId: Joi.number().min(1),
     quantity: Joi.number().min(1),
 });
 
