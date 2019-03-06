@@ -73,7 +73,10 @@ function () {
                 orders = orders.map(function (order) {
                   return order.dataValues;
                 });
-                res.status(200).send(orders);
+                res.status(200).json({
+                  status: 'success',
+                  data: orders
+                });
 
               case 5:
               case "end":
@@ -108,12 +111,14 @@ function () {
                 user = _context2.sent;
 
                 if (!user) {
-                  _context2.next = 16;
+                  _context2.next = 17;
                   break;
                 }
 
                 _context2.next = 7;
-                return _Order.default.create();
+                return _Order.default.create({
+                  address: user.address
+                });
 
               case 7:
                 createdOrder = _context2.sent;
@@ -140,12 +145,20 @@ function () {
                 });
 
               case 15:
-                res.status(200).send(createdOrder.dataValues);
-
-              case 16:
-                res.status(404).send('User not found');
+                res.status(200).send({
+                  status: 'success',
+                  messsage: 'The order was succesfully added',
+                  data: createdOrder.dataValues
+                });
+                return _context2.abrupt("return");
 
               case 17:
+                res.status(404).json({
+                  status: 'failure',
+                  messsage: 'The user was not found. Are you sure you are logged in to a valid account'
+                });
+
+              case 18:
               case "end":
                 return _context2.stop();
             }
@@ -170,13 +183,21 @@ function () {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                UserId = req.params.userid;
+                UserId = parseInt(req.params.userid, 10);
 
-                if (UserId !== req.params.tokenId) {
-                  res.status(403).send('You\'re not allowed to access that');
+                if (!(UserId !== req.params.tokenId)) {
+                  _context3.next = 4;
+                  break;
                 }
 
-                _context3.next = 4;
+                res.status(403).json({
+                  status: 'failure',
+                  message: 'You are not allowed to access that'
+                });
+                return _context3.abrupt("return");
+
+              case 4:
+                _context3.next = 6;
                 return _Order.default.findAll({
                   where: {
                     UserId: UserId
@@ -184,14 +205,17 @@ function () {
                   include: [_OrderItem.default]
                 });
 
-              case 4:
+              case 6:
                 orders = _context3.sent;
                 orders = orders.map(function (order) {
                   return order.dataValues;
                 });
-                res.status(200).send(orders);
+                res.status(200).json({
+                  status: 'success',
+                  data: orders
+                });
 
-              case 7:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -231,13 +255,25 @@ function () {
               case 3:
                 response = _context4.sent;
 
-                if (response[0]) {
-                  res.status(200).send('The order has been edited');
+                if (!response[0]) {
+                  _context4.next = 7;
+                  break;
                 }
 
-                res.status(404).send('The order was not found');
+                res.status(200).json({
+                  status: 'success',
+                  message: 'The order has been edited'
+                });
+                return _context4.abrupt("return", true);
 
-              case 6:
+              case 7:
+                res.status(404).json({
+                  status: 'failure',
+                  message: 'The order was not found'
+                });
+                return _context4.abrupt("return", false);
+
+              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -280,7 +316,10 @@ function () {
               case 7:
                 _context5.prev = 7;
                 _context5.t0 = _context5["catch"](1);
-                res.status(500).send('Something went wrong, please try again');
+                res.status(500).json({
+                  status: 'failure',
+                  message: 'Something went wrong, please try again'
+                });
 
               case 10:
               case "end":

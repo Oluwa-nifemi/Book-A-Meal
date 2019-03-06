@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _fs = _interopRequireDefault(require("fs"));
-
 var _OrderItem = _interopRequireDefault(require("../models/OrderItem"));
 
 var _Meal = _interopRequireDefault(require("../models/Meal"));
@@ -74,9 +72,13 @@ function () {
                 orders = orders.map(function (order) {
                   return order.dataValues;
                 });
-                res.status(200).send(orders);
+                res.status(200).json({
+                  status: 'success',
+                  data: orders
+                });
+                return _context.abrupt("return", true);
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -132,51 +134,70 @@ function () {
               case 6:
                 prevItem = _context2.sent;
 
-                if (prevItem) {
-                  res.status(409).send('The item is already on your cart');
-                }
-
-                if (!meal) {
-                  _context2.next = 21;
+                if (!prevItem) {
+                  _context2.next = 10;
                   break;
                 }
 
-                _context2.next = 11;
+                res.status(409).json({
+                  status: 'failure',
+                  message: 'The item is already on your cart'
+                });
+                return _context2.abrupt("return", false);
+
+              case 10:
+                if (!meal) {
+                  _context2.next = 24;
+                  break;
+                }
+
+                _context2.next = 13;
                 return _OrderItem.default.create({
                   quantity: item.quantity
                 });
 
-              case 11:
+              case 13:
                 i = _context2.sent;
-                _context2.next = 14;
+                _context2.next = 16;
                 return _User.default.findOne({
                   where: {
                     id: item.userId
                   }
                 });
 
-              case 14:
+              case 16:
                 user = _context2.sent;
 
                 if (user) {
-                  _context2.next = 18;
+                  _context2.next = 20;
                   break;
                 }
 
-                res.status(404).send('User does not exist');
-                return _context2.abrupt("return");
+                res.status(404).json({
+                  status: 'failure',
+                  message: 'User does not exist'
+                });
+                return _context2.abrupt("return", false);
 
-              case 18:
+              case 20:
                 i.addMeal(meal);
                 i.setUser(user);
-                res.status(200).send(_objectSpread({}, i.dataValues, {
-                  meal: meal
-                }));
+                res.status(200).json({
+                  data: _objectSpread({}, i.dataValues, {
+                    meal: meal
+                  }),
+                  status: 'success'
+                });
+                return _context2.abrupt("return", true);
 
-              case 21:
-                res.status(404).send('The meal does not exist');
+              case 24:
+                res.status(404).json({
+                  status: 'failure',
+                  message: 'The meal does not exist'
+                });
+                return _context2.abrupt("return", false);
 
-              case 22:
+              case 26:
               case "end":
                 return _context2.stop();
             }
@@ -222,13 +243,20 @@ function () {
                 }
 
                 orderItem = response[1][0];
-                res.status(200).send(orderItem);
-                return _context3.abrupt("return");
+                res.status(200).json({
+                  status: 'success',
+                  data: orderItem
+                });
+                return _context3.abrupt("return", true);
 
               case 8:
-                res.status(404).send('The item is not on your cart');
+                res.status(404).json({
+                  status: 'failure',
+                  message: 'The item is not on your cart'
+                });
+                return _context3.abrupt("return", false);
 
-              case 9:
+              case 10:
               case "end":
                 return _context3.stop();
             }

@@ -7,11 +7,13 @@ exports.default = void 0;
 
 var _sequelize = _interopRequireDefault(require("sequelize"));
 
+var _dotenv = _interopRequireDefault(require("dotenv"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var db = new _sequelize.default('Book-A-Meal', 'postgres', 'password', {
-  host: 'localhost',
-  dialect: 'postgres',
+_dotenv.default.config();
+
+var db = new _sequelize.default(process.env.DATABASE_URL, {
   operatorsAliases: false,
   pool: {
     max: 5,

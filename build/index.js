@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+require("@babel/polyfill");
+
 var _express = _interopRequireDefault(require("express"));
 
 var _database = _interopRequireDefault(require("./config/database"));
@@ -52,6 +54,7 @@ app.use('/api/v1', _routes.default);
 
 _database.default.sync().then(function () {
   console.log('Connection established');
+  app.emit('connected');
   app.listen(PORT);
 }).catch(console.log);
 

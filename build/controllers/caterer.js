@@ -54,26 +54,39 @@ function () {
                 catererdb = _context.sent;
 
                 if (!catererdb) {
-                  _context.next = 6;
+                  _context.next = 10;
                   break;
                 }
 
-                if (catererdb.password === req.body.password) {
-                  token = _jsonwebtoken.default.sign({
-                    id: catererdb.id,
-                    caterer: true
-                  }, process.env.SECRET_KEY);
-                  res.header('x-auth-token', token).status(200).send({
-                    status: 'success'
-                  });
+                if (!(catererdb.password === req.body.password)) {
+                  _context.next = 8;
+                  break;
                 }
 
-                return _context.abrupt("return", res.status(400).send('Invalid email or password'));
+                token = _jsonwebtoken.default.sign({
+                  id: catererdb.id,
+                  caterer: true
+                }, process.env.SECRET_KEY);
+                res.header('x-auth-token', token).status(200).json({
+                  status: 'success'
+                });
+                return _context.abrupt("return", true);
 
-              case 6:
-                return _context.abrupt("return", res.status(400).send('Invalid email or password'));
+              case 8:
+                res.status(400).json({
+                  status: 'failure',
+                  message: 'Invalid email or password'
+                });
+                return _context.abrupt("return", false);
 
-              case 7:
+              case 10:
+                res.status(400).json({
+                  status: 'failure',
+                  message: 'Invalid email or password'
+                });
+                return _context.abrupt("return", false);
+
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -93,32 +106,26 @@ function () {
       var _signup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var caterer, createdCaterer, catererDetails;
+        var caterer;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
                 caterer = req.body;
-                _context2.next = 4;
+                _context2.next = 3;
                 return _Caterer.default.create(caterer);
 
+              case 3:
+                res.status(200).json({
+                  status: 'success'
+                });
+
               case 4:
-                createdCaterer = _context2.sent;
-                catererDetails = createdCaterer.dataValues;
-                return _context2.abrupt("return", res.status(200).send(catererDetails));
-
-              case 9:
-                _context2.prev = 9;
-                _context2.t0 = _context2["catch"](0);
-                return _context2.abrupt("return", res.status(409));
-
-              case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 9]]);
+        }, _callee2, this);
       }));
 
       function signup(_x3, _x4) {

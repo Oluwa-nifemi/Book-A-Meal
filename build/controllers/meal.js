@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _fs = _interopRequireDefault(require("fs"));
-
-var _path = _interopRequireDefault(require("path"));
-
 var _Meal = _interopRequireDefault(require("../models/Meal"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -22,8 +18,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var p = _path.default.join(__dirname, '../data', 'meals.json');
 
 var Meal =
 /*#__PURE__*/
@@ -65,7 +59,10 @@ function () {
                 mealsDetails = meals.map(function (meal) {
                   return meal.dataValues;
                 });
-                res.status(200).send(mealsDetails);
+                res.status(200).json({
+                  status: 'success',
+                  data: mealsDetails
+                });
 
               case 5:
               case "end":
@@ -81,14 +78,6 @@ function () {
 
       return fetchMeals;
     }()
-  }, {
-    key: "fetchMealById",
-    value: function fetchMealById(id) {
-      var meals = this.fetchMeals();
-      return meals.find(function (m) {
-        return m.id === id;
-      });
-    }
   }, {
     key: "add",
     value: function () {
@@ -106,7 +95,10 @@ function () {
               case 2:
                 meal = _context2.sent;
                 mealDetails = meal.dataValues;
-                res.status(200).send(mealDetails);
+                res.status(200).json({
+                  status: 'success',
+                  data: mealDetails
+                });
 
               case 5:
               case "end":
@@ -144,7 +136,10 @@ function () {
               case 2:
                 updated = _context3.sent;
                 updatedMeal = updated[1][0];
-                res.status(200).send(updatedMeal);
+                res.status(200).json({
+                  status: 'success',
+                  data: updatedMeal
+                });
 
               case 5:
               case "end":
@@ -181,7 +176,7 @@ function () {
                 });
 
               case 4:
-                res.status(204).json();
+                res.status(204).send();
                 _context4.next = 10;
                 break;
 

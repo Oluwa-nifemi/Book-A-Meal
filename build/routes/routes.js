@@ -33,9 +33,9 @@ router.put('/meals/:id', _auth.default.confirmToken, _auth.default.confirmCatere
 router.delete('/meals/:id', _auth.default.confirmToken, _auth.default.confirmCaterer, _meal.default.delete); //  MENU ROUTES
 
 router.get('/menu', _auth.default.confirmToken, _menu.default.getMenu);
-router.post('/menu', _auth.default.confirmToken, _menu.default.addMeal);
-router.put('/menu', _auth.default.confirmToken, _menu.default.editMeal);
-router.delete('/menu/:id', _auth.default.confirmToken, _menu.default.deleteMeal); //  ORDER ITEM ROUTES
+router.post('/menu', _auth.default.confirmToken, _auth.default.confirmCaterer, _menu.default.addMeal);
+router.put('/menu', _auth.default.confirmToken, _auth.default.confirmCaterer, _menu.default.editMeal);
+router.delete('/menu/:id', _auth.default.confirmToken, _auth.default.confirmCaterer, _menu.default.deleteMeal); //  ORDER ITEM ROUTES
 
 router.get('/order-items/:userid', _auth.default.confirmToken, _orderItem.default.getOrderItems);
 router.post('/order-items', _auth.default.confirmToken, _orderItem.default.add);

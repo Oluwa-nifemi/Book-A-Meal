@@ -92,7 +92,7 @@ function () {
       var _signup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var user, createdUser, userDetails;
+        var user;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -103,21 +103,21 @@ function () {
                 return _User.default.create(user);
 
               case 4:
-                createdUser = _context2.sent;
-                userDetails = createdUser.dataValues;
-                return _context2.abrupt("return", res.status(200).send(userDetails));
+                return _context2.abrupt("return", res.status(200).send({
+                  status: 'success'
+                }));
 
-              case 9:
-                _context2.prev = 9;
+              case 7:
+                _context2.prev = 7;
                 _context2.t0 = _context2["catch"](0);
                 return _context2.abrupt("return", res.status(409));
 
-              case 12:
+              case 10:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 9]]);
+        }, _callee2, this, [[0, 7]]);
       }));
 
       function signup(_x3, _x4) {

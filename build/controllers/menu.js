@@ -44,7 +44,7 @@ function () {
       var _getMenu = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var menu;
+        var menu, data;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -71,9 +71,14 @@ function () {
                 menu = _context.sent;
 
               case 7:
-                res.status(200).send(menu.dataValues);
+                data = menu.dataValues;
+                res.status(200).json({
+                  status: 'success',
+                  data: data
+                });
+                return _context.abrupt("return", true);
 
-              case 8:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -113,7 +118,7 @@ function () {
                 if (meals.find(function (m) {
                   return m.id === meal.id;
                 })) {
-                  _context2.next = 10;
+                  _context2.next = 11;
                   break;
                 }
 
@@ -128,12 +133,20 @@ function () {
                 });
 
               case 9:
-                res.send('The meal was added to the database');
-
-              case 10:
-                res.status(409).send('Meal already in menu');
+                res.json({
+                  status: 'success',
+                  message: 'The meal was added to the database'
+                });
+                return _context2.abrupt("return", true);
 
               case 11:
+                res.status(409).json({
+                  status: 'failure',
+                  message: 'Meal already in menu'
+                });
+                return _context2.abrupt("return", false);
+
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -174,7 +187,7 @@ function () {
                 });
 
                 if (!(mealIndex > -1)) {
-                  _context3.next = 11;
+                  _context3.next = 12;
                   break;
                 }
 
@@ -189,12 +202,20 @@ function () {
                 });
 
               case 10:
-                res.status(200).send('The meal was succesfully edited');
-
-              case 11:
-                res.status(409).send('Meal is not on the menu');
+                res.status(200).json({
+                  status: 'success',
+                  message: 'The meal was successfully edited'
+                });
+                return _context3.abrupt("return", true);
 
               case 12:
+                res.status(409).json({
+                  status: 'failure',
+                  message: 'Meal is not on the menu'
+                });
+                return _context3.abrupt("return", false);
+
+              case 14:
               case "end":
                 return _context3.stop();
             }
@@ -250,12 +271,13 @@ function () {
                 });
 
                 res.status(204).send();
-                return _context4.abrupt("return");
+                return _context4.abrupt("return", true);
 
               case 11:
                 res.status(409);
+                return _context4.abrupt("return", false);
 
-              case 12:
+              case 13:
               case "end":
                 return _context4.stop();
             }
