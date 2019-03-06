@@ -23,7 +23,7 @@ class Caterer {
 
     static async signup(req, res) {
         const caterer = req.body;
-        const prevUser = CatererModel.find({ where: { email: caterer.email } });
+        const prevUser = await CatererModel.find({ where: { email: caterer.email } });
         if (prevUser) {
             res.status(409).send({
                 status: 'failure',
