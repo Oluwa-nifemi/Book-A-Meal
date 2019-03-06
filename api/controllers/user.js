@@ -25,6 +25,14 @@ class User {
     static async signup(req, res) {
         try {
             const user = req.body;
+            const prevUser = UserModel.find({ where: { email: user.email } });
+            if (prevUser) {
+                res.status(400).send({
+                    status: 'failure',
+                    message: 'There\'s already a user with that email',
+                });
+                return false;
+            }
             await UserModel.create(user);
             return res.status(200).send({
                 status: 'success',

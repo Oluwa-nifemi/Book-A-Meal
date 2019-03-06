@@ -23,10 +23,19 @@ class Caterer {
 
     static async signup(req, res) {
         const caterer = req.body;
+        const prevUser = CatererModel.find({ where: { email: caterer.email } });
+        if (prevUser) {
+            res.status(400).send({
+                status: 'failure',
+                message: 'There\'s already a caterer with that email',
+            });
+            return false;
+        }
         await CatererModel.create(caterer);
         res.status(200).json({
             status: 'success',
         });
+        return true;
     }
 }
 
