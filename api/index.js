@@ -24,7 +24,7 @@ User.hasMany(OrderItem);
 Meal.belongsToMany(OrderItem, { through: 'ItemMeal' });
 OrderItem.belongsToMany(Meal, { through: 'ItemMeal' });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.use('/api/v1', routes);
 
