@@ -89,10 +89,8 @@ describe('Edit order item',() => {
             .set('bearer', token)             
             .send({
                 id,
-                mealId,
                 userId,
                 "quantity": 10,
-                "status": "cart"
             })
             .then(res => res.body)
             .then(orderItem => {

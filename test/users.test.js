@@ -23,21 +23,19 @@ describe('User signup', () => {
             .then((data) => {
                 expect(data).to.have.all.keys('status')
                 expect(data.status).to.be.equal('success');
-                done();
             })
         })
     })
 describe('User login', () => {
     it('Should return status success', () => {
         chai.request(app)
-            .post(`${apiVersion}/users/signup`)
+            .post(`${apiVersion}/users/login`)
             .send({
                     email: "test@gmail.com",
                     password: "password",
             })
             .then((res) => {
-                expect(res.body).to.have.all.keys('status')
-                expect(res.body.status).to.be.equal('success');
+                expect(res.body.status).to.equal('success');
                 UserModel.destroy({ where: { email: 'test@gmail.com' }})
             })
     })

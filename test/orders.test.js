@@ -54,7 +54,7 @@ before(done => {
 })
 
 describe('Add order', () => {
-    it('Should return status succes', done => {
+    it('Should return status success', done => {
         const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);        
         chai.request(app)
             .post(`${apiVersion}/orders`)
@@ -76,7 +76,7 @@ describe('Add order', () => {
 
 describe('Get all orders', () => {
     it('Should return all orders', done => {
-        const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);
+        const token = jwt.sign({ id: userId, caterer: true }, process.env.SECRET_KEY);
         chai.request(app)
             .get(`${apiVersion}/orders`)    
             .set('bearer', token) 
@@ -106,7 +106,7 @@ describe('Get user orders', () => {
 
 describe('Edit order', () => {
     it('Should return status success', done => {
-        const token = jwt.sign({ id: userId }, process.env.SECRET_KEY);
+        const token = jwt.sign({ id: userId, caterer: true }, process.env.SECRET_KEY);
         chai.request(app)
             .put(`${apiVersion}/orders/${orderId}/delivered`)
             .set('bearer', token) 

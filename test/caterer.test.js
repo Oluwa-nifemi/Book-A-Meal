@@ -50,7 +50,6 @@ describe('Caterer login', () => {
                     password: "password",
             })
             .then((res) => {
-                expect(res.body).to.have.all.keys('status');
                 expect(res.body.status).to.be.equal('success');
                 CatererModel.destroy({ where: { email: 'test@gmail.com' }})
             })
