@@ -1,18 +1,6 @@
 import MealModel from '../models/Meal';
 
 class Meal {
-    constructor({
-        title,
-        description,
-        image,
-        price,
-        defaultQuantity,
-    }) {
-        Object.assign(this, {
-            title, description, image, price, defaultQuantity,
-        });
-    }
-
     static async fetchMeals(req, res) {
         const meals = await MealModel.findAll();
         const mealsDetails = meals.map(meal => meal.dataValues);

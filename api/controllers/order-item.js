@@ -3,17 +3,6 @@ import MealModel from '../models/Meal';
 import UserModel from '../models/User';
 
 class OrderItem {
-    constructor({
-        mealId,
-        userId,
-        quantity,
-        status,
-    }) {
-        Object.assign(this, {
-            mealId, userId, quantity, status,
-        });
-    }
-
     static async getOrderItems(req, res) {
         const id = parseInt(req.params.userid, 10);
         let orders = await OrderItemModel.findAll({ where: { UserId: id, status: 'cart' }, include: [MealModel] });

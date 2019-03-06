@@ -1,17 +1,6 @@
 import MenuModel from '../models/Menu';
 
 class Menu {
-    constructor({
-        userId,
-        date,
-        orderItems,
-        state,
-    }) {
-        Object.assign(this, {
-            userId, date, orderItems, state,
-        });
-    }
-
     static async getMenu(req, res) {
         let menu = await MenuModel.findOne({ where: { date: new Date() } });
         if (!menu) {

@@ -7,19 +7,12 @@ dotenv.config();
 class Caterer {
     static async login(req, res) {
         const catererdb = await CatererModel.findOne({ where: { email: req.body.email } });
-        if (catererdb) {
-            if (catererdb.password === req.body.password) {
-                const token = jwt.sign({ id: catererdb.id, caterer: true }, process.env.SECRET_KEY);
-                res.header('x-auth-token', token).status(200).json({
-                    status: 'success',
-                });
-                return true;
-            }
-            res.status(400).json({
-                status: 'failure',
-                message: 'Invalid email or password',
+        if (catererdb && catererdb.password === req.body.password) {
+            const token = jwt.sign({ id: catererdb.id, caterer: true }, process.env.SECRET_KEY);
+            res.header('x-auth-token', token).status(200).json({
+                status: 'success',
             });
-            return false;
+            return true;
         }
         res.status(400).json({
             status: 'failure',

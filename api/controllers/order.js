@@ -8,17 +8,6 @@ import OrderItemModel from '../models/OrderItem';
 const { Op } = Sequelize;
 
 class Order {
-    constructor({
-        userId,
-        date,
-        orderItems,
-        state,
-    }) {
-        Object.assign(this, {
-            userId, date, orderItems, state,
-        });
-    }
-
     static async getOrders(req, res) {
         let orders = await OrderModel.findAll({ include: [OrderItemModel] });
         orders = orders.map(order => order.dataValues);
