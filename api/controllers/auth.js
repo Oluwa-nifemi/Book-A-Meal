@@ -7,7 +7,10 @@ class Authenticate {
     static async confirmToken(req, res, next) {
         const token = req.headers.bearer;
         if (!token) {
-            res.status(409).send('No request token');
+            res.status(409).json({
+                status: 'failure',
+                message: 'No request token',
+            });
             return false;
         }
         try {
@@ -17,10 +20,16 @@ class Authenticate {
             return true;
         } catch (err) {
             if (err.message === 'invalid signature') {
-                res.status(403).send('Invalid signature');
+                res.status(403).json({
+                    status: 'failure',
+                    message: 'Invalid signature',
+                });
                 return false;
             }
-            res.status(500).send('Server error');
+            res.status(500).json({
+                status: 'failure',
+                message: 'Server error',
+            });
             return false;
         }
     }
