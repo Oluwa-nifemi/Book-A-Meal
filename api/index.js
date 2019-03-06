@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import express from 'express';
 import db from './config/database';
 import routes from './routes/routes';
