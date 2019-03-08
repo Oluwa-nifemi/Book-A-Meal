@@ -81,27 +81,18 @@ function () {
       return getOrderItems;
     }()
   }, {
-    key: "add",
+    key: "checkifExists",
     value: function () {
-      var _add = _asyncToGenerator(
+      var _checkifExists = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(req, res) {
-        var item, meal, prevItem, i, user;
+      regeneratorRuntime.mark(function _callee2(req, res, next) {
+        var item, prevItem;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 item = req.body;
                 _context2.next = 3;
-                return _Meal.default.findOne({
-                  where: {
-                    id: item.mealId
-                  }
-                });
-
-              case 3:
-                meal = _context2.sent;
-                _context2.next = 6;
                 return _OrderItem.default.findOne({
                   where: {
                     status: 'cart'
@@ -119,11 +110,11 @@ function () {
                   }]
                 });
 
-              case 6:
+              case 3:
                 prevItem = _context2.sent;
 
                 if (!prevItem) {
-                  _context2.next = 10;
+                  _context2.next = 7;
                   break;
                 }
 
@@ -133,31 +124,70 @@ function () {
                 });
                 return _context2.abrupt("return", false);
 
-              case 10:
+              case 7:
+                next();
+                return _context2.abrupt("return", true);
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function checkifExists(_x3, _x4, _x5) {
+        return _checkifExists.apply(this, arguments);
+      }
+
+      return checkifExists;
+    }()
+  }, {
+    key: "add",
+    value: function () {
+      var _add = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(req, res) {
+        var item, meal, i, user;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                item = req.body;
+                _context3.next = 3;
+                return _Meal.default.findOne({
+                  where: {
+                    id: item.mealId
+                  }
+                });
+
+              case 3:
+                meal = _context3.sent;
+
                 if (!meal) {
-                  _context2.next = 24;
+                  _context3.next = 18;
                   break;
                 }
 
-                _context2.next = 13;
+                _context3.next = 7;
                 return _OrderItem.default.create({
                   quantity: item.quantity
                 });
 
-              case 13:
-                i = _context2.sent;
-                _context2.next = 16;
+              case 7:
+                i = _context3.sent;
+                _context3.next = 10;
                 return _User.default.findOne({
                   where: {
                     id: item.userId
                   }
                 });
 
-              case 16:
-                user = _context2.sent;
+              case 10:
+                user = _context3.sent;
 
                 if (user) {
-                  _context2.next = 20;
+                  _context3.next = 14;
                   break;
                 }
 
@@ -165,9 +195,9 @@ function () {
                   status: 'failure',
                   message: 'User does not exist'
                 });
-                return _context2.abrupt("return", false);
+                return _context3.abrupt("return", false);
 
-              case 20:
+              case 14:
                 i.addMeal(meal);
                 i.setUser(user);
                 res.status(200).json({
@@ -176,24 +206,24 @@ function () {
                   }),
                   status: 'success'
                 });
-                return _context2.abrupt("return", true);
+                return _context3.abrupt("return", true);
 
-              case 24:
+              case 18:
                 res.status(404).json({
                   status: 'failure',
                   message: 'The meal does not exist'
                 });
-                return _context2.abrupt("return", false);
+                return _context3.abrupt("return", false);
 
-              case 26:
+              case 20:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
-      function add(_x3, _x4) {
+      function add(_x6, _x7) {
         return _add.apply(this, arguments);
       }
 
@@ -204,14 +234,14 @@ function () {
     value: function () {
       var _edit = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(req, res) {
+      regeneratorRuntime.mark(function _callee4(req, res) {
         var item, response, orderItem;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 item = req.body;
-                _context3.next = 3;
+                _context4.next = 3;
                 return _OrderItem.default.update({
                   quantity: item.quantity
                 }, {
@@ -223,10 +253,10 @@ function () {
                 });
 
               case 3:
-                response = _context3.sent;
+                response = _context4.sent;
 
                 if (!response[0]) {
-                  _context3.next = 8;
+                  _context4.next = 8;
                   break;
                 }
 
@@ -235,24 +265,24 @@ function () {
                   status: 'success',
                   data: orderItem
                 });
-                return _context3.abrupt("return", true);
+                return _context4.abrupt("return", true);
 
               case 8:
                 res.status(404).json({
                   status: 'failure',
                   message: 'The item is not on your cart'
                 });
-                return _context3.abrupt("return", false);
+                return _context4.abrupt("return", false);
 
               case 10:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
-      function edit(_x5, _x6) {
+      function edit(_x8, _x9) {
         return _edit.apply(this, arguments);
       }
 
@@ -263,14 +293,14 @@ function () {
     value: function () {
       var _delete2 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4(req, res) {
+      regeneratorRuntime.mark(function _callee5(req, res) {
         var id;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 id = parseInt(req.params.id, 10);
-                _context4.next = 3;
+                _context5.next = 3;
                 return _OrderItem.default.destroy({
                   where: {
                     id: id,
@@ -284,13 +314,13 @@ function () {
 
               case 4:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
-      function _delete(_x7, _x8) {
+      function _delete(_x10, _x11) {
         return _delete2.apply(this, arguments);
       }
 

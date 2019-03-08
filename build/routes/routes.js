@@ -21,8 +21,6 @@ var _auth = _interopRequireDefault(require("../controllers/auth"));
 
 var _caterer = _interopRequireDefault(require("../controllers/caterer"));
 
-var _caterer2 = _interopRequireDefault(require("../middleware/caterer"));
-
 var _user2 = _interopRequireDefault(require("../middleware/user"));
 
 var _meal2 = _interopRequireDefault(require("../middleware/meal"));
@@ -50,7 +48,7 @@ router.put('/menu', _auth.default.confirmToken, _auth.default.confirmCaterer, _m
 router.delete('/menu/:id', _auth.default.confirmToken, _auth.default.confirmCaterer, _menu.default.deleteMeal); //  ORDER ITEM ROUTES
 
 router.get('/order-items/:userid', _auth.default.confirmToken, _orderItem.default.getOrderItems);
-router.post('/order-items', _auth.default.confirmToken, _orderItem2.default.add, _orderItem.default.add);
+router.post('/order-items', _auth.default.confirmToken, _orderItem2.default.add, _orderItem.default.checkifExists, _orderItem.default.add);
 router.put('/order-items', _auth.default.confirmToken, _orderItem2.default.edit, _orderItem.default.edit);
 router.delete('/order-items/:id', _auth.default.confirmToken, _orderItem.default.delete); //  ORDER ROUTES
 
@@ -63,7 +61,7 @@ router.delete('/orders/:id', _auth.default.confirmToken, _order.default.delete);
 router.post('/users/login', _user2.default.login, _user.default.login);
 router.post('/users/signup', _user2.default.signup, _user.default.signup); //  CATERER ROUTES
 
-router.post('/caterers/login', _caterer2.default.login, _caterer.default.login);
-router.post('/caterers/signup', _caterer2.default.signup, _caterer.default.signup);
+router.post('/caterers/login', _user2.default.login, _caterer.default.login);
+router.post('/caterers/signup', _user2.default.signup, _caterer.default.signup);
 var _default = router;
 exports.default = _default;
