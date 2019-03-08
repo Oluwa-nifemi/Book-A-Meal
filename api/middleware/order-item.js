@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import sendError from './senderror';
 
 class OrderItem {
     static add(req, res, next) {
@@ -10,11 +11,7 @@ class OrderItem {
         });
         const { error } = Joi.validate(req.body, schema);
         if (error) {
-            const errorMessage = error.details[0].message;
-            res.status(409).send({
-                status: 'failure',
-                message: errorMessage,
-            });
+            sendError(error.details[0].message, res);
             return false;
         }
         next();
