@@ -6,7 +6,6 @@ import Order from '../controllers/order';
 import User from '../controllers/user';
 import Auth from '../controllers/auth';
 import Caterer from '../controllers/caterer';
-import CatererAuth from '../middleware/caterer';
 import UserAuth from '../middleware/user';
 import MealAuth from '../middleware/meal';
 import MenuAuth from '../middleware/menu';
@@ -38,7 +37,7 @@ router.delete('/menu/:id', Auth.confirmToken, Auth.confirmCaterer, Menu.deleteMe
 //  ORDER ITEM ROUTES
 router.get('/order-items/:userid', Auth.confirmToken, OrderItem.getOrderItems);
 
-router.post('/order-items', Auth.confirmToken, OrderItemAuth.add, OrderItem.add);
+router.post('/order-items', Auth.confirmToken, OrderItemAuth.add, OrderItem.checkifExists, OrderItem.add);
 
 router.put('/order-items', Auth.confirmToken, OrderItemAuth.edit, OrderItem.edit);
 
@@ -61,8 +60,8 @@ router.post('/users/login', UserAuth.login, User.login);
 router.post('/users/signup', UserAuth.signup, User.signup);
 
 //  CATERER ROUTES
-router.post('/caterers/login', CatererAuth.login, Caterer.login);
+router.post('/caterers/login', UserAuth.login, Caterer.login);
 
-router.post('/caterers/signup', CatererAuth.signup, Caterer.signup);
+router.post('/caterers/signup', UserAuth.signup, Caterer.signup);
 
 export default router;
