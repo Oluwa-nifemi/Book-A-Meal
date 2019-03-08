@@ -15,7 +15,7 @@ const apiVersion = '/api/v1';
 
 const catererDetails = {
     email: "test@gmail.com",
-    password: "passwrd",
+    password: "password",
     name: "Test User"
 }
 
