@@ -1,2 +1,4 @@
 exclude_patterns:
 - "build/"
+- "api/models/"
+- "test/"
