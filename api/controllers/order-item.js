@@ -14,9 +14,8 @@ class OrderItem {
         return true;
     }
 
-    static async add(req, res) {
+    static async checkifExists(req, res, next) {
         const item = req.body;
-        const meal = await MealModel.findOne({ where: { id: item.mealId } });
         const prevItem = await OrderItemModel.findOne({
             where: { status: 'cart' },
             include: [
@@ -37,6 +36,13 @@ class OrderItem {
             });
             return false;
         }
+        next();
+        return true;
+    }
+
+    static async add(req, res) {
+        const item = req.body;
+        const meal = await MealModel.findOne({ where: { id: item.mealId } });
         if (meal) {
             const i = await OrderItemModel.create({ quantity: item.quantity });
             const user = await UserModel.findOne({ where: { id: item.userId } });
